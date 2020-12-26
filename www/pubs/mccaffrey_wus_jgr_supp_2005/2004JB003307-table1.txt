@@ -1,0 +1,352 @@
+FAULT SLIP RATES
+
+Columns:
+  Lon = Longitude
+  Lat = Latitide
+  Obs = Mean slip rate
+  Min = Minimum observed rate
+  Max = Maximum observed rate
+  Sig = Sigma [ reported uncertainty or (Max - Min)/4 ]
+  Calc = Calulated rate  
+  Res = Residual (see Appendix 2 of paper)
+  R/S = Residual / Sigma
+  Blocks = codes for the two blocks in relative motion at fault (see README)
+  Az. = Azimuth of measured slip rate
+  Vtot = Total slip rate 
+
+Gulf of California spreading rate
+    Lon       Lat    Obs  Sig  Calc   Res    R/S  --Blocks-   Az.  Vtot 
+  251.500   23.500  49.8  2.5  50.5  -0.7  -0.27  PACI NOAM 300.0  50.7 DeMets (1995)
+
+Fault slip rates
+    Lon       Lat    Min   Max   Sig  Calc   Res    R/S --Blocks-   Az.  Vtot  Label
+  243.910   33.625  20.0  30.0   5.0  25.3   0.0   0.00 SMOJ SALT   0.0  25.3  SC1 San Andreas-Coachella (rl-ss)   
+  243.000   34.100  18.0  30.0   6.0  14.3   3.7   0.62 MOJA SALT   0.0  14.3  SC2 San Andreas-San Bernardino(Yucaipa)
+  241.995   34.495  23.0  37.0   7.0  25.1   0.0   0.00 MOJA SGAB   0.0  25.1  SC3 San Andreas-Mojave (rl-ss)
+  239.915   35.500  29.0  39.0   5.0  30.5   0.0   0.00 GVTB SALI   0.0  30.5  SC5 San Andreas-Cholame (rl-ss) 
+  239.570   35.850  29.0  39.0   5.0  31.0   0.0   0.00 GVTB SALI   0.0  31.0  SC6 San Andreas Parkfield Segment (rl  
+  238.980   36.400  29.0  39.0   5.0  31.7   0.0   0.00 GVTB SALI   0.0  31.7  SC7 San Andreas (creeping segment) (rl 
+  238.260   36.950  13.0  21.0   4.0  22.1  -1.1  -0.28 WCCR SALI   0.0  22.1  SC8 San Andreas (Santa Cruz Mtn) (rl-s 
+  237.715   37.400  13.0  21.0   4.0  23.8  -2.8  -0.71 WCCR SALI   0.0  23.8  SC9 San Andreas (Peninsula) (rl-ss) 
+  235.900   39.650  21.0  27.0   3.0  21.0   0.0   0.01 WCCR PACI   0.0  21.0  SC10 San Andreas (North Coast North) (r
+  236.820   38.400  21.0  27.0   3.0  20.9   0.1   0.02 WCCR PACI   0.0  20.9  SC11 San Andreas (North Coast South) (r
+  244.630   32.685  15.0  25.0   5.0  21.1   0.0   0.00 NOAM SALT   0.0  21.1  SC12 Imperial  (rl-ss) 
+  242.920   33.870   6.0  18.0   6.0  11.1   0.0   0.00 ANZA SALT   0.0  11.1  SC18 San Jacinto- San  Jacinto Valley (
+  244.360   32.495   2.0   5.0   1.5   0.7   1.3   0.90 ANZA EBAJ   0.0   0.7  SC20 Laguna Salada (rl-ss) 
+  243.815   32.840   2.0   6.0   2.0   3.0   0.0   0.00 ANZA WBAJ   0.0   3.0  SC21 Elsinore-Coyote Mountain (rl-ss)  
+  243.315   33.135   3.0   7.0   2.0   2.2   0.8   0.39 ANZA WBAJ   0.0   2.2  SC22 Elsinore-Julian (rl-ss)  
+  242.820   33.490   3.0   7.0   2.0   1.5   1.5   0.75 ANZA WBAJ   0.0   1.5  SC23 Elsinore-Temecula (rl-ss)
+  242.505   33.720   3.0   7.0   2.0   1.3   1.7   0.87 ANZA WBAJ   0.0   1.3  SC24 Elsinore-Glen Ivy (rl-ss)
+  237.955   37.600   7.0  11.0   2.0   7.4   0.0   0.00 ECCR WCCR   0.0   7.4  SC26 Hayward (Southern) (rl-ss) 
+  237.665   37.900   7.0  11.0   2.0   7.4   0.0   0.00 ECCR WCCR   0.0   7.4  SC27 Hayward (Northern) (rl-ss) 
+  237.390   38.290   7.0  11.0   2.0   7.4   0.0   0.00 ECCR WCCR   0.0   7.4  SC28 Rodgers Creek (rl-ss) 
+  244.390   33.100  20.0  30.0   5.0  22.6   0.0   0.00 NOAM SALT   0.0  22.6  SC29 Brawley Seismic Zone (rl-ss)   
+  242.340   33.915   0.0   2.0   1.0   1.3   0.0   0.00 ANZA WBAJ   0.0   1.3  SC30 Chino -Central Ave. (rl-r-o) (65 S
+  243.505   33.130   1.0   3.0   1.0   2.5   0.0   0.00 ANZA WBAJ   0.0   2.5  SC31 Earthquake Valley (rl-ss)
+  241.535   35.010   3.0   9.0   3.0   4.9   0.0   0.00 SNEV MOJA   0.0   4.9  SC33 Garlock-west (ll-ss)  
+  242.800   35.500   5.0   9.0   2.0   1.6   3.4   1.71 INYO EMOJ   0.0   1.6  SC34 Garlock-east (ll-ss)  
+  238.760   35.450   1.5   3.5   1.0   4.2  -0.7  -0.75 PACI SALI   0.0   4.2  SC36 Hosgri  (rl-ss) 
+  238.050   36.450   1.0   5.0   2.0   2.6   0.0   0.00 PACI SALI   0.0   2.6  SC37 San Gregorio South (rl-ss) 
+  237.610   37.250   4.0  10.0   3.0   3.2   0.8   0.27 PACI SALI   0.0   3.2  SC38 San Gregorio North (rl-ss) 
+  238.080   37.600   4.0   8.0   2.0   7.3   0.0   0.00 ECCR WCCR   0.0   7.3  SC39 Calaveras Northern (rl-ss) 
+  238.500   36.950  12.0  18.0   3.0  11.0   1.0   0.33 GVTB WCCR   0.0  11.0  SC40 Calaveras Central (rl-ss)
+  242.615   32.545   2.0   4.0   1.0   5.1  -1.1  -1.10 SANA CATA   0.0   5.1  SC42 Coronado Bank (rl-ss) 
+  242.330   33.380   1.0   2.0   1.0   3.0  -1.0  -1.02 WBAJ SANA   0.0   3.0  SC43 Newport-Inglewood (offshore)(rl-ss
+  242.715   32.800   1.0   2.0   1.0   3.1  -1.1  -1.14 WBAJ SANA   0.0   3.1  SC44 Rose Canyon (rl-ss)   
+  242.415   34.100   3.0   7.0   2.0   6.0   0.0   0.00 ANZA SGAB   0.0   6.0  SC47 Cucamonga (r, 45 N)   
+  241.680   34.100   0.5   1.5   1.0   2.1  -0.6  -0.57 VENT WBAJ   0.0   2.1  SC48 Hollywood (ll-r-o, 70 N) 
+  241.845   33.800   0.5   1.5   1.0   3.0  -1.5  -1.46 WBAJ SANA   0.0   3.0  SC52 Newport-Inglewood (rl-ss)
+  241.690   33.550   2.0   4.0   1.0   3.4   0.0   0.00 SANA CATA   0.0   3.4  SC54 Palos Verdes (rl-ss)  
+  241.420   34.515   0.5   1.5   1.0   0.8   0.0   0.00 SGAB VENT   0.0   0.8  SC59 San Gabriel (rl-ss)   
+  241.610   34.290   1.0   3.0   1.0   3.3  -0.3  -0.31 SGAB VENT   0.0   3.3  SC65 Sierra Madre (San Fernando) (r, 45
+  241.985   34.200   1.0   3.0   1.0   5.5  -2.5  -2.52 SGAB ANZA   0.0   5.5  SC66 Sierra Madre (r, 45 N)
+  240.905   33.940   1.0   5.0   2.0   2.8   0.0   0.00 VENT CATA   0.0   2.8  SC77 Anacapa-Dume (r,ll-o 45 N) 
+  240.390   33.940   0.5   2.5   1.0   3.5  -1.0  -1.04 VENT PACI   0.0   3.5  SC78 Channel Islands Thrust (r, 17N)
+  240.220   34.045   0.5   1.5   1.0   3.2  -1.7  -1.75 VENT PACI   0.0   3.2  SC82 Santa Cruz Island (ll-r-o) 
+  239.790   34.025   0.5   1.5   1.0   2.0  -0.5  -0.53 PACI VENT   0.0   2.0  SC83 Santa Rosa  Island (ll-r-o)
+  238.530   37.575   0.5   2.5   1.0   3.6  -1.1  -1.06 GVTB SNEV   0.0   3.6  SC114 Great Valley 7 (r,15 W) 
+  239.740   36.220   0.5   2.5   1.0   3.4  -0.9  -0.88 GVTB SNEV   0.0   3.4  SC120 Great Valley 13 (r, 15 W) 
+  240.455   38.670   0.3   1.3   1.0   3.0  -1.7  -1.66 WEBR SNEV   0.0   3.0  SC122 Antelope Valley (n, 60 E) 
+  243.435   35.820   1.0   7.0   3.0   2.6   0.0   0.00 EBNR PANA   0.0   2.6  SC124 Death Valley (south) (rl-ss)  
+  243.190   36.295   1.0   7.0   3.0   2.4   0.0   0.00 EBNR PANA   0.0   2.4  SC125 Death Valley (graben) (n, 60 W)  
+  242.725   36.900   2.0   8.0   3.0   2.6   0.0   0.00 EBNR PANA   0.0   2.6  SC126 Death Valley (northern) (rl-ss)  
+  242.070   37.550   2.0   8.0   3.0   4.5   0.0   0.00 EBNR INYO   0.0   4.5  SC127 Death Valley (N of Cucamongo)(rl-n 
+  240.165   38.890   0.7   3.3   1.3   2.9   0.0   0.00 WEBR SNEV   0.0   2.9  SC130 Genoa (n, 60 E)
+  241.195   37.575   1.9   3.1   1.0   3.2  -0.1  -0.14 WEBR SNEV   0.0   3.2  SC132 Hilton Creek (n, 60 E)  
+  242.110   36.700   1.5   3.5   1.0   2.0   0.0   0.00 PANA INYO   0.0   2.0  SC133 Hunter Mountain-Saline Valley (rl- 
+  240.855   38.040   1.3   3.7   1.2   3.1   0.0   0.00 WEBR SNEV   0.0   3.1  SC136 Mono Lake (n, 60 E)  
+  242.845   36.025   1.5   3.5   1.0   2.0   0.0   0.00 PANA INYO   0.0   2.0  SC138 Panamint Valley (rl-n-o)
+  241.330   37.400   0.5   1.5   1.0   3.3  -1.8  -1.83 WEBR SNEV   0.0   3.3  SC140 Round Valley (n, 60 E)  
+  237.970   37.900   2.0   6.0   2.0   3.2   0.0   0.00 GVTB ECCR   0.0   3.2  SC144 Concord (rl-ss)
+  237.225   39.215   3.0   9.0   3.0   7.3   0.0   0.00 SNEV ECCR   0.0   7.3  SC158 Bartlett Springs (rl-ss)
+  236.130   40.095   7.0  11.0   2.0   7.4   0.0   0.00 WCCR ECCR   0.0   7.4  SC160 Garberville-Briceland (rl-ss) 
+  236.795   39.200   7.0  11.0   2.0   7.3   0.0   0.00 WCCR ECCR   0.0   7.3  SC163 Maacama (all) (rl-ss)
+  237.400   38.400   6.4  10.4   2.0   7.3   0.0   0.00 WCCR ECCR   0.0   7.3  S92 RogersCreek  
+  239.500   36.500   2.2   5.4   1.6   3.3   0.0   0.00 GVTB SNEV   0.0   3.3  ND88 E of SA                             ../da
+  242.100   36.000   1.0   3.8   1.4   5.9  -2.1  -1.49 INYO SNEV   0.0   5.9  BC94 Owens V south 
+  241.750   36.700   0.0   0.8   1.0   3.7  -2.9  -2.86 WEBR SNEV   0.0   3.7  BC94 Owens V range fault  
+  241.930   36.600   1.0   3.0   1.0   2.6   0.0   0.00 WEBR INYO   0.0   2.6  BC94 Owens V fault 
+  241.800   37.100   0.6   1.8   1.0   3.7  -1.9  -1.88 WEBR SNEV   0.0   3.7  BC94 Fish Springs
+  241.900   36.650   0.6   2.2   1.0   2.6  -0.4  -0.42 INYO WEBR   0.0   2.6  BC94 Lone Pine
+  242.700   35.300   4.0  10.0   3.0   9.5   0.0   0.00 EMOJ MOJA   0.0   9.5  P03 Blackwater fault   
+  242.500   35.500   4.0   9.0   2.5   9.9  -0.9  -0.35 INYO MOJA   0.0   9.9  MS93 E garlock fault   
+  241.500   35.000   4.0   7.0   1.5   4.8   0.0   0.00 SNEV MOJA   0.0   4.8  MS93 W garlock fault   
+  237.100   38.000  20.0  26.0   3.0  20.9   0.0   0.00 WCCR PACI   0.0  20.9  NH92 SA PtReyes  
+  236.500   38.900  22.0  28.0   3.0  21.0   1.0   0.35 WCCR PACI   0.0  21.0  P89 SA PtArena
+  241.850   34.550  21.0  28.0   3.5  25.4   0.0   0.00 MOJA SGAB   0.0  25.4  WS85 Cajon Pass  
+  240.510   35.000  31.0  37.0   3.0  30.0   1.0   0.34 GVTB SALI   0.0  30.0  SJ84 SA Carrizo 
+  241.960   36.640   1.5   3.7   1.1   2.6   0.0   0.00 INYO WEBR   0.0   2.6  L01 Pangborn Lane site 
+  242.500   36.500   2.0   3.2   1.0   2.0   0.0   0.04 PANA INYO -55.0   2.0  B87 HunterMtnFt  
+  242.400   37.250   3.4  12.2   2.2   2.9   0.5   0.22 EBNR PANA   0.0   2.9  RS97 NFishLake;3.4-12.2(1-1') 
+  241.800   37.750   2.2   5.0   1.0   4.7   0.0   0.00 EBNR INYO   0.0   4.7  RS97 SFishLake;2.2-5.0(2-2')  
+  241.817   37.783   1.1   3.3   1.0   4.7  -1.4  -1.39 EBNR INYO   0.0   4.7  RS97(3) 1.1-3.3
+  241.833   37.750   1.0   2.1   1.0   4.7  -2.6  -2.58 EBNR INYO   0.0   4.7  RS97(4a) 1.0-2.1 
+  241.967   37.600   6.5  11.7   1.3   4.6   1.9   1.49 EBNR INYO   0.0   4.6  RS97(5) 6.5-11.7 
+  241.984   37.583   1.5   2.6   1.0   4.6  -2.0  -1.95 EBNR INYO   0.0   4.6  RS97(6) 1.5-2.6
+  242.267   37.333   1.5   3.6   1.0   3.1   0.0   0.00 EBNR PANA   0.0   3.1  RS97(7) 1.5-3.6
+  242.030   37.350   0.4   0.6   1.0   1.9  -1.3  -1.33 INYO PANA   0.0   1.9  RD96 DSF
+  241.300   37.500   0.3   0.9   1.0   3.3  -2.4  -2.41 WEBR SNEV   0.0   3.3  RD96 VolcTbland;RndValley 
+  247.260   36.795   0.0   6.0   5.0   3.0   0.0   0.00 NOAM EBNR   0.0   3.0  BH Toroweap/Hurricane Faults
+  248.100   41.000   0.0   9.0   5.0   4.0   0.0   0.00 NOAM EBNR   0.0   4.0  BH Wasatch Fault 
+  242.110   34.460  28.7  41.7   6.5  24.8   3.9   0.60 MOJA SGAB   0.0  24.8  PW SA4 Pallett Crk  
+  240.170   35.270  31.0  37.0   3.0  30.3   0.7   0.25 GVTB SALI   0.0  30.3  PW SA7 Wallace Crk  
+  242.570   34.250  20.0  30.0   5.0  23.8   0.0   0.00 MOJA SGAB   0.0  23.8  PW SA10 Cajon Pass  
+  243.800   33.700  10.0  36.0  13.0  25.8   0.0   0.00 SMOJ SALT   0.0  25.8  PW SA16 Indio
+  243.300   33.500   7.0  23.0   8.0  13.8   0.0   0.00 ANZA SALT   0.0  13.8  PW SJ5 Anza
+  243.350   33.570   7.0  17.0   5.0  13.5   0.0   0.00 ANZA SALT   0.0  13.5  PW SJ6 Anza
+  242.600   33.700   0.0  16.0   8.0   1.3   0.0   0.00 ANZA WBAJ   0.0   1.3  PW E1 Elsinore   
+  242.750   33.500   1.0  19.0   9.0   1.4   0.0   0.00 ANZA WBAJ   0.0   1.4  PW E3 Elsinore   
+  241.960   33.710   0.0   6.0   3.0   3.0   0.0   0.00 SANA WBAJ   0.0   3.0  PW N2-N3 Nwprt-Inglewd
+  241.800   34.220   0.0   4.0   2.0   3.5   0.0   0.00 SGAB VENT   0.0   3.5  PW T2-T4 Sierra Madre 
+  241.470   34.030   3.0   5.0   1.0   3.5   0.0   0.00 SANA VENT   0.0   3.5  PW T11 SMonica-Malibu 
+  240.400   34.500   0.1   6.7   3.3   2.0   0.0   0.00 SALI VENT   0.0   2.0  PW T45-T47a SantaYnez 
+  243.830   34.140   0.3   5.3   2.5   7.7  -2.4  -0.98 EMOJ SMOJ   0.0   7.7  PW T50 PME Pinto Mtn
+  243.400   34.100   0.3   5.3   2.5   7.1  -1.8  -0.71 SWMO MOJA   0.0   7.1  PW T50 PMW Pinto Mtn
+  243.420   34.730   0.4   4.8   2.2  10.0  -5.2  -2.34 EMOJ MOJA   0.0  10.0  PW M1 Calico-Bwater 
+  241.600   35.040   1.0   3.0   1.0   5.1  -2.1  -2.06 SNEV MOJA   0.0   5.1  PW G1 Garlock
+  242.150   35.370   5.0   8.0   1.5   8.7  -0.7  -0.48 INYO MOJA   0.0   8.7  PW G2 Garlock
+  242.350   35.480   4.0   9.0   2.5   9.5  -0.5  -0.19 INYO MOJA   0.0   9.5  PW G5 Garlock
+  242.160   35.370   4.0   7.0   1.5   8.7  -1.7  -1.16 INYO MOJA   0.0   8.7  PW G6 Garlock
+  243.040   35.600   3.0   9.0   3.0   1.9   1.1   0.36 PANA EMOJ   0.0   1.9  PW G7 Garlock
+  243.500   35.600   1.0   9.0   4.0   1.9   0.0   0.00 PANA EMOJ   0.0   1.9  PW G8 Garlock
+  243.100   35.620   1.0   3.0   1.0   1.9   0.0   0.00 PANA EMOJ   0.0   1.9  PW G9 Garlock
+
+Data sources: 
+  B87 =  Burchfiel et al. (1987)
+  BC94 = Beanland and Clark (1994)
+  BH =   Barnhard and Hansen (1996)
+  L01 =  Lee et al. (2001)
+  MS93 = McGill and Sieh (1993)
+  ND88 = Namson and Davis (1988)
+  NH92 = Niemi and Hall (1992) 
+  P03 =  Peltzer et al. (2003) 
+  P89 =  Prentice (1989)
+  PW =   Petersen and Wesnousky (1994) 
+  RD96 = Reheis and Dixon (1996)
+  RS97 = Reheis and Sawyer (1997)
+  S92 =  Schwartz et al. (1992)
+  SC =   Frankel et al (2002); California Geological Survey (2002)
+  SJ84 = Sieh and Jahns (1984)
+  WS85 = Weldon and Sieh (1985)
+
+
+
+SLIP/TRANSFORM AZIMUTHS
+
+Columns:
+  Lon = Longitude
+  Lat = Latitide
+  Obs = Mean slip azimuth
+  Sig = Sigma [ reported uncertainty ]
+  Calc = Calulated azimuth 
+  Res = Residual (see Appendix 2 of paper)
+  R/S = Residual / Sigma
+  FIXD = code for fixed block (see README)
+  MOVG = code for moving block (see README)
+
+Gulf of California transform azimuths (DeMets et al. 1990)
+    Lon      Lat    Obs    Sig  Calc   Res    R/S FIXD MOVG  
+  251.600   23.100 -60.0   5.0 -55.1  -4.9  -0.97 NOAM PACI 
+  251.000   24.100 -55.0  10.0 -54.0  -1.0  -0.10 NOAM PACI 
+  250.400   25.000 -54.0   5.0 -52.9  -1.1  -0.21 NOAM PACI 
+  250.000   25.700 -53.0  10.0 -52.1  -0.9  -0.09 NOAM PACI 
+  248.800   26.800 -53.0  10.0 -50.5  -2.5  -0.25 NOAM PACI 
+
+Earthquake Slip Vector Azimuths (Harvard CMT)
+    Lon      Lat    Obs    Sig  Calc   Res    R/S FIXD MOVG  Event YYMMDD
+  236.740   39.450 333.0  10.0 335.2  -2.2  -0.22 ECCR WCCR  CMT771122  
+  243.550   34.320 347.0  10.0 335.0  12.0   1.20 EMOJ MOJA  CMT790315  
+  238.500   37.100 334.0  10.0 327.5   6.5   0.65 GVTB WCCR  CMT790806  
+  244.670   32.630 316.0  10.0 330.5 -14.5  -1.44 NOAM SALT  CMT791015  
+  244.420   33.020 337.0  10.0 327.1   9.9   0.99 NOAM SALT  CMT791016  
+  244.460   32.930 335.0  10.0 327.9   7.1   0.71 NOAM SALT  CMT791016  
+  238.180   37.850 324.0  10.0 331.3  -7.3  -0.73 GVTB ECCR  CMT800124  
+  245.010   32.220 322.0  10.0 318.1   3.9   0.39 NOAM EBAJ  CMT800609  
+  241.420   38.030 339.0  10.0 324.6  14.4   1.44 EBNR WEBR  CMT800907  
+  240.890   33.660 311.0  10.0 302.4   8.6   0.86 CATA PACI  CMT810904  
+  238.300   37.320 333.0  10.0 329.0   4.0   0.40 GVTB WCCR  CMT840424  
+  238.720   36.810 346.0  10.0 326.4  19.6   1.95 GVTB WCCR  CMT860126  
+  238.330   37.490 351.0  10.0 336.3  14.7   1.46 GVTB ECCR  CMT860331  
+  243.390   34.000 314.0  10.0 328.9 -14.9  -1.49 MOJA SALT  CMT860708  
+  242.210   33.020  36.0  10.0  36.4  -0.4  -0.04 SANA CATA  CMT860713  
+  241.900   34.070 -32.0  10.0 -32.2   0.2   0.02 ANZA WBAJ  CMT871004  
+  244.220   33.080 305.0  10.0 308.4  -3.4  -0.34 SALT ANZA  CMT871124  
+  244.150   33.010 314.0  10.0 306.8   7.2   0.72 SALT ANZA  CMT871124  
+  238.260   37.380 324.0  10.0 329.2  -5.2  -0.52 GVTB WCCR  CMT880613  
+  238.120   37.040 325.0  10.0 322.5   2.5   0.25 WCCR SALI  CMT891018_Loma_Prieta
+  242.310   34.140 217.0  10.0 212.1   4.9   0.49 ANZA SGAB  CMT900228  
+  240.840   38.050 326.0  10.0 301.1  24.9   2.47 WEBR SNEV  CMT901024  
+  243.600   34.110 320.0  10.0 334.7 -14.7  -1.47 SMOJ SWMO  CMT920629
+  243.730   33.880 336.0  10.0 335.5   0.5   0.05 SMOJ SWMO  CMT920629  
+  246.530   37.090 331.0  10.0 294.2  36.8   3.62 NOAM EBNR  CMT920902  
+  243.640   34.060 331.0  10.0 334.9  -3.9  -0.39 SMOJ SWMO  CMT920915  
+  242.220   37.170 303.0  10.0 302.0   1.0   0.10 PANA INYO  CMT930517  
+  240.350   38.820 312.0  10.0 315.5  -3.5  -0.35 WEBR SNEV  CMT940912  
+  239.350   39.820 329.0  10.0 338.2  -9.2  -0.91 WEBR SNEV  CMT010810  
+  241.860   37.800 328.0  10.0 350.5 -22.5  -2.24 EBNR INYO  CMT971102  
+  238.540   36.760 318.0  10.0 322.4  -4.4  -0.44 WCCR SALI  CMT980812  
+  244.350   33.130 339.0  10.0 326.2  12.8   1.28 NOAM SALT  CMT810426  
+  239.700   36.240  53.0  10.0  50.6   2.4   0.24 SNEV GVTB  CMT830502_Coalinga  
+  244.610   32.390 292.0  10.0 289.7   2.3   0.23 ANZA EBAJ  CMT870207 
+  244.780   32.370 298.0  10.0 319.1 -21.1  -2.10 NOAM ANZA  CMT990601 
+  244.680   32.320 280.0  10.0 275.8   4.2   0.42 ANZA EBAJ  CMT020222_San_Simeon
+
+Earthquake Slip Vector Azimuths (DeMets et al. 1990)
+    Lon      Lat    Obs    Sig  Calc   Res    R/S FIXD MOVG
+  246.500   29.200 -49.0  10.0 -47.3  -1.7  -0.17 NOAM PACI
+  251.930   22.900 -52.0  15.0 -55.5   3.5   0.23 NOAM PACI  
+  252.010   23.190 -57.0  10.0 -55.3  -1.7  -0.17 NOAM PACI  
+  251.270   23.800 -53.0  10.0 -54.4   1.4   0.14 NOAM PACI  
+  251.630   23.890 -55.0  20.0 -54.6  -0.4  -0.02 NOAM PACI  
+  251.200   24.250 -47.0  25.0 -54.0   7.0   0.28 NOAM PACI  
+  250.960   24.850 -43.0  20.0 -53.4  10.4   0.52 NOAM PACI  
+  250.450   25.120 -54.0  10.0 -52.9  -1.1  -0.11 NOAM PACI  
+  250.740   25.200 -48.0  10.0 -53.0   5.0   0.50 NOAM PACI  
+  250.760   25.250 -49.0  10.0 -52.9   3.9   0.39 NOAM PACI  
+  250.110   26.090 -48.0  20.0 -51.9   3.9   0.19 NOAM PACI  
+  249.710   26.210 -46.0  25.0 -51.5   5.5   0.22 NOAM PACI  
+  249.720   26.320 -50.0  10.0 -51.4   1.4   0.14 NOAM PACI  
+  249.790   26.340 -49.0  10.0 -51.5   2.5   0.25 NOAM PACI  
+  249.190   26.740 -48.0  20.0 -50.8   2.8   0.14 NOAM PACI  
+  249.200   26.880 -52.0  10.0 -50.7  -1.3  -0.13 NOAM PACI  
+  248.870   27.360 -52.0  10.0 -50.1  -1.9  -0.19 NOAM PACI  
+  248.490   27.990 -47.0  20.0 -49.3   2.3   0.12 NOAM PACI  
+  247.860   28.290 -53.0  10.0 -48.7  -4.3  -0.43 NOAM PACI  
+  246.970   29.030 -39.0  20.0 -47.6   8.6   0.43 NOAM PACI  
+  247.030   29.270 -40.0  15.0 -47.4   7.4   0.49 NOAM PACI  
+  246.600   29.490 -48.0  10.0 -47.0  -1.0  -0.10 NOAM PACI  
+  246.520   29.600 -40.0  20.0 -46.9   6.9   0.34 NOAM PACI  
+  246.260   29.680 -55.0  10.0 -46.7  -8.3  -0.83 NOAM PACI  
+  246.420   29.690 -38.0  20.0 -46.7   8.7   0.44 NOAM PACI  
+  246.040   30.040 -41.0  25.0 -46.2   5.2   0.21 NOAM PACI  
+  246.070   30.650 -46.0  20.0 -45.6  -0.4  -0.02 NOAM PACI  
+  251.700   23.170 -54.0  10.0 -55.2   1.2   0.12 NOAM PACI  
+  230.000   50.800 -15.0  20.0 -20.6   5.6   0.28 NOAM PACI
+  228.910   51.130 -21.0  20.0 -20.6  -0.4  -0.02 NOAM PACI
+  226.370   53.920 -28.0  20.0 -18.0 -10.0  -0.50 NOAM PACI
+  227.400   54.100 -26.0  20.0 -17.2  -8.8  -0.44 NOAM PACI
+  224.430   56.310 -16.0  20.0 -15.9  -0.1   0.00 NOAM PACI
+  224.090   56.770 -18.0  20.0 -15.5  -2.5  -0.13 NOAM PACI
+  223.930   57.690 -26.0  20.0 -14.3 -11.7  -0.58 NOAM PACI
+  204.200   55.700 -24.0  20.0 -28.4   4.4   0.22 NOAM PACI
+  203.610   55.310 -27.0  15.0 -29.0   2.0   0.14 NOAM PACI
+  202.470   55.440 -28.0  15.0 -29.6   1.6   0.10 NOAM PACI
+  202.390   55.050 -42.0  15.0 -29.9 -12.1  -0.80 NOAM PACI
+  201.720   55.910 -22.0  15.0 -29.6   7.6   0.51 NOAM PACI
+  201.020   54.510 -37.0  15.0 -31.1  -5.9  -0.39 NOAM PACI
+  201.000   54.600 -27.0  15.0 -31.1   4.1   0.27 NOAM PACI
+  200.730   54.870 -39.0  15.0 -31.0  -8.0  -0.53 NOAM PACI
+  200.660   54.400 -23.0  15.0 -31.4   8.4   0.56 NOAM PACI
+  200.430   54.840 -33.0  15.0 -31.2  -1.8  -0.12 NOAM PACI
+  199.490   55.050 -15.0  15.0 -31.5  16.5   1.10 NOAM PACI
+  198.760   54.530 -30.0  15.0 -32.3   2.3   0.16 NOAM PACI
+  198.740   54.360 -31.0  20.0 -32.5   1.5   0.07 NOAM PACI
+  196.680   53.750 -25.0  15.0 -34.0   9.0   0.60 NOAM PACI
+  196.660   54.100 -15.0  15.0 -33.8  18.8   1.25 NOAM PACI
+  195.920   54.160 -27.0  15.0 -34.1   7.1   0.48 NOAM PACI
+  195.300   53.750 -21.0  15.0 -34.7  13.7   0.91 NOAM PACI
+  163.380   55.290 -51.0  15.0 -52.1   1.1   0.07 NOAM PACI
+  162.450   55.050 -51.0  20.0 -52.7   1.7   0.09 NOAM PACI
+  164.260   54.730 -52.0  15.0 -51.8  -0.2  -0.02 NOAM PACI
+  161.940   54.460 -55.0  20.0 -53.2  -1.8  -0.09 NOAM PACI
+  161.150   53.560 -55.0  20.0 -53.9  -1.1  -0.05 NOAM PACI
+  160.790   53.370 -59.0  20.0 -54.2  -4.8  -0.24 NOAM PACI
+  159.220   52.850 -54.0  15.0 -55.2   1.2   0.08 NOAM PACI
+  160.520   52.600 -56.0  20.0 -54.5  -1.5  -0.07 NOAM PACI
+  160.930   52.570 -47.0  15.0 -54.3   7.3   0.49 NOAM PACI
+  160.350   52.450 -50.0  15.0 -54.7   4.7   0.31 NOAM PACI
+  160.850   52.410 -51.0  20.0 -54.4   3.4   0.17 NOAM PACI
+  160.480   52.320 -60.0  20.0 -54.6  -5.4  -0.27 NOAM PACI
+  159.850   52.070 -58.0  20.0 -55.1  -2.9  -0.15 NOAM PACI
+  159.860   52.060 -60.0  15.0 -55.1  -4.9  -0.33 NOAM PACI
+  159.210   51.580 -46.0  20.0 -55.5   9.5   0.48 NOAM PACI
+
+Earthquake Slip Vector Azimuths (Deng and Sykes 1997)
+    Lon      Lat    Obs    Sig  Calc   Res    R/S FIXD MOVG  Year Notes (see Deng and Sykes)
+  242.350   34.370 295.0  20.0 310.4 -15.4  -0.77 MOJA SGAB  1812 ISR_Wrightwood  
+  240.200   35.300 321.0  20.0 318.4   2.6   0.13 GVTB SALI  1857 ISR_Fort.Tejon  
+  241.900   36.700 335.0  20.0 308.5  26.5   1.31 INYO WEBR  1872 ISR_Owens.Valley
+  245.000   32.000 312.0  20.0 317.8  -5.8  -0.29 NOAM EBAJ  1915 BWI_Volcano.Lake
+  243.000   33.800 330.0  20.0 300.9  29.1   1.44 SALT ANZA  1918 BWI_San.Jacinto 
+  239.500   36.000 327.0  20.0 321.3   5.7   0.29 GVTB SALI  1922 ISR_Parkfield   
+  242.700   34.000 320.0  20.0 298.1  21.9   1.09 SALT ANZA  1923 BWI_San.Bernardino 
+  242.030   33.660 303.0  20.0 299.8   3.2   0.16 WBAJ SANA  1933 BWI_Long.Beach  
+  239.670   35.800 327.0  20.0 320.6   6.4   0.32 GVTB SALI  1934 ISR_Parkfield   
+  245.250   32.000 317.0  20.0 317.7  -0.7  -0.03 NOAM EBAJ  1934 BWI_Colorado.River.De
+  243.580   33.470 302.0  20.0 305.4  -3.4  -0.17 SALT ANZA  1937 BWI_Buck.Ridge  
+  244.520   32.870 325.0  20.0 328.3  -3.3  -0.17 NOAM SALT  1940 BWI_Imperial.Valley
+  243.970   33.000 331.0  20.0 304.6  26.4   1.31 SALT ANZA  1942 BWI_Fish.Creek.Mounta
+  241.950   35.730 112.0  20.0 114.0  -2.0  -0.10 SNEV INYO  1946 BWI_Walker.Pass 
+  243.520   33.920 310.0  20.0 332.4 -22.4  -1.11 EMOJ MOJA  1948 PFM_Desert.Hot.Spring
+  240.980   35.000 236.0  20.0 227.3   8.7   0.44 MOJA SNEV  1952 EDM_Kern.County 
+  243.820   33.290 307.0  20.0 306.3   0.7   0.04 SALT ANZA  1954 BWI_Arroyo.Salada  
+  239.470   35.920 327.0  20.0 321.3   5.7   0.29 GVTB SALI  1966 PFM_Parkfield   
+  243.870   33.190 311.0  20.0 305.6   5.4   0.27 SALT ANZA  1968 BWI_Borrego.Mountain 
+  241.600   34.410  51.0  20.0  19.8  31.2   1.54 SGAB VENT  1971 PFM_San.Fernando
+  244.920   32.190 318.0  20.0 318.1  -0.1  -0.01 NOAM EBAJ  1980 BWI_Victoria
+  239.740   36.150  30.0  20.0  51.0 -21.0  -1.04 SNEV GVTB  1983 BWI_Coalinga
+  243.680   33.960 351.0  20.0 335.2  15.8   0.79 SMOJ SWMO  1992 LWI_Joshua.Tree 
+  243.560   34.200 339.0  20.0 334.3   4.7   0.23 EMOJ MOJA  1992 SWI_Landers 
+
+
+References
+
+Barnhard, T., and S. Hanson (1996), Fault Parameters used in USGS 1996 Hazard maps, http://eqhazmaps.usgs.gov/faults/fsrpage01.html#california.
+
+Beanland, S., and M. M. Clark, (1994), The Owens Valley fault zone, eastern California, and surface faulting associated with the 1872 earthquake: U.S. Geological Survey Bulletin, v. 1982, 29 p.
+
+Burchfiel, B. C., K. V. Hodges, and L. H. Royden (1987), Geology of Panamint Valley - Saline Valley pull-apart system, California: Palinspastic evidence for low-angle geometry of a Neogene range-bounding fault, J. Geophys. Res., 91, 10,422-10,426.
+
+California Geological Survey (2002), Probabilistic Seismic Hazard Assessment Maps (PSHA), http://www.consrv.ca.gov/CGS/rghm/psha/index.htm.
+
+DeMets, C. (1995), A reappraisal of seafloor spreading lineations in the Gulf of California: Implications for the transfer of Baja California to the Pacific plate and estimates of Pacific - North America motion, Geophys. Res. Lett. 22, 3545-3548.
+
+DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein (1990), Current plate motions, Geophys. J. Int. 101, 425-478.
+
+Deng, J. S., and L. R. Sykes (1997), Evolution of the stress field in southern California and triggering of moderate-size earthquakes: A 200-year perspective, J. Geophys. Res., 102, 9859-9886. 
+
+Frankel, A. D., M. D. Petersen, C. S. Mueller, K. M. Haller, R. L. Wheeler, E. V. Leyendecker, R. L. Wesson, S. C. Harmsen, C. H. Cramer, D. M. Perkins, and K. S. Rukstales, Documentation for the 2002 Update of the National Seismic Hazard Maps, U.S. Geological Survey Open-File Report 02-420.
+
+Lee, J., J. Spencer, and L. Owen, (2001), Holocene slip rates along the Owens Valley fault, California: Implications for the recent evolution of the eastern California shear zone: Geology, v. 29, p. 819–822.
+
+McGill, S. F., and K. E. Sieh (1993), Holocene slip-rate of the central Garlock fault in southeastern Searles Valley, California, Journal of Geophysical Research, v.98, pp. 14,217-14,231.
+
+Namson, J. S., and T. L. Davis (1988), Seismically active fold and thrust belt in the San Joaquin Valley, central California, Geol. Soc. Am. Bull. 100, 257-273.
+
+Niemi, T. M., and N. T. Hall (1992), Late Holocene slip rate and recurrence of great earthquakes on the San Andreas fault in northern California, Geology 20, 195-198.
+
+Peltzer, G., F. Crampe, S. Hensley, and P. Rosen (2001), Transient strain accumulation and fault interaction in the Eastern California shear zone, Geology 29, 975-978.
+
+Petersen, M. D., and S. G. Wesnousky (1994), Fault slip rates and earthquake histories for active faults in Southern California, Bull. Seismol. Soc. Amer., 84, 1608-1649.
+
+Prentice, C. S., (1989), Earthquake geology of the northern San Andreas fault near Point Arena, California, PhD thesis, 349 pp., Calif. Inst. of Technol., Pasadena.
+
+Reheis, M.C., and T. H. Dixon (1996), Kinematics of the Eastern California shear zone: Evidence for slip transfer from Owens and Saline Valley fault zones to Fish Lake Valley fault zone, Geology 24, 339-342.
+
+Reheis, M.C., and T. L. Sawyer, (1997), Late Cenozoic history and slip rates of the Fish Lake Valley, Emigrant Peak and Deep Springs fault zones, Nevada and California: Geological Society of America Bulletin, v. 109, p. 280–299.
+
+Schwartz, D. P., D. Pantiosi, S. Hecker, K. Okumura, K.E. Budding, and T. Powers (1992), Late Holocece behavior and seismogenic potential of the Rodgers Creek fault zone, Sonoma County, California, in Proceedings of the Second Conference on Earthquake Hazards in the eastern San Francisco Bay Area, G. Borchart et al. eds., Spec. Publ. 113, Calif. Dep. Cons., Div. Mines and Geol., 393-398.
+
+Sieh, K.E., and R. H. Jahns (1984), Holocene activity of the San Andreas fault at Wallace Creek, California: Geol. Soc. Amer. Bull., 95, 883-896.
+
+Weldon, R. and K. Sieh (1985), Holocene rate of slip and tentative recurrence interval for large earthquakes on the San Andreas Fault, Cajon Pass, southern California: Geol. Soc. America Bull 96, 793-812.

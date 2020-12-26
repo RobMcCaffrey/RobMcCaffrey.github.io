@@ -1,0 +1,2542 @@
+<html>
+<head>
+<title>DEFNODE User's manual</title>
+</head>
+<body bgcolor="#aaee00">
+
+<center><h2>DEFNODE User's manual<br>Version 2006.08.28</center></h2>
+
+<h4>
+<b>Author: </b><a href="http://www.rpi.edu/~mccafr">Rob McCaffrey</a>,
+email: <a href="mailto:mccafr@rpi.edu">mccafr@rpi.edu</a></h4>
+
+<p>Last webpage update: August 28, 2006
+<p><h2><b>CONTENTS</h2></b>
+<ol>
+<li><a href= #bg>BACKGROUND</a>
+<li><a href= #cf>CONTROL FILE</a>
+<li><a href= #of>OUTPUT FILES</a>
+<li><a href= #gmt>PLOTTING WITH GMT</a>
+<li><a href= #inp>SAMPLE INPUT</a>
+<li><a href= #cite>CITATIONS</a>
+
+</ol>
+
+
+<a name = bg></a>
+<p><h2><b>BACKGROUND</h2></b>
+<p>
+Version dates: 
+08.12.1995, 03.22.1996, 10.26.1996, 09.28.1999, 12.09.1999, 01.13.2000, 12.27.2000, 
+10.19.2001, 06.27.2002, 07.16.2002, 08.16.2002, 11.01.2002, 05.01.2003, 06.05.2003, 
+10.28.2003, 12.31.2003, 02.17.2004, 06.22.2004, 01.07.2005, 08.05.2005, 10.13.2005
+01.12.2006, 08.26.2006
+
+<p>
+<b>Link to <a href = defnode_pubs.html>Papers using DEFNODE</a></b>.
+
+<hr>
+
+<p><b>DEFNODE</b> is a program to model elastic lithospheric block rotations and strains, and locking or coseismic slip on block-bounding faults.  Block motions are specified by spherical Earth angular velocities (Euler rotation poles) and interseismic backslip is applied along faults that separate blocks, based on the routines of Okada (1985; 1992). 
+The fault model is specified by coordinates of nodes along the fault plane. The parameters are estimated by simulated annealing or grid search.
+
+<p>The program can solve for 
+<ul>
+<li>interseismic plate locking or coseismic slip distribution on faults, 
+<li>block (plate) angular velocities, 
+<li>uniform strain rates within blocks, and
+<li>rotation of GPS velocity solutions relative to reference frame.
+</ul>  
+
+<p>Data to constrain the models include 
+<ul>
+<li>GPS vectors, 
+<li>surface uplifts, 
+<li>earthquake slip vectors, 
+<li>spreading rates, 
+<li>rotation rates,
+<li>fault slip rates, 
+<li>transform azimuths, 
+<li>surface strain rates, and 
+<li>surface tilt rates. 
+</ul>
+ 
+Output files comprise text files and files suitable for plotting with <a href=http://gmt.soest.hawaii.edu/>GMT</a> (Wessel and Smith, 1991).
+
+<p><b>Prior users - changes:</b>
+<ul>
+<li>The program is backwards compatible, all earlier commands should work except as noted here.
+<li>GP: line requires a pole index number specifying which pole to use in rotating the velocity field.
+<li>PG: line needs a 'c' (ie, PGc: ) if specifying a Cartesian angular velocity.
+<li>ST: line - strain rates are now in nanostrain/year instead of microstrain/yr.
+<li>The .pol output file is now called .poles and does not have strain tensors in it, they are in the .strain file.
+<li>NF: is officially now NN:, but NF: still works.
+<li>NO: is officially now NV:, but NO: still works.
+<li>No more WARNING file - all warnings are output to screen.
+<li>GF: options now incorporated into GD: but GF: still works
+</ul>
+
+<p><b>COMPILATION:</b> The program can be compiled with f77.
+Array dimensions are specified in a PARAMETER statement in the file 'defcomm1.include'.
+
+<p>It will also compile with g77 under Windows using <b>cygwin</b> Unix emulator. This can then be run under Windows if you put the required .dll in your path.
+
+<p>Files needed:
+<pre>
+
+-- source code
+defnode.f
+
+-- include files
+defconst.include
+defcomm1.include
+defcomm2.include
+deffiles.include
+
+-- Smithsonian volcanoes file (optional, see code for format)
+votw.gmt
+
+-- Engdahl et al. earthquakes file (optional, see code for format)
+ehb.gmt
+</pre>
+
+
+<p>Download <a href = defnode_060828.zip >defnode zip file</a>.
+
+<p>Before compiling, do the following:
+
+<p>
+1. Set array dimensions in 'defcomm1.include' (Exceeding array dimensions is not always 
+checked explicitly and can cause strange behavior.)
+
+<p>
+2. [Optional] Set paths to the volcanoes (votw.gmt; needed if +vtw flag set) and 
+earthquakes (needed if +eqk flag set) files in the 
+file 'deffiles.include'. For example:
+
+<pre>
+** path of volcanoes file
+      volcfile = '/geo/dn/votw.gmt'
+
+** path of earthquake file
+      quakefile = '/geo/dn/ehb.gmt'
+</pre>
+<p>Example data and control file from Costa Rica: <a href = cr_example.zip>cr_example.zip</a>.
+
+<p><b>RUNNING:</b> If you type <br>
+<pre>
+% defnode
+</pre>
+the program will ask for the control file name and the model name. Or type the control file name as a command line argument:<br>
+<pre>
+% defnode control_file_name
+</pre>
+Or also type model name as second command line argument:<br>
+<pre>
+% defnode control_file_name model_name
+
+</pre>
+
+<p><b>NOTES:</b>
+
+<p><b>Directories:</b> All output will be put in a directory specified by the MO: (model) command. The program also produces a directory called 'gfs' (or a user specified directory) to store the Green's function files. 
+
+<p><b>Poles (angular velocities) and blocks:</b> You can specify many poles and many blocks. There is NOT a one-one correspondence between poles and blocks. More than one block can be assigned the same pole (ie, the blocks rotate together) but each block can be assigned only one pole. Poles can be specified as (lat,lon,omega) or by their Cartesian components (<i>W<sub>x</sub>, W<sub>y</sub>, W<sub>z</sub></i>).
+
+<p><b>Strain rates and blocks:</b> The strain rate tensors (SRT) for the blocks are input in a similar way as the rotation poles. Each SRT is assigned a number (index) and blocks are assigned a SRT index. As with poles, more than one block can be assigned to a single SRT.
+
+<p><b>Faults and blocks:</b> Faults along which backslip is applied are specified and must coincide point-for-point at the surface with block boundaries. 
+However, not all sections of block boundaries have to be specified as a fault. 
+If the boundary is not specified as a fault it is treated as a free-slipping fault and will not produce any elastic strain (ie, there will be a step in velocity across the boundary). 
+By specifying no faults, the user can solve for the block rotations alone.
+
+<p><b>Fault nodes:</b> Fault surfaces are specified in 3 dimensions by nodes which are given by their longitude and latitude (in degrees) and depth (in km, positive down). Nodes are placed along depth contours of the fault surface and each depth has the same number of nodes. Nodes are numbered in order first along strike, then down dip. The figure below shows the numbering system for the nodes. Strike is the direction faced if the fault dips to your right. Faults cannot be exactly vertical (90<sup>o</sup> dip) as the hangingwall and footwall blocks must be defined. The DD: option can be used to build the fault geometry.
+
+<p><center><img src=fault.gif><br>Nodes on the fault surface.</center>
+
+<p>The coupling fractions (ratio of locked to total slip, called <i>phi</i>) or slip amplitude (for coseismic work) are specified or estimated at the nodes. <i>Phi</i> is multiplied by the slip vector <i>V</i> at the node estimated from the angular velocities. For interseismic, this product <i>V Phi</i> is sometimes called the <i>slip rate deficit</i> and gives rise to the elastic deformation around the fault. For coseismic, <i>phi</i> is the slip amplitude and <i>V</i>, of unit length, gives the slip direction.
+
+<p>The elastic deformation is calculated by integrating over small patches (quadrilaterals, at this time) in the regions between the nodes. The Okada method is used to calculate surface velocities while applying backslip at a rate of -<i>V Phi</i> (or <i>V Phi</i> for coseismic) on each patch. Because the Okada formulas used are for rectangular patches, the sizes of the interpolated patches should be kept small (a few kilometers). As the patches get smaller their actual shape matters less.
+
+<p>The distribution of slip on the fault can be parameterized in several ways (see FT: option for details). The nodes can be treated as independent or can be grouped such that multiple nodes have the same <i>phi</i> value. The distribution of slip can also be set to one of a few specified functions of depth (exponential, boxcar, or Gaussian) along depth profiles, called z-profiles. In this case, the parameters for the function can be varied along strike on the z-profiles.
+
+
+<p><b>Green's functions:</b> If you are performing an inversion, the program uses unit response (Green's) functions (GFs) for the deformation part of the problem since the inversion method (downhill simplex) has to calculate numerous forward models. The GFs are put in a directory called 'gfs' (or user specified directory) and the files are named with the form gf010101g, gf010201g, etc. First 2 digits are fault number, second 2 are the along strike (X) node index, the third two are the downdip (Z) node index, the final letter is the data type; g - GPS, u - Uplift, t - Tilts, s - strain rates. Once you have calculated GFs for a particular set of faults you can use these in inversions without recalculating them (see option GD: ). The GFs are based on the node geometry, GPS data, uplift data, strain tensor data, and tilt rate data so if you change the node positions or ADD data, you need to re-calculate GFs. If you REMOVE data, you do not need to recalculate GFs. You can add or subtract slip azimuths, slip rate, and rotation rate data without re-calculating GFs since those data are calculated from the rotation poles only. If you change a node position the program will detect it and re-calculate only the necessary GFs.
+
+<p>The GFs are the responses at the surface observation points to a unit velocity in the North and East directions at the central node. The velocity is tapered to zero at all adjacent nodes.
+
+<p><center><img src=fault2.gif><br>Unit response function.</center>
+
+
+<p><b>Data files and weighting:</b> Data files are generally in free-format but the information must be in the correct order as outlined below. Multiple data files can be specified and they are all read in and used. An uncertainty scaling factor <i>F</i> can be applied to each data file; this number is multiplied by the data standard errors given in the file. Since the weight is the inverse of the data variance, the weight of the datum will be multiplied by 
+<i>F</i><sup>-2</sup>. If <i>s</i> is the standard devation from the file, the new standard deviation <i>s'</i> = <i>sF</i> and the weight =<i>s' </i><sup>-2</sup> = (<i>sF</i>)<sup>-2</sup>. Data covariance is used when the correlation coefficient is given for GPS vectors.
+
+
+<p><b>Inversion:</b> The inversion estimates the set of parameters that minimizes the reduced chi-squared statistic: 
+<p>
+<i>X<sub>n</sub><sup>2</sup></i> = [ SUM r<sup>2</sup>/(sF)<sup>2</sup>] /<i>dof</i> 
+<p>
+where r is the residual, s is the standard deviation, and dof is the degrees of freedom. For angular data, the r/s is determined using the equation of DeMets et al. (1990).
+
+<p>Minimization is performed by the simulated annealing technique (see Press et al. 1989). You supply the number of iterations and the initial temperature in the sa: command. If Temp = 0 the downhill simplex method is used. 
+
+<p>There is also the option of performing grid searches for the minimum <i>X<sub>n</sub><sup>2</sup></i>.
+
+<p>Parameter constraints are applied by using penalties for parameters that stray outside the specified bounds.
+
+<p>During iteration, the screen shows the current <i>X<sub>n</sub><sup>2</sup></i>, the penalty, and the current parameters (as integers *100).
+
+<p><b>Units:</b> 
+<ul>
+<li>Slip rates, GPS velocities -- millimeters/year
+<li>Depths -- kilometers
+<li>Latitude, longitude, azimuths -- degrees
+<li>Strain rates -- nanostrain/year (10<sup>-9</sup> per year)
+<li>Rotation rates -- degrees per million years
+</ul>
+
+<p><b>Coordinates:</b> 
+<ul>
+<li>Most coordinates are entered in geographic lon, lat order unless noted otherwise (Lat,lon input is allowed in the BL: and FA: controls.) 
+<li>Poles are lat, lon, omega following common use - Cartesian components can also be used. 
+<li>North latitude is positive, South is negative. Longitude can be either 0 to 360, or -180 to 180 degrees - the program converts all longitudes to 0 to 360. 
+<li>There will be problems if a block crosses the Prime Meridian (0 longitude). The simplest solution is to break it into 2 separate blocks at 0 longitude and make the 2 blocks rotate together (assign same pole number to both blocks).
+</ul>
+
+<p><b>Miscellaneous notes:</b>
+<ul>
+<li>While the program routinely converts longitudes to 0 to 360 degrees, sometimes it may not, so it is best to enter longitudes in this range.
+<li>Each fault must have a unique footwall block. It can have more than one hangingwall block which the program determines (the hanging wall block you specify does not have to be correct, but the footwall block must be correct and unique).
+<li>Fault dip cannot be 90<sup>o</sup>. (Hangingwall and footwall must be unambiguous.)
+<li>Either a profile, grid, or input data are required to tell the program where to calculate surface velocities.
+<li>Exceeding array dimensions is not always checked explicitly and can cause strange behavior.
+<li>It is sometimes advisable to put character strings in quotes (filenames, for example) if the program has trouble reading the file.
+<li>The program tries to catch simple mistakes and produces warnings.
+<li>To stop iterating, create a file called 'stop', 'MODLstop' or 'stopMODL' in the working directory (MODL is the model name given by the MO: option).
+</ul>
+
+
+<a name = cf></a>
+<p><b><h2>CONTROL FILE</b></h2>
+
+<p>The program reads the model and all controls from an ASCII file. The control file format is described here. 
+
+<p>[Semih Ergintav has developed a GUI for defnode, running under ArcMap (from ESRI) with some help. Basically, it can read any avaliable defnode control file file and it can create a new control file. It doesn't cover all defnode comments but it covers necessary block and fault commands. Download <a href = IFcreator.zip >zip file</a>; for help contact Semih at Semih.Ergintav@mam.gov.tr ]
+
+<p>Lines in the control file comprise a keyword section and a data section. The keyword section starts with a 2-character keyword (in the first 2 columns) and ends with a colon (:). Only the first 2 characters of the keyword are used so in general any characters between the 3rd
+character and the : are ignored. (One exception is when the third character specifies a different format for an input file as outlined below.) <b>The keyword must start in the first column or the line is ignored.</b> Case does not matter. 
+
+<p>The data section of the input line goes from the colon to the end of the line and its contents depend on the keyword. In a few cases the data section comprises multiple lines (i.e., always BL: and FA:, and sometimes others).
+
+<p>For example, the key characters for a fault are 'FA' and this has two arguments, the fault name and the fault number, so the following lines are correct and equivalent:
+<pre>
+fa: JavaTrench 1
+fault: JT 1
+fault (Java trench): JavaTr 1 
+FA: JT 1
+</pre>
+but 
+
+<pre>
+thrust fault: 1
+ fault: JT 1
+fault 1 : JavaTrench
+</pre>
+are not valid.
+
+<p> Lines without the key characters in the first 2 columns are ignored, unless they are part
+of a multiline data section. Input lines can be commented out by putting any
+other character in the first column ( ' or # or a space, for examples). Multiline data sections can be skipped by commenting out the keyword line only. Contiguous lines of input can be skipped by bracketing them within the SK: (skip) and CO: (continue) options.
+
+<p>Multiple lines can exist in the control file for a particular input; the program uses the last occurrence. For example, if the following pole specification lines are in the control file
+<pre>
+pole: 1 -20 40 .2
+pole: 1 -19 33 .1
+</pre>
+the values -19, 33, .1 will be assigned to pole 1.
+
+<p>An exception to this rule is for data files, that are all used.
+
+<p>The order of the statements in the control file should not matter since the program reads it in 3 times, the first time getting the blocks, then the faults, then the rest. The control file can contain lines after the end of input (EN:) statement and these are ignored.
+
+<p>
+<b>Summary of key characters:</b>
+<pre>
+BL: outline of elastic rotating plate 
+BP: specify pole and strain tensor for a block (overrides BL: statement)
+CF: connect 2 faults (remove overlap or gap from subsurface intersection of faults)
+CL: clear specified data type
+CO: continue reading from input file (used sith SK: option)
+DD: depth and dip to nodes (used only within FA:, fault input section)
+EM: end of model input section
+EN: end of input data
+EQ: equate two nodes on different faults (set their phi's equal)
+FA: fault geometry input
+FF: fault flags (turn faults on and off)
+FL: set flags
+FO: change fault orientation and offset
+FS: calculate relative block velocities at specified points 
+FT: fault parameterization type
+FX: specify position of a particular fault node - overrides all other specifications
+GD: specify Green's functions directory and interpolation step sizes
+GI: lists GPS velocity field rotations (relative to reference frame) to be adjusted
+GP: GPS input data file
+GR: grid of vectors to calculate
+GS: grid search controls
+HC: hard constraints
+IN: interpolation lengths for fault segments between nodes (for forward run)
+MF: merge faults at T-junction
+MM: range of moment allowed
+MO: model experiment name, used for output filenames
+MV: move points
+NN: node parameter index numbers (same as old NF:)
+NV: node values (same as old NO:)
+NX: fixed node indices
+PE: scaling factors for penalty functions
+PF: parameter I/O file for quick restart
+PG: initialize pole of rotation for GPS vector file
+PI: lists block poles to be adjusted in inversion
+PM: parameter min and max values
+PN: node z-profile parameter index numbers
+PO: block pole of rotation values
+PR: surface profile line
+PV: node z-profile parameter values
+PX: fix node z-profile parameters
+RE: reference block for vectors
+RM: remove named GPS sites or blocks from data
+RO: rotation rates data file
+RS: reference site for GPS vectors
+SA: simulated annealing controls
+SI: strain rates tensors to be adjusted
+SK: skip following lines of input data until a CO: line is encountered
+SM: apply along-strike smoothing to fault coupling
+SR: fault slip rate / spreading rate data file
+SS: strain rate tensor data file
+ST: initialize strain rate tensor values
+SV: slip vector / transform azimuth data file
+TI: tilt rate data file
+UP: uplift rate data file
+ZD: similar to DD:
+
+</pre>
+
+
+<p><b>Descriptions of Key Characters and input format:</b>
+
+<p>Key characters and formats. Examples are given at bottom. 
+Brackets { } show optional inputs. MODL = 4-char model name.
+
+<hr>
+
+<b>BL - block (plate) outline</b>
+<p>BL: NAME  M  N {optional filename} <br>
+[multiline data section]
+
+<p>NAME = 4-character name of block
+<br>M = Rotation pole index for block (overridden by BP: option)
+<br>N = Strain rate tensor index for block (overridden by BP: option)
+<br>filename = optional file containing block outline
+
+<p>Multiline data section (alternatively, contents of filename)
+<br>First line: Number of corners outlining block, { CentroidX CentroidY }
+<p>CentroidX = x coordinate of block centroid (optional)
+<br>CentroidY = y coordinate of block centroid (optional)
+
+<p>For each corner, one coordinate pair (lon, lat) in each line
+<pre>
+bl: NOAM 1 1
+4 50 50
+-135  55
+-130  44
+-100  44
+ 260  55
+
+ or
+
+bl: NOAM 1 1 NOAM.block
+
+where NOAM.block is a file contining:
+
+4 50 50
+-135  55
+-130  44
+-100  44
+ 260  55
+
+</pre>
+<ul>
+<li>If the block centroid is not given (or 0, 0), it is calculated. These centroids are used when solving for strain rates in block and for labels.
+<li>Don't close the block by making first and last points the same - the program does this for you.
+<li>To avoid counting corners of the block, use 9999 for the number of corners, and 9999, 9999 for the last corner.
+</ul>
+
+<hr>
+
+<b>BP - specify pole/strain tensor for block</b>
+<p>BP: NAME N M
+
+<p>Block NAME uses pole of rotation N and strain rate tensor M. 
+This overrides the assignments given in BL: option.
+<pre>
+bp: NOAM 1 2
+</pre>
+
+
+<hr>
+<b>CF - connect faults</b>
+<p>
+CF: F1 F2
+<p>
+Connect 2 faults at their intersection. Where fault #F1 and fault #F2 intersect at the surface, force deeper nodes to also intersect by moving nodes (at same depth) from both faults to the average position of the two nodes. Both faults must have their nodes at the same depths.
+<pre>
+cf: 5 7
+</pre>
+
+<hr>
+<b>CL - clear data</b>
+<p>Remove data/controls read in thus far; 
+<ul>
+<li>'gps' for GPS vectors
+<li>'svs' for slip vectors
+<li>'srs' for fault slip rates 
+<li>'sss' for surface strain rates
+<li>'srs' for fault slip rates 
+<li>'ups' for uplift rates
+<li>'tlt' for tilt rates
+<li>'rot' for rotation rates
+<li>'nrm' to undo all RM: lines
+</ul>
+
+<pre>
+cl: gps svs
+</pre>
+
+Up to 8 per line.
+
+
+<hr>
+<b>CO - continue</b>
+<p>CO: 
+
+<p>continue reading data from file (turns off SK: skip mode)
+
+<hr>
+<b>DD - specify dip and depth of fault segment</b>
+<p>see FA: option
+
+<hr>
+<b>EM - end of model section </b>
+<p>EM: 
+
+<p>end of model input section (no arguments)
+
+<p>To specify unique parameters for several models in a single input file, 
+make a model input section as follows:
+<pre>
+
+mo: mod1
+pi: 1 2 4
+gi: 1
+pf:  "mod1/io1.pio"  3
+
+mo: mod2
+pi: 2 3
+gi: 2
+pf:  "mod2/io2.pio"  3
+
+mo: mod3
+rm: INDO BABI
+pi: 3
+pf:  "mod3/io3.pio"  3
+
+em:
+</pre>
+<p>then when you run defnode you specify the model to use as the second command-line argument, for example:
+<pre>
+defnode models.inp mod2
+</pre>
+The first MO: command marks the beginning of the models input section, and the EM: command marks its end.
+<p>If you do not specify a model (in the second argument) defnode will use the last model it finds in the file (the MO: - EM: structure is ignored). In the case above it will run model mod3 but will use some of the specifications of the prior models, such as the GI: line which is not given for mod3.
+<p>For a specified model, the program will process all input lines leading up to the first MO: line, all lines within the specified model, and all lines after the EM: line up to the EN: line.
+
+
+<hr>
+<b>EN - end of data in control file</b>
+<p>EN: 
+
+<p>end of control file (no arguments), anything in the file after this line is ignored
+
+<hr>
+
+<b>EQ - equate two nodes</b>
+<p>EQ: F1 X1 Z1 F2 X2 Z2
+
+<p>Make two nodes on different faults have same value of <i>phi</i> in the inversion. F, X, and Z are the indices for the nodes.
+
+<p>
+<pre>
+eq: 1 4 2 2 1 2
+</pre>
+
+forces the node of the first fault which is fourth along strike and second downdip to have the same <i>phi</i> as the second fault's first node along strike and second downdip.
+
+<hr>
+
+
+<b>FA - fault</b>
+
+<p>FA: Fault_Name Fault_Number 
+
+<br>[multiline data section]
+
+<p>Fault_Name = 10-character fault name (no spaces),  Fault_Number = fault number
+
+<p>The fault number has to be unique for each fault but not necessarily sequential. It cannot exceed the value of MAX_f in defcomm1.include
+
+<p>Nodes are placed along contours of the fault and numbered along strike, starting at the surface. 
+Strike (positive X) is the direction faced if the fault dips to the right.
+
+<p>Multiline data section:
+<ul>
+<li>number of nodes along strike (max = MAX_x), 
+<li>number of nodes downdip (max = MAX_z), 
+<li>Hangingwall block name (4-char name), 
+<li>Footwall block name (4-char name), 
+<li>Fault slip mode (0=shear only, 1-3D slip, see below)
+<li>Downdip constraint (1=force downdip decrease in phi)
+<li>Smoothing factor
+</ul>
+ 
+<p>for each depth: 
+<ul>
+<li>depth of node in km, 
+</ul>
+ 
+
+<p>for each node: 
+<ul>
+<li>X position of node degrees E, 
+<li>Y position of node degrees N,
+<li>{optional and for first depth only} Azimuth of nodes going downdip if using DD: or ZD: option for generating fault geometry at depth.
+</ul>
+
+<pre>
+fa: San_Andr 2
+ 3 2 NOAM PACI 0 0 0
+0 
+ 125  35 
+ 125  36 
+ 125  40 
+12 
+ 125.01  35.0
+ 125.01  36.0
+ 125.01  40.0
+</pre>
+In the case above the fault strikes North (nodes input in order of increasing latitude), so the dip will be to the East. 
+
+<p><i>Fault slip mode</i> - if set to 0, only shear is used on the fault (ie, Okada's U1 and U2), if set to 1, the U3 (tensional) component is used also. If this is changed, the Green's functions must be re-calculated.
+<p><i>Downdip constraint</i> - if set to 1, phi is forced to decrease downdip on fault (use '+ddc' in FL: option to apply to all faults).
+<p><i>Smoothing factor</i> - sets the maximum allowed along-strike variation in <i>phi</i>. The number given is the maximum allowable change in <i>phi</i> over one degree (111 km) of distance along strike. (Not applied if this value is zero.) This is overridden by the <b>SM:</b> option.
+
+<p><i>Automated node generation at depth</i> (Using <b>DD:</b> and <b>ZD:</b>).
+<p>Subsurface nodes defining a fault surface can also be set up automatically by the program. In this case you specify the surface nodes and the depth and dip angle to the nodes at depth using <b>DD:</b> or <b>ZD:</b>. For example:
+
+<pre>
+fa:  SAF 2
+ 3 2 NOAM PACI 0 0 0
+0.0
+ 125.  35.
+ 125.  36.
+ 125.  40.
+dd: 6. 85.
+dd: 8. 87.
+</pre>
+
+<p>The <b>DD:</b> option is followed by the incremental depth and dip to the next set of nodes. The <b>ZD:</b> option is the same except the depth given is the actual depth (not an incremental depth).
+In the example above, the 2nd set of nodes will be 6 km deeper than the surface nodes and at a dip angle of 85<sup>o</sup> from them. The 3rd set of nodes will be 8 km deeper (at 14 km depth) than the second set and at a dip angle of 87<sup>o</sup> from them. An equivalent setup, using ZD: would be:
+<pre>
+fa:  SAF 2
+ 3 3 NOAM PACI 0 0 0
+0.0
+ 125  35
+ 125  36
+ 125  40
+zd:  6. 85.
+zd: 14. 87.
+</pre>
+
+<p><i>Dip Azimuth</i>. In the cases above, defnode determines the dip azimuth from the surface nodes to those at depth by taking the normal to the fault azimuth (i.e., dip azimuth = fault azimuth + 90<sup>o</sup>). The dip azimuth can be specified explicitly as the third entry on the Lon, Lat line of the surface nodes. The example above would default to a dip azimuth of 90<sup>o</sup> since the fault strikes North. To change this to 95<sup>o</sup>, do:
+
+<pre>
+fa:  SAF 2
+ 3 3 NOAM PACI 0 0 0
+0.0
+ 125.  35.  95.
+ 125.  36.  95.
+ 125.  40.  95.
+zd:  6. 85.
+zd: 14. 87.
+</pre>
+
+<p><i>Changing dip along strike</i>. Sometimes the dip angle of a fault may change along strike. This can also be accommodated automatically with the <b>DD:</b> or <b>ZD:</b> lines. In the <b>DD:</b> or <b>ZD:</b> line you specify first the depth (or depth increment), then the dip angle, then (optionally) the number of nodes along strike that have this dip angle, then a new dip angle followed by the number of nodes with that dip angle, and so on. For example,
+
+<pre>
+fa:  SAF 2
+ 5  3 NOAM PACI 0 0 0
+0.0
+ 125.  35.  95.
+ 125.  36.  90.
+ 125.  37.  90.
+ 125.  38.  90.
+ 125.  40.  95.
+zd:  6. 85. 2  88. 3
+zd: 14. 87. 2  89. 3
+</pre>
+<p>In this case, downdip from the first 2 surface nodes, the fault will dip at 85<sup>o</sup> to 6 km depth and at 87<sup>o</sup> to 14km depth. Downdip from the last 3 nodes, the fault will dip at 88<sup>o</sup> to 6 km depth and at 89<sup>o</sup> to 14km depth. The general format is:
+
+<pre>
+zd: Z Dip1 N1 Dip2 N2 Dip3 N3 ...
+</pre>
+<br>where Z is the depth (km), Dip1 is the dip angle from the depth above to Z, N1 is the number of nodes along strike with this dip, N2 is the number of nodes along strike with dip angle of Dip2, and so on. The dip angles specified are always for the depth increment above the depth of Z.
+
+
+<hr>
+<b>FF - add or remove selected faults</b>
+
+<p>
+List the faults by number; negative to remove fault from inversion, positive to include in inversion. 
+Default is all faults included in inversion.
+<pre>
+ff: -5 +7
+</pre>
+
+
+<hr>
+<b>FL - set flags </b>
+<p>
+flags: +ddc -cov flt0 
+<p>
+Set flags
+<p>The + flags turn the option on, the - flag turns it off. Default values are listed in parentheses below.
+<pre>
+
++cos, -cos = do coseismic inversion (NO)
++cov, -cov = calculate parameter uncertainties (YES)
++ddc, -ddc = force node phi values to decrease downdip on all faults (NO)
++dgt, -dgt = calculate residual strains and rotations at end (NO)
++eqk, -eqk = read EHB earthquake file (ehb.gmt) and put in profile files (NO)
+flt0 = set phi for all faults to zero (remove all coupling) (NO)
+flt1 = set phi for all faults to one (complete coupling on all faults) (NO)
++fxf, -fxf = set phi for all faults to current value and don't adjust them (NO)
++for, -for = do forward model at end of run (YES)
++gcv, -gcv = use GPS NE covariances is estimating chi**2 (YES)
++inf, -inf = write MODL_info.out file (details of individual fault patches) (NO)
++mif, -mif = output block model in MapInfo .mif/.mid files (N0)
++pen, -pen = write penalties on iteration screen (NO)
++prm, -prm = use PREM rigidities for calculating moment (NO)
++rnd, -rnd = add random noise to .vec file (NO)
++sim, -sim = write simplex in MODL_sa.out file (NO)
++tab, -tab = write table (.table file) of GPS velocities (NO)
++vtw, -vtw = read volcano file (votw.gmt) and put in profile files (NO)
++wcv, -wcv = write covariance matrix to file (NO)
++wdr, -wdr = write derivative matrix to file (NO)
+
+</pre>
+<p>Flags can be on multiple lines and more than one flag per line.
+(Flags from previous versions are still supported.)
+
+
+
+<hr>
+<b>FO - offset and change orientation of fault </b>
+<p>
+fo: N DX DY Azimuth
+<p>Offset fault N by DX degrees in East direction and DY degrees in North. Rotate fault by angle Azimuth (positive clockwise).
+
+
+<hr>
+<b>FS - calculate relative vectors and put to file </b>
+<p>
+fs: filename BLK1 BLK2
+<p>
+
+Calculate the velocities of block BLK2 relative to block BLK1 at the lon, lat points contained in file 'filename'.
+Velocities are output in GMT psvelo format in file MODL_fslip.out.
+
+<p>Alternatively, use
+<br>fsp: BLK1 BLK2 longitude latitude
+<br>to list points directly in the input file. For example,
+<pre>
+fsp: NOAM PACI 241   40.8
+fsp: NOAM PACI 241   39.8
+</pre>
+
+<hr>
+<b>FT - fault node parameterization type </b>
+<p>
+ft: Fault #, Type
+<p>
+The type of parameterization for the fault nodes:
+<pre>
+type = 0 independent nodes, no down-dip constraint (each node can be a free parameter)
+
+     = 1 independent nodes, phi decreasing down-dip (equivalent to type = 0, flag=+ddc) 
+         (each node can be a free parameter)
+          phi(z+1) <= phi(z)
+
+     = 2 modified Wang et al. function for phi(z); free parameters A, Z1, Z2 (Z2 > Z1)
+          g = A        ( 0.0 <= A <= 10.0 )
+          g = 20.0 - A (10.0 <  A <= 20.0 )
+          phi(z) = 1.0  (z <= Z1)
+          phi(z) = {exp [ -(z'/g)] - exp [ -(1.0/g) ]} / {1.0 - exp [ -(1.0/g)]}
+             for (Z1 < z < Z2)
+             where z' = (z - Z1)/(Z2 - Z1)
+          phi(z) = 0.0  (z >= Z2)
+
+     = 3 boxcar phi(z); free parameters A, Z1, Z2 (Z2 > Z1)
+          phi(z) = 0  (z < Z1)
+          phi(z) = A  (Z1 <= z <= Z2)
+          phi(z) = 0  (z > Z2)
+
+     = 4 Gaussian phi(z); free parameters A, Zm, Zs 
+          phi(z) = A exp { - 0.5 * [ (z-Zm) / Zs ]**2 }
+
+</pre>
+ft: 2 4
+<p>Controls for types 0 and 1 are through options NN:, NV: and NX:. 
+For types 2 - 4  use PN:, PV:, and PX:.
+<p>
+<p><center><img src=phi_z.gif width=600><br>Node z-profile types.</center>
+<p>Some Examples:
+<ol>
+<li>All nodes have independent phi values and are all free parameters.
+<pre>
+# set fault 2 to type 0 (free nodes)
+FT: 2 0
+
+# fault 2 has 6 nodes along strike, 3 downdip. Each node has a unique index number.
+NNg: 2 6 3
+  1  2  3  4  5  6
+  7  8  9 10 11 12
+ 13 14 15 16 17 18
+
+# an equivalent NN: line is
+NN: 2   1 2 3 4 5 6   7 8 9 10 11 12   13 14 15 16 17 18
+
+# initial phi values
+NVg: 2 6 3
+1.0 1.0 1.0 1.0 1.0 1.0
+0.7 0.7 0.6 0.6 0.5 0.5
+0.3 0.3 0.3 0.3 0.3 0.3
+
+## or
+NV: 2 1.0 1.0 1.0 1.0 1.0 1.0  0.7 0.7 0.6 0.6 0.5 0.5  0.3 0.3 0.3 0.3 0.3 0.3
+
+# to force the phi values to decrease downdip, use either
+FT: 2 1
+# or to apply to all faults
+FLag: +ddc
+
+# to fix the 6 surface nodes at phi = 1, add
+NX: 2  1 2 3 4 5 6
+
+# or, more easily make all the surface nodes have the same index
+
+NNg: 2 6 3
+  1  1  1  1  1  1
+  2  3  4  5  6  7  
+  8  9 10 11 12 13
+NV: 2 1.0    0.7 0.7 0.6 0.6 0.5 0.5  0.3 0.3 0.3 0.3 0.3 0.3
+NX: 2  1
+</pre>
+
+
+
+<li>Full coupling from surface to depth Z<sub>2</sub>, no coupling below Z<sub>2</sub>, let 
+Z<sub>2</sub> vary along strike (red curve above). Use boxcar option, fix A = 1, fix Z<sub>1</sub> = 0, solve for Z<sub>2</sub>.
+<pre>
+# set fault 1 to type 3 (boxcar)
+FT: 1 3
+
+# fault has 6 nodes along strike, they will all be different
+PN: 1  1 2 3 4 5 6
+
+# fix the first and second parameters (A and Z1)
+PX: 1  1 2
+
+# A = 1 and Z1 = 0 for all profiles, Z2 is variable and will be adjusted
+PV: 1 6
+ 1  1  1  1  1  1
+ 0  0  0  0  0  0
+30 35 40 30 35 40
+
+</pre>
+
+<li>Full coupling from surface to depth Z<sub>1</sub>, linear decrease to depth
+Z<sub>2</sub> and no coupling below Z<sub>2</sub>. Fix Z<sub>1</sub> at 10 km, let Z<sub>2</sub>
+vary along strike (blue curve above). Use Wang option, fix A = 10, fix Z<sub>1</sub> = 10, solve for Z<sub>2</sub>.
+<pre>
+# set fault 1 to type 2 (Wang)
+FT: 1 2
+
+# fault has 6 nodes along strike, they will all be different
+PN: 1  1 2 3 4 5 6
+
+# fix the first and second parameters (A and Z1)
+PX: 1  1 2
+
+# A = 10 and Z1 = 10 for all profiles, Z2 is variable and will be adjusted
+PV: 1 6
+10 10 10 10 10 10 
+10 10 10 10 10 10 
+30 35 40 30 35 40
+
+</pre>
+
+<li>Full coupling from surface to depth Z<sub>1</sub>, exponential decrease (Wang) to depth
+Z<sub>2</sub> and no coupling below Z<sub>2</sub>. Let Z<sub>1</sub>, let Z<sub>2</sub>, and A be adjusted and vary along strike (green curve above). 
+<pre>
+# set fault 1 to type 2 (Wang)
+FT: 1 2
+
+# fault has 6 nodes along strike, first 2 are the same, rest are different
+PN: 1  1 1 2 3 4 5 
+
+# no PX line as all parameters are free
+
+# Starting A = 10, Z1 = 5, Z2 = 30 and all will be adjusted
+# second argument of PV line is now 5 as there are now only 5 unique sets of 
+#  parameters, per the PN: line
+PV: 1 5
+10 10 10 10 10  
+ 5  5  5  5  5
+30 30 30 30 30  
+</pre>
+</ol>
+
+<hr>
+<b>FX - fix node position </b>
+<p>
+fx: Fault #, Node X-index, Node Z-index, Longitude, Latitude  
+<p>
+Force node given by Fault #, Node X-index, Node Z-index to be at Longitude and Latitude. Overrides all other position specifications (ie, implemented after FA: and MV: lines).
+<pre>
+fx: 2 10 5 120.3 32.3
+
+</pre>
+The 10th X node and 5th Z node of fault 2 will be at long=120.3, lat=32.3
+
+
+<hr>
+<b>GD - Green's function directory and step sizes</b>
+<p>
+gd: Directory X_step Z_step {list of faults for GF calculations}
+<p>
+Tells program to generate Green's functions for the faults listed. If none are listed, GFs are calculated for all faults as needed.
+'Directory' is for Green's functions files. Default is 'gfs'. Directory name must be 3 characters, no spaces.<p>
+X_step, Z_step are sizes of patches along fault surfaces for integration between nodes (for GFs only). 
+X_step - length of fault patch (in km) along strike, Z_step - length of fault patch (in km) in depth
+
+<pre>
+gd: gf1 2 1
+</pre>
+will place GFs in directory 'gf1'. Step size for GF integration is 2 km along strike, 1 km in depth.
+
+<pre>
+gd: g52 5 2 1 3
+</pre>
+will generate GFs for faults 1 and 3 using interpolations of 5-km along strike and 2-km downdip and place files in directory g52.
+<pre>
+gd: gg1 10 5 
+</pre>
+will generate GFs for all faults if the current GFs are out of date. 
+
+<p>Before generating a new GF, the program checks whether or not the current GF is up to date by looking at the node position, surrounding node positions, the interpolation distances (if the new ones are greater than or equal to the stored ones, new GF is not generated), and the number of data points covered by the GF. If the stored GF does not match, a new one is generated. Sometimes, this checking can fail, for example if you remove some data and replace it with new points. To override the checking and regenerate all GFs, use 999 (or manually delete all the GF files):
+
+<pre>
+gd: ggg 5 2  999
+</pre>
+
+which will force generation of all new GFs. 
+
+<p>The GFs are in ASCII files named gf010101g, gf010201g, etc. in the directory gfs/ or in one specified by the GD: option. (File names; first 2 digits are fault number, second 2 are the along strike node index, the third two are the downdip node index, and the final letter designates the data type; g - GPS, u - Uplift, t - Tilts, s - strain rates) 
+<p>The X, Z interpolation values specified here can be different from those in the IN: option.
+
+
+<hr>
+<b>GI - rotate GPS velocity fields into reference frame </b>
+<p>
+gi: N1 N2  
+<p>
+List of GPS velocity field poles to adjust during the inversion. The listed poles correspond to the
+pole index given in the GP: line.
+This applies a 3-parameter rotation to the velocity field in the inversion to fit the reference frame better.
+<pre>
+gi: 2 4
+</pre>
+Adjusts velocity field poles 2 and 4.
+<p>The GPS sites in a particular field should not be on a single block and should have some overlap with other GPS solutions or the reference frame block.
+
+<hr>
+
+<b>GP - GPS file</b>
+<p>
+gp: NAME filename N { F Wx Wy Wz Smin Smax RSmax } 
+<p>
+read GPS data file
+<p>
+NAME = 4-char code name for this GPS velocity file
+<br>filename = file containing data
+<br>N = index for the GPS velocity field rotation pole (***NEW***)
+<br>F = sigma scaling factor (each sigma multiplied by F so weight is multiplied by 1/F**2; default = 1.0)
+<br>Wx Wy Wz are the components of the angular velocity vector that puts these vectors into the reference frame.
+<br>Smin = minumum velocity sigma for this file (if sigma is less than Smin, sigma = Smin)
+<br>Smax = maximum velocity sigma for this file (if sigma is greater than Smax, velocity is not used)
+<br>RSmax = if Residual/Sigma exceeds RSmax, velocity is not used (use this with caution)
+<br>(if Smin, Smax, RSmax are zero, these are not applied)
+
+<pre>
+gps file: IND1 "../data/indo1.vec" 1 2.0 -.12 .20 1.22 
+</pre>
+<p>
+File format (use GMT psvelo -Se format)
+<br>lon lat Ve Vn SigVe SigVn NE_Corr Site_name
+<br>Site_names are 8-character strings
+<p><b>WARNING</b> If a site name starts with a number, defnode may choke on the file while trying to read in free format. In this case, you can format the input file and include a format line at the top of the file. The program looks for an open parentheses symbol in the first column to indicate a format line. For example:
+<pre>
+(7f8.3, x, a8)
+ 243.111  35.425   -19.4    -6.1     0.6     0.4  0.0014 001D
+ 240.375  49.323   -13.1   -11.8     0.6     0.4  0.0018 4750
+ 212.501  64.978    -8.1   -22.3     0.6     0.4  0.0036 47SB
+</pre>
+<p>Another way is to put the site names in quotes, ie "001D".
+
+<hr>
+
+<b>GR - grid</b>
+<p>
+gr: X_start  Number_of_X_steps  X_step  Y_start  Number_of_Y_steps  Y_step  
+<p>
+Surface grid - calculations made at points in a regular grid. Output files MODL.grd and MODL_grd.vec (see format below) can be countoured with GMT's pscontour or plotted with psvelo.
+<ul>
+<li> Starting X longitude, 
+<li> Number of X steps, 
+<li> X step in degrees 
+<li> Starting Y latitude, 
+<li> Number of Y steps, 
+<li> Y step in degrees, 
+</ul>
+
+<pre>
+gr: 245.1 40 0.1  23.1 50 0.1 
+</pre>
+
+
+<hr>
+<b>GS - grid search controls</b>
+<p>
+gs: #grid_steps pole_grid_step #grid_searches
+<p>
+Run grid search and sets controls
+<ul>
+
+<li>#grid_steps - if <> 0 grid search is run (before simulated annealing). This integer controls the grid step spacings. If it is N, the coupling parameters are searched from A1 to A2 in 2N+1 steps (each step will be (A2-A1)/(2N+1)). If N is negative, the grid search will folow the gradient from the current value of each parameter along that parameter to the minimum chi**2.
+
+<li>pole_grid_step - initial grid step for searching pole/strain values. If S is the pole step and P is the current best value of the pole, the pole component will be searched from P-N*S to P+N*S in steps of S. For each grid search, this value is decreased.
+
+<li>#grid_searches - number of times the grid search goes through all the parameters.
+
+</ul>
+<pre>
+gs: 10 0.1 3
+</pre>
+Without the GS: or SA: line, the program will do forward model only if +for flag is set and will make plot files only if -for flag set.
+
+<hr>
+
+
+<b>HC - hard constraints</b>
+<p>
+hc:  I  Lon Lat BLK1 BLK2  Lower_value Upper_value
+<p>
+Hard constraints - force value of slip rate or slip azimuth on fault to fall in specified range
+<br>*  I = 1 for slip rate constraint
+<br>*  I = 2 for slip direction constraint 
+
+<br>  BLK1 = moving block, BLK2 = fixed block
+<p>This works by applying a severe penalty for values falling outside the specified range.
+<p>Results are put in MODL_hc.out file
+
+<hr>
+
+
+<b>IN - interpolation</b>
+<p>
+in: X Z
+<p>
+Sizes of patches along fault surfaces for integration between nodes (for the forward solution and plot file only). 
+X - length of fault patch (in km) along strike, Z - length of fault patch (in km) in depth
+<pre>
+in: 5 2
+</pre>
+In general these should be the same as in the GF: option. To speed up preliminary runs these can be made larger than in the GF: option. These interpolation values are used for the grid (GR:) and profile (PR:) calculations as well as for the plot file MODL_flt_atr.gmt. To really speed things up if you want to make the plot files only (without calculations) use the flag -for (no forward calculations).
+<hr>
+
+<b>MF - merge faults</b>
+<p>
+mf: M N
+<p>
+Merge faults M and N at a T-junction. Fault M is truncated against fault N. The truncated end of fault M follows the plane of fault N downdip.
+<pre>
+mf: 1 3
+
+               3
+               3
+   1 1 1 1 1 1 3
+               3
+               3
+               3
+
+
+
+</pre>
+This is not always succesful - you can use the FX: option to force nodes to be where you want them.
+
+
+<hr>
+<b>MM - min and max moment for fault</b>
+<p>
+mm: N M1 M2
+<p>
+The seismic moment for fault N is constrained to fall between M1 and M2 (in N-m). This can be used to damp slip models.
+<pre>
+mm: 3 0.0 1.2e20
+</pre>
+
+<hr>
+<b>MO - model name</b>
+<p>
+mo: MODL
+<p>
+Model name - 4 characters, used as prefix to name output files and directory.
+<br>
+A directory with this name will be created and all output files placed in it.
+<pre>
+model: indo
+</pre>
+See also EM:
+
+
+<hr>
+<b>MV - move model points</b>
+<p>
+mv: x1 y1 x2 y2
+<p>
+Move all occurrences of point x1, y1 to x2, y2.
+Applied to block boundaries and faults.
+
+<pre>
+mv: 120.21 43.21   120.25 43.22
+
+</pre>
+
+<hr>
+
+
+<b>NN (NF) - node indices</b>
+<p>
+nn: F I I I I I I I ....
+<p>
+Node indices 
+<p>
+F = fault number
+<br>I = parameter index, one for each node on fault, in order (see introductory notes for ordering of nodes).
+
+<p>Each node on the fault is assigned an index number which is used to assign properties to it (its phi, inversion characteristics). 
+
+<p>If the index is not zero or in the 
+fixed node list, the node is a free parameter in the inversion. 
+
+<p>The initial slip ratio (phi) for 
+this node is taken from the list of node phi values (the NV: input line). 
+For example, if the node has index 5 assigned, it is assigned the phi that is fifth in the NV: list for this fault. 
+
+<p>In the example below, the first 3 nodes of fault 1 have slip ratio (phi) values of 0.1, 
+the next 3 have phi values of 0.2, the next 3 nodes have phi = 0.3, and the last 3 are zero. 
+The nx: line fixes the last 3 nodes at phi=0 in the inversion.
+<pre>
+nn: 1  1 1 1 2 2 2 3 3 3  4 4 4
+nv: 1  .1 .2 .3 0.
+nx: 1  4 
+
+</pre>
+
+<p>For multiple faults, the index numbering starts with 1 for each fault:
+<pre>
+nn: 1  1 1 1 2 2 2 3 3 3  4 4 4
+nv: 1  .1 .2 .3 0.
+nx: 1  4 
+
+nn: 2  1 1 2 2 3 3
+nv: 2  .3 .6 .9
+</pre>
+
+<p>An alternative, more intuitive input format is available by using NNg: In this case the node indices are entered in a grid, mimicking their spatial relation.
+
+<pre>
+NNg: 3 4 5
+ 1 1 2 2
+ 3 3 4 4
+ 5 5 5 5
+ 5 5 5 5
+ 0 0 0 0
+</pre>
+The first argument after the NNg: is the fault number, then the number of nodes along strike, then number of nodes downdip. The node indices are then listed in a grid fashion.
+<p>The example above is equivalent to the single line NN: form:
+<pre>
+nn: 3  1 1 2 2  3 3 4 4  5 5 5 5  5 5 5 5  0 0 0 0
+
+</pre>
+
+<hr>
+
+<b>NV (NO) - node phi values</b>
+
+<p>
+nv: F V1 V2 V3 V4 V5 ...
+<p>
+Node slip ratio values or coseismic slip amounts (mm)
+<p>
+F = fault number
+<br>V = Slip ratio (phi) or slip (mm) values for node indices. For example, any node that is assigned a 1 in the NN: line will be assigned phi = V1. 
+This line should contain the number of phi values equal to the number of different 
+indices in the NN: line.
+<pre>
+nv: 1   .6 .4 .3
+</pre>
+Alternatively, NV:, like NN:, has a grid form implemented with a 'g' in the third column. 
+The lines:
+<pre>
+nn: 1  1 1 1 2 2 2 3 3 3  4 4 4
+nv: 1  .1 .2 .3 0.
+</pre>
+can be equivalently entered as:
+<pre>
+nng: 1 3 4
+ 1 1 1 
+ 2 2 2 
+ 3 3 3  
+ 4 4 4
+
+nvg: 1 3 4
+ .1 .1 .1
+ .2 .2 .2
+ .3 .3 .3
+  0. 0. 0.
+</pre>
+
+<p>If NV: not specified, phi values are assigned as a decreasing function of depth.
+
+
+<hr>
+
+
+<b>NX - fix node value</b>
+
+<p>
+nx: F I I I I I
+<p>
+Specifies which nodes are to be fixed (ie, not a free parameter) in the inversion
+<p>
+F = fault number
+<br>I = node index to be fixed
+<pre>
+nx: 5 2 3
+</pre>
+will fix any nodes with indices of 2 or 3 in fault 5
+
+<hr>
+<b>PE - set penalty factors</b>
+<p>
+pe: N Factor
+<p>
+Penalty factors for constraints
+<pre>
+1 - Moment
+2 - Node values
+3 - Depths
+4 - Downdip constraints
+5 - Smoothing along strike
+6 - Hard constraints
+</pre>
+<br>pe: 1 50
+<br>Set penalty factor for moment to 50.
+
+
+<hr>
+<b>PF - parameter file</b>
+<p>
+pf: filename N 
+<p>
+Specify a filename to hold the model parameter values. The number N controls reading/writing of the parameters.
+<ul>
+<li>N=1 read parameters from the file, <li>N=2 write parameters to file, <li>N=3 read and write parameters from/to file. </ul>
+Reads take place prior to inversion, writes take place after inversion.
+<pre>
+pf: bestfit.io 3
+</pre>
+
+<hr>
+<b>PG - pole for GPS file</b>
+<p>
+pg: NAME Latitude Longitude Omega
+<br>or <br>
+pgc: NAME Wx Wy Wz
+<p>
+Pole of rotation for GPS file to put it in reference frame
+<br>NAME = GPS file short name (4-char) from GP: line, latitude, longitude, omega are pole; OR
+(Wx, Wy, Wz) are Cartesian components of angular velocity vector in deg/Ma
+
+<pre>
+pg: INDO -12.0 123.0 0.2
+pgc: PNW1  .1 -.3 .8
+</pre>
+<p>The 'c' indicates pole is in Cartesian coordinates.
+<hr>
+
+<b>PI - block poles to adjust</b>
+<p>
+
+pi: N N N 
+<p>
+List the block poles to adjust in the inversion
+<pre>
+pi: 2 5
+</pre>
+adjust poles 2 and 5 in the inversion, keep all other poles fixed.
+(Note that this does not necessarily mean blocks 2 and 5, since poles 2 and 5 may be assigned to other blocks.)
+<p>Use the GI: option to adjust the poles of GPS velocity fields.
+
+
+<hr>
+<b>PM - parameter min and max</b>
+<p>Set the minimum and maximum limits on parameter types
+<pre>
+pm: N Min Max
+</pre>
+Parameter N is constrained to fall between Min and Max.
+<pre>
+N - parameter type
+--------------------------------------------
+1 - GPS velocity field pole component
+2 - block pole component
+3 - strain rate component
+4 - node slip amplitude
+5 - Wang gamma value
+6 - minimum locking depth
+7 - maximum locking depth
+8 - mean locking depth for Gaussian phi(z)
+9 - standard deviation of locking depth for Gaussian phi(z)
+--------------------------------------------
+</pre>
+<br>Set the minimum locking depth to be between 0 and 5 kilometers.
+<br>pm: 6 0 5
+
+
+<hr>
+<b>PN - node-profile indices</b>
+<pre>
+PN: F  I I I I I
+
+F = fault number
+I = node-profile indices
+</pre>
+<p>The nodes on faults can be parameterized as specified functions of depth.
+In this mode, each node-profile starts at the surface node and goes downdip 
+(each node in the profile therefore has the same x-index). 
+A fault has the number node-profiles equal to its number of surface points. 
+The phi values in a node-profile follow a specified function of depth (see FT: option).
+<p>The node-profile parameters are controlled by the PN:, PV:, and PX: options
+much like the NN:, NV:, and NX: options control the node parameters.
+<pre>
+PN: 1  1 1 2 2 3 4 4
+</pre>
+<p>In this example, fault 1 has 7 nodes along strike. The first 2 will have the same parameters, the 3rd and 4th will have equal parameters, and so on.
+<p>Example below is a boxcar function of depth for fault 1. The first 3 of the 6 node-profiles have same parameters
+and second set of 3 have same parameters. The PV: option gives the parameter values.
+<pre>
+FT: 1 3
+PN: 1  1 1 1  2 2 2
+PV: 1 2
+  .5  .8
+  10  10
+  30  25
+</pre>
+
+<hr>
+<b>PO - pole</b>
+<p>
+po: N Lat Lon Omega 
+<br>or<br>
+poc: N Wx Wy Wz
+<p>
+Poles of rotation 
+<br>N = pole number, then lat, lon, and omega (deg/Ma) of pole 
+
+<pre>
+pole: 1  0 0 0       (use for reference frame block)
+pole: 2 -10 145 -.37
+pole: 3  45 245  1.3
+</pre>
+
+<p>
+Use POc: if pole is in its 3 Cartesian angular velocity components (<i>W<sub>x</sub>, W<sub>y</sub>, W<sub>z</sub></i>), in deg/Ma
+
+<pre>
+poc:  5  -1.2  0.4 1.1
+</pre>
+
+<p>If you're using the PF: option (parameter file), use POf: to fix a pole at a specified value in the inversion (use Cartesian angular velocity representation and remove pole number from PI: list). This pole vector then overrides the pole values in the parameter file.
+<pre>
+pof:  4 -1.2  0.4 1.1
+</pre>
+
+<hr>
+<b>PR - profile</b>
+<p>
+pr: N Xo Yo M dX Az Hwdth
+<p>
+Creates GMT plottable files for profile lines. 
+<ul>
+<li> N - Line number 
+<li> Xo - start X (degrees E)
+<li> Yo - start Y (degrees N)
+<li> M - number of points
+<li> dX - distance step (degrees)
+<li> Az - azimuth of profile
+<li> Hwdth - half-width (km) for plotting observations along profile line
+</ul>
+
+<pre>
+profile: 1 245 35  50 .05 0 55 
+profile 2, 45 degrees: 2 126.5 -4.  30 .05 45 60
+</pre>
+
+<hr>
+<b>PV - z-profile parameter values</b>
+<p>Sets the initial values of the parameters for fault types 2 to 4.
+<pre>
+PV: F N
+ A  A  A  A
+ Z1 Z1 Z1 Z1
+ Z2 Z2 Z2 Z2
+</pre>
+F = fault number, N = number of columns of parameter values to follow.
+<pre>
+PV: 3 4
+ 10  8  3 10
+ 10 10 10 10
+ 30 30 30 35
+</pre>
+
+<hr>
+<b>PX - z-profile fixed parameters</b>
+<p>Specify which parameters are fixed for fault types 2 to 4.
+<pre>
+PX: F I I
+</pre>
+F = fault number, I = parameter number to fix
+<p>See FT: for the parameters for each fault type.
+<pre>
+FT: 2 3
+PX: 2 1 3
+</pre>
+Fault 2 is boxcar (type 3), and the amplitude (parameter 1 for boxcar) 
+and bottom depth (parameter 3 for boxcar) are fixed.
+
+<hr>
+<b>RE - reference frame</b>
+<p>
+RE: NAME
+<p>
+reference frame for vectors, NAME = block name
+<p>If GPS vectors are not in this reference frame, use the GI option to find the rotation to put them in the reference frame.
+<pre>
+reference block: NOAM
+</pre>
+You can set the reference frame to something other than a block (eg NNR or ITRF)
+by making a fictitious block and setting it to be the reference frame.
+
+<hr>
+<b>RM - remove selected GPS vectors</b>
+
+<pre>
+RM: GPS_name site1 site2 site3 ....
+or
+RM: Block_name
+</pre>
+<p>
+remove selected GPS sites from inversion
+<pre>
+rm: SCEC GOLD SPN1 AREQ
+rm: PNW1 HOB1 YBHB
+rm: **** FAIR
+</pre>
+The first entry is the 4-char name of the velocity solution (defined in GP: option). The site names that follow will be removed if they are in that velocity solution.
+Use **** to remove the sites from ALL solutions (for example, above FAIR will be removed from all solutions).
+Up to 20 entries per line, multiple lines allowed.
+
+<p>To remove all GPS sites form a particular block, use:
+<pre>
+rm: NOAM
+</pre>
+where NOAM is a block name (one block per line).
+(Therefore do not name blocks and GPS solutions with the same 4-char name.)
+
+
+<hr>
+<b>RO - rotation rate data</b>
+<p>
+
+ro: filename F
+<p>
+Rotation rate data file
+<p>
+F = weight factor (F is multiplied by all sigmas)
+<p>
+Format of data file:
+<p>
+Long  Lat   Rot_Rate  Sigma  Identifier
+<p>
+Rates in deg/Ma, clockwise is negative, Identifier is 40-char
+<pre>
+ro: "../data/rot.dat" 3
+</pre>
+<p>Alternative is to put all on one line, use 'd' in 3rd column
+<p>
+rod: Long  Lat   Rot_Rate  Sigma  Identifier
+
+<pre>
+rod: 243.2  25.3 -0.7 0.3 "So_and_so paleomag"
+</pre>
+
+
+<hr>
+<b>RS -  reference site for GPS vectors</b>
+<p>
+rs: N SITE
+<p>
+GPS vector field N is relative to site SITE. The calculated vector at SITE is subtracted from all others in field N.
+
+<hr>
+<b>SA - simulated annealing inversion controls</b>
+<p>
+sa: T I A1 A2
+<p>
+Run simulated annealing and sets controls
+<ul>
+<li>T = temperature (set to 0 for downhill simplex)
+<li>I = number of iterations
+<li>A1, A2 = min and max allowed values for node phi values (usually 0 and 1 for interseismic)
+</ul>
+<pre>
+sa: 100 250 0 1 
+</pre>
+Without the GS: or SA: line, the program will do forward model only if +for flag is set and will make plot files only if -for flag set.
+<hr>
+
+
+
+
+<b>SI - strain rate tensors to adjust</b>
+
+<p>
+si: N N N 
+<p>
+List the strain rate tensors to adjust in the inversion
+<pre>
+si: 2 5
+</pre>
+adjust tensors 2 and 5 in the inversion, keep all others fixed.
+(Note that this does not necessarily mean blocks 2 and 5, since tensors 2 and 5 may be assigned to other blocks.)
+<p>Strain rate tensors are calculated for a spherical Earth using the formulas in Savage et al. (2001).
+
+<hr>
+<b>SK - skip input</b>
+<p>
+skip:
+<p>
+Skip over following input lines until <b>CO:</b> (continue) line is found. Allows skipping many lines of input data.
+<p>
+
+
+<hr>
+<b>SM - along-strike smoothing of fault coupling</b>
+<pre>
+sm: Fault_number smoothing_factor
+
+sm: 5 0.4
+</pre>
+<p><i>Smoothing factor</i> - sets the maximum allowed along-strike variation in <i>phi</i>. The smoothing_factor given is the maximum allowable change in <i>phi</i> over one degree (111 km) of distance along strike. (Not applied if this value is zero.) 
+
+<hr>
+<b>SR - fault slip rate data</b>
+
+<p>Three input options are available:
+<ul>
+<li>From a file with blocks specified in control file:
+<br>sr: filename BLK1 BLK2 F Smin Type
+<br>format of file: Long Lat V1 V2 Azimuth
+
+<p><li>From file with blocks specified in file:
+<br>srf: filename F Smin Type
+<br>format of file: BLK1 BLK2 Long Lat V1 V2 Azimuth Label
+
+<p><li>Read as line directly from control file:
+<br>srd: BLK1 BLK2 Long Lat V1 V2 Azimuth Smin Type Label
+</ul>
+
+<p>filename = slip rate (or spreading rate) data file
+<br>Slip rates (in mm/yr) are between Block BLK1 and block BLK2.
+<br>F = scaling factor (F multiplied by all sigmas)
+<br>Azimuth = azimuth of rate measurement (ship track direction, for example).
+If Azimuth = 0, the total slip rate is used.
+<br>Smin = minimum sigma allowed
+<br>Label = label (40-chars, no blanks or put in quotes)
+<p>if Type = 0, V1 = mean rate, V2 = rate sigma, treat as Gaussian data
+<br>if Type = 1, V1 = mean rate, V2 = rate sigma, treat as Uniform (min/max) data; min = V1-V2, max=V1+V2; sigma = V2
+<br>if Type = 2, V1 = min rate, V2 = max rate, treat as Uniform (min/max) data; sigma = (V2-V1)/4
+<br>if Type = 3, V1 = min rate, V2 = max rate, treat as Gaussian data; mean = (V1+V2)/2; sigma = (V2-V1)/4 (assumes min/max range is +/- 2 sigma)
+
+<pre>
+sr: saf_rate.dat NOAM PACI 1 0 0
+
+where saf_rate.dat looks like be
+
+242.2 33.3 25.4 3.4 -320
+</pre>
+or
+<pre>
+srf: saf_rate.dat  1 0 0
+
+where saf_rate.dat looks like be
+
+NOAM PACI 242.2 33.3 25.4 3.4 -320
+</pre>
+
+<p>For Gaussian fitting the penalty is the (residual/sigma)**2, where the residual is the difference between the calculated value and the mean observed value. For the uniform fitting, the residual is how far the calculated value falls outside the min/max range of the observed value and the penalty is the (residual/sigma)**2.
+
+<hr>
+
+
+<b>SS - strain rate data</b>
+<p>
+ss: filename F 
+<p>
+Horizontal surface strain rate data file
+<p>
+F = scaling factor (F multiplied by all sigmas)
+<pre>
+ss: strains.dat  2 
+</pre>
+Format of data file (strain rates in nanostrain/yr):
+<p>
+Two formats are allowed; in one the strain rate tensor is in the form of principal axes, 
+the other is in N, E coordinate system
+<p>
+input lines of form:
+<p>
+
+Lon  Lat  Radius  Type E1 sigE1 E2 sigE2 E3 sigE3 {Network Name}
+<p>
+Lon, Lat are of network centroid, Radius is approximate radius of network in kilometers, 
+<p>
+if Type = 0 shear strain rates are read in E,N (x,y) coordinates
+<p>
+E1 = Exx ,  E2 = Exy,  E3 = Eyy
+<p>
+if Type = 1 principle strain rates are read in and converted to E,N coordinate system
+<p>
+E1 = maximum strain rate (contraction is negative), E2 = minimum strain rate,  E3 = Azimuth of maximum strain rate
+
+
+<hr>
+<b>ST - strain rate tensor</b>
+<p>
+st: I Exx Eyy Exy
+<p>For strain rate tensor I, values are given in nanostrain/year.
+
+
+<hr>
+<b>SV - slip vector data</b>
+<p>Slip vector or transform fault azimuth data 
+
+<p>Read from file:
+<br>sv: filename BLK1 BLK2 F
+<br>Format of data file:
+<br>Long  Lat   Azimuth   Sigma 
+
+<p>Read from file:
+<br>svf: filename F
+<br>Format of data file:
+<br>BLK1 BLK2 Long  Lat   Azimuth   Sigma 
+
+<p>read from within control file
+<br>svd: BLK1 BLK2 Long Lat Azimuth Sigma Label
+<p>
+Slip vector azimuth or transform fault azimuth is between block BLK1 and block BLK2.
+BLK1 is the fixed block, BLK2 is the moving block. 
+BLK2 moves at the given azimuth relative to BLK1.
+Azimuths in degrees clockwise from North.
+<br>F = scaling factor (F multiplied by all sigmas)
+<br>Label is 40-char description (no spaces); for file formats label is filename.
+<p>
+
+<pre>
+sv: "../svs/slip_vec.dat" NOAM PACI 5
+</pre>
+
+<hr>
+
+
+<b>TI - tilt rate data</b>
+<p>
+ti: filename F 
+<p>
+Tilt rate data file
+<p>
+F = scaling factor (F multiplied by all sigmas)
+<br>tilt rate and sigma in nanoradians/year
+<pre>
+ti: "data/tilt.dat" 1.0 
+
+Format of data file:
+Lon1, Lat1, Lon2, Lat2, Tilt_rate, Tilt_rate_sigma, NAME(4-chars)  
+</pre>
+<br>
+(Lon1, Lat1 and Lon2,Lat2 are endpoints of profile over which the tilt rate is measured)
+<hr>
+
+
+<b>UP - uplift rate data</b>
+<p>
+up: filename F 
+<p>
+Uplift rate data file
+<p>
+F = scaling factor (F multiplied by all sigmas)
+
+<pre>
+up: /data/up.dat 1.0 
+</pre>
+uplift rates in mm/a, up is positive
+<p>
+Format of data file:
+<br>
+Lon  Lat  Uplift_rate  Sigma  {Site name}
+<p>
+use up1: if format is Lat Lon Uplift_rate  Sigma
+<p>
+A fortran format can also be specified by placing it at the beginning of the input file starting in the first column. For example:
+<pre>
+(4f8.1, 1x, a4)
+ 243.111  35.425    -1.4     0.6 001D
+ 240.375  49.323    -1.1     0.6 4750
+ 212.501  64.978     2.1     0.6 47SB
+</pre>
+
+<hr>
+<b>ZD - specify dip and depth of fault segment</b>
+<p>see FA: option
+<hr>
+
+<a name = of></a>
+<b><h2>OUTPUT FILES</b> </h2>
+
+
+<p>All output files are put in model directory.
+
+<p>8/28/06 - not all of these listings have been checked intensely for for accuracy, some could be different than shown. (I don't have a lot of time to go over this.)
+
+<p>(MODL = 4-character experiment name, from MO: option, default = 'temp')
+
+<pre>
+
+MODL.cov          - covariance matrix (needs '+wcv' flag set)
+MODL.der          - derivatives matrix (needs '+wdr' flag set)
+MODL.dgt          - residual strain rates and rotations for blocks (needs +dgt flag set)
+MODL.grd          - predicted vectors for grid points (GR: option)
+MODL.net*         - GPS network adjustment velocities
+MODL.nod          - summary of node information 
+MODL.obs*         - observed GPS vectors with re-scaled uncertainties
+MODL.omr*         - observed GPS vectors minus rotational part
+MODL.pol          - summary of poles (relative poles for all block pairs)
+MODL.prm          - input parameters
+MODL.res*         - GPS vector residuals
+MODL.rot*         - rotational part of predicted GPS velocity field
+MODL.slp*         - deformation part of predicted GPS velocity field
+MODL.srs          - summary of fits to slip rate data
+MODL.sss          - summary of fits to strain rate data
+MODL.svs          - summary of fits to slip vectors/fault azimuths
+MODL.tlt          - summary of fits to tilt rate data
+MODL.ups          - summary of fits to uplift rates
+MODL.vec*         - predicted GPS vectors
+MODL_blk.gmt      - plot file of block outlines
+MODL_blocks.out   - block information output (see below)
+MODL_fslip.out    - relative velocities at requested points (from FS: option)
+MODL_info.out     - information on each subsegment of faults
+MODL_lin.gmt      - coordinates of profile lines for putting on map
+MODL_model.input  - poles, block boundaries and faults in control file format
+MODL_mid.vec      - relative block vectors on faults at midpoints between surface nodes
+MODL_obs.gmt      - tilt lines and strain network polygons for plotting
+MODL_flt_atr.gmt  - plot file for fault parameters (see below)
+MODL_pNN.out      - output for profile number NN (see below)
+MODL_removed.vec* - vectors removed from inversion
+MODL_sa.out       - summary of simulated annealing run with final solution
+MODL.summary      - summary of fits to data, poles, blocks
+MODL.SUM          - summary of model statistics
+MODL.table        - comprehensive table of GPS velocities
+</pre>
+
+<p>Files ending with .gmt are plot files for GMT and are described in the PLOTTING section.
+
+<p>The <b>vector files</b> followed by an asterisk above are in GMT's psvelo -Se command format. 
+
+<pre>
+format: (2f10.4, 4f8.2, f9.4, 2x, a8, 3(1x,a4))
+Items:
+1. Longitude 
+2. Latitude 
+3. East_velocity
+4. North_velocity 
+5. East_sigma 
+6. North_sigma 
+7. NE_correlation 
+8. Site_name (8-characters)
+9. GPS velocity field 4-char code
+10. Block 4-char code
+11. Pole 4-char code
+</pre>
+
+<p>After the site_name, each line contains the GPS velocity field name, the block name, and the pole number, each 4-characters, for example:
+<pre>
+  243.5424   33.6120   -1.34    2.23    2.10    2.40  -0.6358  PIN2_GPS ITRF SALT PO12
+</pre>
+where PIN2_GPS is the site name, ITRF is the velocity field name, SALT is the block name, and PO12 is the rotation pole (i.e., the pole this vector constrains is #12 in the solution).
+
+<p><b>MODL_fslip.out</b> - relative velocities between blocks at requested points (from FS: option). In psvelo -Se format. The site_name field has the block pairs and this is followed 
+by the total velocity and its uncertainty.
+<pre>
+format (2f10.4, 4f8.1, f9.4, 1x, a9, 2f8.1)
+Items:
+1. Longitude 
+2. Latitude 
+3. East_velocity
+4. North_velocity 
+5. East_sigma 
+6. North_sigma 
+7. NE_correlation 
+8. Block pairs (9-characters)
+9. Total velocity
+10. Total velocity sigma
+
+  241.0000   35.5000   -11.8     7.6     0.3     0.2   0.0727 SNEV_NOAM    14.1     0.2
+</pre>
+
+
+<b>MODL_mid.vec</b> - fault slip vectors at mid-points between each pair of nodes along faults
+<pre>
+format (2f10.4, 4f8.1, f8.4, 1x, a18, 2f8.1, f8.4, 4f6.1)
+Items:
+1. Longitude 
+2. Latitude 
+3. East_velocity
+4. North_velocity 
+5. East_sigma 
+6. North_sigma 
+7. NE_correlation 
+8. Block pairs and fault name (18-characters)
+9. Total velocity
+10. Total velocity sigma
+11. Phi value
+12. Velocity parallel to fault (positive is right-lateral)
+13. Velocity parallel to fault sigma
+14. Velocity normal to fault (positive is divergence)
+15. Velocity normal to fault sigma
+
+</pre>
+
+<b>MODL_blocks.out</b> - summary of block information
+<pre>
+format(a4, 4f8.3, 2f8.3, 2f7.2, f6.2, 4f6.1, f8.4, f6.1, f7.3, 1x, f8.1, 14f8.1, i5, 3f6.1, 2f8.2, f8.1)
+
+Items:
+1. Block name (4-char)
+2. Block centroid longitude
+3. Block centroid latitude
+4. Block pole longitude
+5. Block pole latitude
+6. Block pole rotation rate (deg/Ma)
+7. Block pole rotation rate sigma (deg/Ma)
+8. Azimuth of pole error ellipse semi-major axis
+9. Pole semi-major axis length (degrees)
+10. Pole semi-minor axis length (degrees)
+11. Block east velocity at centroid (mm/a)
+12. Block north velocity at centroid (mm/a)
+13. Block east velocity sigma at centroid (mm/a)
+14. Block north velocity sigma at centroid (mm/a)
+15. Block velocity NE correlation coefficent at centroid
+16. Distance of pole to block centroid (degrees)
+17. Vertical axis rotation rate at centroid (deg/Ma)
+18. Horizontal velocity gradient at centroid (nanoradians/a)
+19. Principle axis of strain rate in block (nanostrain/a; most contractional)
+20. Sigma of principle axis of strain rate in block (nanostrain/a)
+21. Principle axis of strain rate in block (nanostrain/a; least contractional)
+22. Sigma of principle axis of strain rate in block (nanostrain/a)
+23. Azimuth of most contractional principle axis of strain rate in block
+24. Sigma of azimuth of most contractional principle axis of strain rate in block
+25. Principle axis of residual strain rate in block (nanostrain/a; most contractional)
+26. Sigma of principle axis of residual strain rate in block (nanostrain/a)
+27. Principle axis of residual strain rate in block (nanostrain/a; least contractional)
+28. Sigma of principle axis of residual strain rate in block (nanostrain/a)
+29. Azimuth of most contractional principle axis of residual strain rate in block
+30. Sigma of azimuth of most contractional principle axis of residual strain rate in block
+31. Rotation rate of GPS residuals in block (nanoradians/a)
+32. Sigma of rotation rate of GPS residuals in block (nanoradians/a)
+33. Number of GPS observations in block
+34. Not used
+35. Not used
+36. Angular distance from block centroid to block pole
+37. Normalized RMS of GPS in block
+38. Weighted RMS of GPS in block
+39. Probability that GPS is satisfied (Q of Press et al., 1989; pp. 502-503)
+
+</pre>
+
+
+<p><b>MODL.nod</b> Summary of node information
+<pre>
+format (a10, 3i3, 2(1x,a4), 5f8.4, 4f6.1, f8.4, 2f6.1)
+Item:
+1. Fault name (10-char)
+2. Fault number
+3. Node X index
+4. Node Z index
+5. Hanging wall block name
+6. Foot wall block name
+7. Node Longitude
+8. Node Latitude
+9. Node depth
+10. Node phi
+11. Node phi uncertainty
+12. Fault East slip rate (mm/yr)
+13. Fault North slip rate (mm/yr)
+14. Fault East slip rate sigma (mm/yr)
+15. Fault North slip rate sigma (mm/yr)
+16. Fault slip rate NE correlation
+17. East component of slip deficit rate (mm/yr)
+18. North component of slip deficit rate (mm/yr)
+19. Azimuth of slip at node
+20. Along strike distance of node (from first node) in km
+21. Across strike (horizontal) distance of node from surface node updip from it, in km
+22. Downdip distance of node from surface node updip from it, in km
+23. Fault strike at node
+24. Fault dip at node
+25. Moment (rate) associated with this node in N-m
+</pre>
+
+<p><b>MODL_pNN.out</b> (NN=profile number) contain calculated and observed values along profile lines.
+<pre>
+In columns:
+
+First column is a letter: 
+C for calculated values, 
+G for observed gps, 
+T for observed tilt rate, 
+U for observed uplift, 
+S for observed slip vector azimuth, 
+R for observed slip rate, 
+V for volcano,
+Q for earthquake,
+L for label
+
+'C' lines (calculated values):
+1. C
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. Velocity in x
+6. Velocity in y
+7. Velocity in z
+8. Horizontal velocity
+9. Radial velocity (along profile line)
+10. Transverse velocity (perpendicular to profile)
+11. Azimuth of vector
+12. Tilt rate in nanoradians/year
+13. Radial component of rotation
+14. Transverse component of rotation
+15. Radial component of locking
+16. Transverse component of locking
+17. Radial component of strain velocity
+18. Transverse component of strain velocity
+
+'G' lines (GPS):
+1. G
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. E Velocity 
+6. E sigma
+7. N Velocity
+8. N sigma
+9. Horizontal velocity
+10. Horizontal sigma
+11. Radial velocity (along profile line)
+12. radial sigma
+13. Transverse velocity (perpendicular to profile)
+14. Transverse sigma
+15. Azimuth
+16. Azimuth sigma
+17. Ve residual
+18. Vn residual
+19. Normal distance from profile line (km)
+20. Site name
+21. GPS file name
+22. Block name
+
+'U' lines (uplift rates):
+1. U
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. Up rate observed
+6. Up rate sigma
+7. Calculated Up rate
+
+'R' lines (slip rates):
+1. R
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. Slip rate observed
+6. Slip rate sigma
+7. Calculated slip rate
+
+'T' lines (tilt rates):
+1. T
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. Tilt rate observed
+6. Tilt rate sigma
+7. Calculated tilt rate
+
+'S' lines (slip vectors):
+1. A
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. Azimuth
+6. Azimuth sigma
+
+'V' lines (volcanoes):
+1. V
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+
+'Q' lines (earthquakes):
+1. Q
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. Depth (km)
+
+'L' line (profile label):
+The last line contains the label for plotting. Use grep "^L' to extract it.
+
+Line  1 242.5 31.8  46  40
+
+It contains in order the Line number, longitude and latitude of starting point, 
+the profile azimuth, and the width of the included data.
+</pre>
+
+
+<p><b>MODL.grd</b> file contains grid information
+<pre>
+format(2f9.3, 12f9.2, 1x, a4)
+1. Longitude of grid point
+2. Latitude of grid point
+3. Total east velocity
+4. total north velocity
+5. E component of block rotation
+6. N component of block rotation
+7. E component velocity sigma
+8. N component velocity sigma
+9. NE correlation of block velocity
+10. E component of block strain
+11. N component of block strain
+12. E component of fault locking strain
+13. N component of fault locking strain
+14. Up component of fault locking strain
+15. Block name (4-char)
+</pre>
+
+<p><b>MODL.SUM</b> - single line with model statistics
+<pre>
+1. SUM
+2. Reduced chi**2
+3. Degrees of freedom
+4. Number of data
+5. Number of free parameters
+6. Total chi**2
+7. Run date (YYYYMMDDHHMM)
+</pre>
+
+<p><b>MODL.summary</b> - model statistics by data, block, and pole
+<pre>
+format(1x,a4, i5, 2(1x, e10.3), 3f9.3, f9.2)
+
+1. Data aggregate name (Data type, GPS file code, block code, or pole number)
+2. #obs = Number of GPS components
+3. DataVar = Weighted variance of data -> SUM [ Obs/Sigma)**2 ]
+4. Chi2 = Chi**2 of residual -> SUM [ (Res/Sigma)**2 ]
+5. Chi2/N = Chi**2 per observation
+6. Nrms = Normalized rms -> SQRT ( chi**2 / N )
+7. Wrms = weighted rms -> SQRT ( chi**2 / SumWt)
+8. SumWt = sum of weights  -> SUM ( 1.0/ sigma**2 )
+</pre>
+
+<p><b>MODL.svs</b> - fits to slip vector / transform azimuths
+<pre>
+format(2f9.3, 4f6.1, f7.2, 2(1x, a4), 1x, a4, 1x, a25,1x,a30)
+Items:
+1. Longitude
+2. Latitude
+3. Azimiuth
+4. Sigma
+5. Calculated
+6. Residual
+7. residual / sigma
+8. Fixed block
+9. Moving block
+10. Input file number
+11. Slip vector label
+12. Input file name
+</pre>
+
+<p><b>MODL.srs</b> - fits to fault slip rates
+<pre>
+format(2f9.3, 5f6.1, f7.2, 1x, a1, 1x, 2(1x, a4), 2f6.1, 1x, a4, 1x, a25, 1x, a30)
+Items:
+1. Longitude
+2. Latitude
+3. Observed slip rate (mean or minimum)
+4. Observed slip rate (zero or maximim)
+5. Sigma
+6. Calculated
+7. Residual
+8. Residual divided by sigma
+9. M* or S** (M indicates min/max was fit, S indicates mean/sigma was fit)
+10. Block 1
+11. Block 2
+12. Azimuth of slip rate measurement
+13. Total rate at that point (not corrected for azimuth)
+14. Input file number
+15. Data label
+16. input file name
+</pre>
+<p>* If item #9 is M then #3 is the minimum slip rate, #4 is the maximum slip rate, and #5 is the assigned uncertainty for the inversion (one-quarter the min/max range). The residual is zero if the calculated slip rate #6 falls between the min and max observed. If the calculated is outside the observed range, the residual is how far it falls outside the range.
+<p>** If item 9 is S, then #3 is the mean slip rate, #4 is not used, and #5 is the assigned uncertainty in the slip rate.
+     
+<p><b>MODL.poles</b> - rotation poles. This file lists all the relative rotation poles as lat, lon, omega and as Cartesian vectors with uncertainties.
+<pre>
+1. No = pole number
+2. Name = Block/GPS file name
+3. Wx = x component of angular velocity (deg/Myr)
+4. Wy = y component of angular velocity (deg/Myr)
+5. Wz = z component of angular velocity (deg/Myr)
+6. Sx = standard error of Wx
+7. Sy = standard error of Wy
+8. Sz = standard error of Wz
+9. Sxy = covariance of Wx and Wy
+10. Sxz = covariance of Wx and Wz
+11. Syz = covariance of Wy and Wz
+
+and
+
+1. No = pole number
+2. Name = Block/GPS file name
+3. Lon. = Longitude of pole 
+4. Lat. =  Latitude of pole
+5. Omega = rotation rate (deg/Myr)
+6. SigOm = standard error of rotation rate (deg/Myr)
+7. Emax = maximum axis of lon/lat error ellipse
+8. Emin = minimum axis of lon/lat error ellipse
+9. Az = azimuth of maximum axis of lon/lat error ellipse
+</pre>
+
+<p><b>MODL.strain</b> - strain rate tensors in nanostrain/year
+<pre>
+Block strain rate tensors in N-E coordinate system
+1. No = pole number
+2. Block = Block name
+3. Exx = normal strain rate in East direction
+4. Eyy = normal strain rate in North direction
+5. Exy = shear strain rate
+6. Sxx = standard error in Exx
+7. Syy = standard error in Eyy
+8. Sxy = standard error in Exy
+9. Cxx-yy = covariance between Exx and Eyy
+10. Cxx-xy = covariance between Exx and Exy  
+11. Cyy-xy = covariance between Exy and Eyy            
+
+Block principle strain rates (nanostrain/yr)
+1. No = pole number
+2. Block = Block name
+3. E1 = most compressive strain rate
+4. SigE1 = standard error in E1
+5. E2 = least compressive strain rate
+6. SigE2 = standard error in E2
+7. A1 = azimuth of E1
+8. SigA1 = standard error in A1
+
+Block residual principle strain rates (ns/yr) and rotations (nanoradians/yr);
+(if +dgt flag set)
+1. No = pole number
+2. Block = Block name
+3. E1 = most compressive strain rate
+4. SigE1 = standard error in E1
+5. E2 = least compressive strain rate
+6. SigE2 = standard error in E2
+7. A1 = azimuth of E1
+8. SigA1 = standard error in A1
+9. Rot = rotation rate in nanoradians/year
+10. SigRot = standard error in Rot
+</pre>
+
+<p><b>MODL_hc.out</b> - results of hard constraints
+<pre>
+format(i4, 2f10.4, 2(1x,a4), 3f8.2)
+
+Item
+1. Type: 1 = slip rate; 2 = azimuth
+2. Longitude
+3. Latitude
+4. Fixed block
+5. Moving block
+6. Minimum value
+7. Maximum value
+8. Calculated value
+9. Penalty
+</pre>
+
+<p><b>MODL.table</b> - misc results
+<pre>
+format(a8, 1x, a14, 2f9.3, 4f7.1, f8.4, 13f7.1)
+
+Item
+Site = site name
+Srce = GPS velocity field
+Blck = block name
+Pole = pole number
+Longit. = longitude
+Latit. = latitude
+Ve = observed East velocity (corrected for ref frame rotation)  
+Vn = observed North velocity (corrected for ref frame rotation) 
+Se = standard error in East velocity
+Sn = standard error in North velocity
+Sne = NE correlation
+Enet = East velocity from ref frame rotation
+Nnet = North velocity from ref frame rotation
+Eela = East velocity component of elastic deformation
+Nela = North velocity component of elastic deformation
+Erot = East velocity component of block rotation
+Nrot = North velocity component of block rotation
+Estr = East velocity component of permanent strain
+Nstr = North velocity component of permanent strain
+Eres = East velocity residual
+Nres = North velocity residual
+Vres = Total residual rate
+Vsig = Total residual sigma
+R/S = Vres / Vsig
+</pre>
+
+<hr>
+<a name = gmt></a>
+<b><h2>PLOTTING WITH GMT</b></h2>
+
+<p><b>Using GREP and AWK to make profiles</b>
+
+<p>Use <i>grep</i> and <i>awk</i> to extract desired columns from the 
+profile files. For example, to get the profile distance and the 
+observed East GPS velocity and sigma:
+<pre>
+% grep '^G' MODL_p01.out | awk '{ print $4, $5, $6 }' | psxy ...
+</pre>
+grep '^G' gets all the lines starting with 'G' from the file, the 'awk' 
+command prints the 4th, 5th, and 6th entries from each line. 
+
+<p>
+<b>Example of how to plot things in map files</b>. Most things are accesssible for 
+plotting with GMT. Some may require clever scripting. Here are a few suggestions.
+
+<p>Vector files are generally in psvelo -Se format 
+
+<p>psvelo MODL.vec -Se0.03/0.7/7 ...
+
+<p>but have other info appended to the line. 
+If psvelo cannot handle the long line, use <i>cut</i>
+
+<p>cat MODL.res | cut -c1-65 | psvelo -Se ... 
+<p>OR <i>awk</i>
+<p>awk '{ print $1, $2, $3, $4, $5, $6, $7, $8 }'  MODL.res | psvelo -Se ... 
+
+<p>The MODL_flt_atr.gmt file contains fault attributes and quadrilaterals and can be used to make color plots. Since the header line has multiple attributes following the -Z, use awk to select the one to plot.
+
+<p>awk '{ if ($1 ==">") print $1,$2,$4; else print $1,$2 }' MODL_flt_atr.gmt  | psxy -Cpalette.cpt ....
+
+<p> where $1 = '>', $2 = '-Z'
+<p>and the attributes are (in order): (3)fault_number, (4)slip_rate_deficit, (5)phi, (6)phi_error, (7)slip_rate, (8)fault_parallel_slip_rate, (9)fault_normal_slip_rate
+
+<p>The MODL_blk.gmt file similarly has multiple attributes on the header line; 
+the attributes are (in order): (3)block_number, (4)pole_number, (5)block_name
+
+<p># filled blocks, fill color based on pole number
+<br>awk '{ if ($1 ==">") print $1,$2,$4; else print $1,$2 }' MODL_blk.gmt | psxy -Cpalette.cpt -L -M ...
+
+<p># unfilled block outlines
+<br>psxy MODL_blk.gmt -W5/100/100/100  -L -M ...
+
+<p># dashed lines for all profiles
+<br>psxy MODL_lin.gmt -R -J -W4/0/200/200t5_5:5 -M  ...
+
+<p># or, for a single profile (#19 in this case),
+<br>grep '^C' MODL_p19.out | awk ' { print $2, $3 } ' | psxy -W4/0/200/200t5_5:5 ...
+<p># dots at all node positions
+<br>awk '{print $7, $8}' MODL.nod |psxy -Sc.1i ....
+
+<p># dots at surface node positions
+<br>awk '{if ($4==1) print $7, $8}' MODL.nod |psxy -Sc.1i  ...
+
+<p>#label node with fault number at surface only
+<br>awk '{if ($4==1) print $7, $8, " 7 0 0 CM ", $2}' MODL.nod |pstext ....
+
+<p># label blocks with names ( -W255/255/255 results in whiting out beneath label)
+<br>awk ' { print $2, $3, " 8 0 0 CM ", $1 } ' MODL_blocks.out | pstext -W255/255/255  ...
+
+<p># plot pole positions (dot) and error ellipses
+<br>awk ' { print $4, $5 } ' MODL_blocks.out | psxy -Sc0.1i ....
+<br>awk ' { print $4, $5, $8, $9*111.2, $10*111.2 } ' MODL_blocks.out | psxy -SE ....
+
+<p># plot fault slip vectors halfway between fault nodes
+<br>awk '{ print $3, $4, $5, $6, $7, $8, $9, $10 }' MODL_mid.vec | psvelo -Se ....
+
+<p># principle axes for block strain rates
+<br>awk ' { print $2, $3, $21, $19, $23 } ' MODL_blocks.out | psvelo -Sx0.1 ...
+
+<hr>
+<p>Example maps<center>
+<br><img src=http://www.rpi.edu/~mccafr/defnode/map.gif></center>
+<p>csh script:
+<pre>
+### some abbreviations used in both scripts
+set Er = '-Ey0.1c/2/255/0/0'
+set Eg = '-Ey0.1c/2/0/255/0'
+set Eb = '-Ey0.1c/2/0/0/255'
+set Ep = '-Ey0.1c/2/255/0/255 '
+set Ebl = '-Ey0.1c/2/0/0/0 '
+set Egr = '-Ey0.1c/2/112/112/112 '
+
+set Wr = ' -W4/255/0/0 '
+set Wg = ' -W4/0/255/0 '
+set Wb = ' -W4/0/0/255 '
+set Wp = ' -W4/255/0/255 '
+set Wbl = '-W4/0/0/0 '
+set Wgr = '-W4/112/112/112 '
+
+set Gr = ' -G255/0/0 '
+set Gg = ' -G0/255/0 '
+set Gb = ' -G0/0/255 '
+set Gp = ' -G255/0/255 '
+set Gbl = ' -G0/0/0 '
+set Ggr = ' -G112/112/112 '
+
+set ok = ' -O -K'
+
+set landfill = '-G250/230/190 -S121/242/242 '
+
+set gray = ' -G100/100/100 '
+set red = ' -G255/0/0 '
+set blue = ' -G0/0/255 '
+set purple = ' -G255/0/255 '
+set green = ' -G0/255/0 '
+set orange = ' -G255/128/64 '
+set ltorange = ' -G255/215/196 '
+set dkgreen = ' -G0/128/64 '
+
+set dn = '/geo/geo_raid/mccafr/dn'
+set gmt = /home/22/mccafr/gmt/share
+
+##### make map of coupling (Phi) and slip deficit rate (VelPhi)
+
+set b = '-Ba2f2g0'
+set r='-R230.5/239/41.5/51.3'
+set j = '-Jt234.2/1.3'
+
+set volc = ' -St0.06i -G100/100/100 '
+set bdot = ' -Sc0.08 -G0/0/0 '
+set wdot = ' -Sc0.10 -G255/255/255 '
+
+gmtset ANOT_FONT_SIZE 8p LABEL_FONT_SIZE 10p BASEMAP_AXES WeSn PAGE_ORIENTATION portrait
+
+set palette = $gmt/GMT_seis.cpt
+makecpt -C$palette -I -T0/45/3 >! tmp.cpt
+
+set f1 = mapP_VP.eps
+
+psbasemap -X4i $r $j $b -Lf232/44/46/100. -K >! $f1
+
+## make vel-phi map
+awk '{ if ($1 ==">") print $1,$2,$4; else print $1,$2 }' $e'_flt_atr.gmt' | psxy $r $j  -L -M -Ctmp.cpt $ok  >> $f1
+
+## plot volcanoes
+psxy $dn/votw.gmt $r $j $volc $ok  >> $f1
+
+## plot coast
+pscoast $r $j $b  -Na -Dh $ok -W3/75/75/75 >> $f1
+
+## Pat McCrory's slab contours
+psxy "../data/slab/slab_cont_shallow.gmt" $r $j -W3/0/0/0 -M  $ok >> $f1
+
+## white dots at nodes, then smaller black dots on top
+awk '{ print $7, $8 }' $e.nod |psxy $wdot $r $j  $ok >>  $f1
+awk '{ print $7, $8 }' $e.nod |psxy $bdot $r $j  $ok >>  $f1
+
+## make and plot scale bar
+set paletteXY  = (  -D1.9/2./2./0.125h -B10:VelPhi:/::  )
+psscale   -Ctmp.cpt  $paletteXY $ok >> $f1
+
+## make second map
+
+## new palette
+makecpt -C$palette  -I -T0.0/1.0/0.1 >! tmp.cpt
+
+psbasemap -X-3.7i $r $j $b -Lf232/44/46/100. $ok >> $f1
+
+## plot phi
+awk '{ if ($1 ==">") print $1,$2,$5; else print $1,$2 }' $e'_flt_atr.gmt' | psxy $r $j  -L -M -Ctmp.cpt $ok  >> $f1
+
+# same as above
+psxy $dn/votw.gmt $r $j $volc $ok  >> $f1
+pscoast $r $j $b  -Na -Dh -K -O -W3/75/75/75 >> $f1
+psxy "../data/slab/slab_cont_shallow.gmt" $r $j -W3/0/0/0 -M  $ok >> $f1
+awk '{ print $7, $8 }' $e.nod |psxy $wdot $r $j  $ok >>  $f1
+awk '{ print $7, $8 }' $e.nod |psxy $bdot $r $j  $ok >>  $f1
+set paletteXY  = (  -D1.9/2./2./0.125h -B.5:Phi:/::  )
+psscale -Ctmp.cpt  $paletteXY  -O >> $f1
+
+</pre>
+
+
+<hr>
+<p>Example Profiles
+<center><br><img src=http://www.rpi.edu/~mccafr/defnode/prof.gif ></center>
+<p>Script:
+<pre>
+
+## get abbreviations from above
+
+##########  plot profile
+
+# e is the path to the files
+set e = MODL/MODL
+
+set f = 'profile.eps'
+set j = '-JX5i/1.2i'
+set b = '-Ba100f50/a10f5'
+set r = '-R0/650/-10/20'
+set yo = ' -Y1.4i '
+
+set l = '_p01.out'
+
+# position for label
+set pos = ' 5 -8 10 0 0 LM  '
+
+# get label
+set t =  ` grep '^L' $e$l `
+
+# along-profile calculated component in red curve
+grep '^C' $e$l | awk ' { print $4, $5 } ' | psxy $r $j $b -Y.3i -X1i -K  $Wr -P >! $f
+
+# along-profile observed component in red dots
+grep '^G' $e$l | awk ' { print $4, $5, $6 } ' | psxy -R -JX $ok $Gr $Er -Sc0.06i >> $f
+
+# profile-normal calculated component in blue curve
+grep '^C' $e$l | awk ' { print $4, $6 } ' | psxy $r $j $b $ok $Wb  >> $f
+
+# profile-normal observed component in blue dots
+grep '^G' $e$l | awk ' { print $4, $7, $8 } ' | psxy -R -JX $ok  $Gb $Eb -Sc0.06i >> $f
+
+# gray triangles where volcanoes fall within profile
+grep '^V' $e$l | awk ' { print $4, -9 } ' | psxy -R -JX $ok -G100/100/100  -St0.15i >> $f
+
+# write label
+echo $pos$t  | pstext $r $j $ok >>  $f
+
+# shift and plot other 2 profiles
+set l = '_p02.out'
+set t =  ` grep '^L' $e$l `
+grep '^C' $e$l | awk ' { print $4, $9 } ' | psxy $r $j $b $yo $ok  $Wr -P >> $f
+grep '^G' $e$l | awk ' { print $4, $11, $12 } ' | psxy -R -JX $ok $Gr $Er -Sc0.06i >> $f
+grep '^C' $e$l | awk ' { print $4, $10 } ' | psxy $r $j $b $ok $Wb  >> $f
+grep '^G' $e$l | awk ' { print $4, $13, $14 } ' | psxy -R -JX $ok  $Gb $Eb -Sc0.06i >> $f
+grep '^V' $e$l | awk ' { print $4, -9 } ' | psxy -R -JX $ok -G100/100/100  -St0.15i >> $f
+echo $pos$t  | pstext $r $j $ok >>  $f
+
+set l = '_p03.out'
+set t =  ` grep '^L' $e$l `
+grep '^C' $e$l | awk ' { print $4, $9 } ' | psxy $r $j $b $yo $ok  $Wr -P >> $f
+grep '^G' $e$l | awk ' { print $4, $11, $12 } ' | psxy -R -JX $ok $Gr $Er -Sc0.06i >> $f
+grep '^C' $e$l | awk ' { print $4, $10 } ' | psxy $r $j $b $ok $Wb  >> $f
+grep '^G' $e$l | awk ' { print $4, $13, $14 } ' | psxy -R -JX $ok  $Gb $Eb -Sc0.06i >> $f
+grep '^V' $e$l | awk ' { print $4, -9 } ' | psxy -R -JX $ok -G100/100/100  -St0.15i >> $f
+echo $pos$t  | pstext $r $j -O >>  $f
+
+</pre>
+
+<hr>
+<a name = inp></a>
+<p><h2><b>SAMPLE INPUT</b></h2>
+<pre>
+- Example of input formats for defnode
+
+- gps file   
+gpsdata: VEL1 "test_in.vec" 1  1.0
+
+- slip vector file
+svdata: "../data/tes1.sv" Blk2 Blk1 10
+
+- reference frame is block Blk1
+re: Blk1
+
+- set poles
+pole Eur-Eur:       1    0.0     0.0    0.00
+pole Pac-Eur:       2   40  255   4
+pole sliver-NAM:    3   40  255   2
+
+- generate green's functions while integrating 10-km along strike, 5-km downdip
+gd: gd1 10 5
+
+- perform inversion
+sa:  0 260  0 1.0  
+
+- adjust block poles 2 and 3
+pi pole:  2 3
+
+- rotate the velocity field #1 (VEL1) into the reference frame
+gi: 1
+
+- do 10-km x 5-km interpolations between nodes for final plots
+in: 10 5
+
+- the model name is tes2
+model: tes2
+
+- calculate at grid points
+grid:  238  20 .2  30 20 .2  
+
+- profiles
+pr: 1  236.5  40.01  180 .05 90 50
+pr: 2  236.5  44.01  180 .05 90 50
+pr: 3  236.5  46.01  180 .05 90 50
+
+
+- outlines of blocks
+
+block: "Blk1" 1 0
+7  
+   260.00000    60.00000
+   260.00000    20.00000
+   241.10001    20.00000
+   241.00000    37.10000
+   241.10001    39.20000
+   241.20000    43.30000
+   241.00999    60.00000
+
+
+block: "Blk2" 2 0
+7 
+   200.00000    60.00000
+   200.00000    20.00000
+   240.00000    20.00000
+   240.00000    37.10000
+   240.10001    39.20000
+   240.20000    43.30000
+   240.20000    60.00000
+
+block: "Blk3" 3 0
+6 
+   240.00000    37.10000
+   240.10001    39.20000
+   240.20000    43.30000
+   241.20000    43.30000
+   241.10001    39.20000
+   241.00000    37.10000
+
+- faults
+
+Fault:  "Fault_1" 1
+ 3  2  Blk3 Blk2  0 0 0
+ 0.0  
+  240.0000   37.1000
+  240.1000   39.2000
+  240.2000   43.3000
+ 15.0  
+  240.1000   37.1000
+  240.2000   39.2000
+  240.3000   43.3000
+
+Fault:  "Fault_2" 2
+ 3  2  Blk1 Blk3  0 0 0
+ 0.0   
+  241.0000   37.1000
+  241.1000   39.2000
+  241.2000   43.3000
+zd: 15.0 80.0
+
+- both faults have uniform coupling (all nodes form one free parameter)
+nflags: 1  1 1 1  1 1 1    
+nflags: 2  1 1 1  1 1 1
+
+- to start, fault 1 is 100% coupled, fault 2 is 10% coupled
+nodes: 1  1
+nodes: 2  .1
+
+
+end:
+</pre>
+
+<hr>
+<b>Acknowledgments:</b> Thanks to C. Williams, Y. Okada, S. Roecker, and C. DeMets for supplying various subroutines. And to L. Wallace and L. Prawirodirdjo for testing the program. Program development was supported by NSF and USGS NEHRP grants.
+<hr>
+<a name = cite></a>
+<b><h2>CITATIONS</b></h2>
+<ul>
+<li> DeMets, C., R. G. Gordon, D. F. Argus, and S. Stein (1990), Current plate motions, Geophys. J. Int. 101, 425-478.
+<li>McCaffrey, R., M. D. Long, C. Goldfinger, P. Zwick, J. Nabelek, and C. Smith (2000),
+Rotation and plate locking at the southern Cascadia subduction zone,
+<b><i>Geophysical Research Letters, 27,</i></b> 3117-3120. <a href = http://ees2.geo.rpi.edu/rob/pdf/grl_ore.pdf> (PDF) </a>
+<li>McCaffrey, R. (2002), Crustal block rotations and plate coupling, in Plate Boundary Zones, Geodynamics Series 30, S. Stein and J. Freymueller, editors, 101-122, AGU. (<a href = http://ees2.geo.rpi.edu/rob/pdf/agu_2002.pdf> PDF </a>)
+<li>Okada, Y. (1985), Surface deformation to shear and tensile faults in a half-space, <b><i>Bull. Seismol. Soc. Am.,</i> 75</b>, 1135-1154.
+<li>Okada, Y. (1992),
+<li>Press, W. H., B. P. Flannery, S. A. Teukolsky, and W. T. Vetterling (1989), Numerical Recipes, Cambridge Univ. Press, Cambridge.
+<li>Savage, J. C., W. Gan, and J. L. Svarc (2001), Strain accumlation and rotation in the Eastern California Shear Zone, <b><i>Journal of Geophysical Research, 106,</i></b>
+21995-22071.
+<li>Wessel, P., and W. H. F. Smith (1991), Free software helps map and display data, <i><b>EOS Trans. AGU</i>, 72</b>, 445-446.
+</ul>
+<hr>
+
+
+</html>
+
