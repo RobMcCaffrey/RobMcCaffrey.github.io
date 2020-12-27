@@ -1,0 +1,138 @@
+
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+   <title>Rob McCaffrey's Official Home Page</title>
+<!--   This is commented out -->
+
+</head>
+
+<body background="bak.jpg" link="#ff0000" text="#000000" vlink="#0000ff"> 
+<!-- <BODY TEXT="#000000" LINK="#FF0000" VLINK="#0000FF" BACKGROUND="bak.jpg" HEIGHT=480 ALIGN=right> -->
+
+<center>
+<table border="7">
+
+<tbody><tr>
+<td>
+<table>
+
+<tbody><tr>
+<td rowspan="11" valign="TOP"><img src="pic.jpg" align="LEFT" height="280"></td>
+<td colspan="2">
+<h2><font color="#993366">Rob McCaffrey</font>
+</h2></td>
+</tr>
+
+
+<tr>
+<td colspan="2">
+<a href="https://www.pdx.edu/geology/welcome-to-psu-geology">Dept. of Geology</a>
+</td>
+</tr>
+
+<tr>
+<td colspan="2">
+<a href="https://www.pdx.edu/">Portland State University</a>
+</td>
+</tr>
+
+<tr>
+<td><i>E-mail: </i></td>
+<td><a href="mailto:mccafr@gmail.com">mccafr@gmail.com</a> or <a href="mailto:r.mccaffrey@pdx.edu">r.mccaffrey@pdx.edu</a></td>
+</tr>
+
+<tr>
+<td colspan="2">Ph.D., UC Santa Cruz 1981</td>
+</tr>
+
+<tr>
+<td colspan="2">B.S., Boston College 1976</td>
+</tr>
+
+
+<tr>
+<td>
+<center> </center>
+</td>
+</tr>
+
+<tr>
+<td>
+<center></center>
+</td>
+</tr>
+
+</tbody></table>
+</td></tr>
+</tbody></table></center>
+
+
+<p></p><h3>I am a geophysicist with interests in tectonic plate motions, crustal deformation, earthquakes, GPS
+and seismology.  
+</h3>
+
+
+<h2><font color="#006600">What's New</font></h2>
+<h3><ul>
+<li><a href = "qk08_td_strain.mov">Movie</a> of transient strain rates in CA since 1992 (2nd invariant)
+<li><a href = "http://scecinfo.usc.edu/meetings/2015am/presentations/SCEC2015_poster197.pdf">SCEC Presentation</a>.
+<li> Appearance in OPB Oregon Field Guide's <a href = http://www.opb.org/television/programs/ofg/episodes/2701/ > Unprepared </a>.
+<li><a href = "pnw/fig2.jpg"> 2015 GPS velocity field map </a>(North America reference)
+<li><a href = "pnw/pnw_2015.vec" >2015 PNW vectors file</a> (North America reference, from McCaffrey et al., 2016). 
+</ul></h3>
+
+
+<h2><font color="#006600">What's Old</font></h2>
+
+<h4><ul>
+<li><a href = "http://www.nytimes.com/2011/03/22/science/22predict.html?pagewanted=all&_r=0">NY Times article</a>
+<li><a href = "https://www.youtube.com/watch?v=VM7Y1D8NMo8"> Stone Age Apocalypse </a> about eruption of Toba.
+<li><a href="http://www.earthscope.org/workshops/fault_slip10">The First EarthScope Institute on the Spectrum of Fault Slip Behaviors </a>
+<li><a href="http://www.unavco.org/edu_outreach/uscs/2010/2010-GAMIT.html">2010 UNAVCO Short Course Series - GAMIT/GLOBK and DEFNODE</a>
+<li><a href="http://www.sciencefriday.com/news/032307/news0323071.html">National Public Radio story on great earthquakes</a> 
+<li><a href="http://starbulletin.com/2006/12/18/news/story01.html">Story on AGU presentation in the Honolulu Star Bulletin</a>
+<li><a href="http://news.rpi.edu/update.do?artcenterkey=692&amp;setappvar=page%281%29">Earthquake research</a>
+<li><a href="http://news.rpi.edu/update.do?artcenterkey=601&amp;setappvar=page%281%29">Article on Indonesia research</a>
+<li><a href="http://www.dradio.de/dlf/sendungen/wib/1687209/">Interview on German radio</a>
+</ul></h4>
+
+<h2><font color="#006600">Other affiliations</font></h2>
+<h4><ul>
+<li><a href="http://www.earthscope.org/">EarthScope</a>
+<li><a href="http://www.unavco.org/">UNAVCO</a>
+<li><a href="https://www.scec.org/">SCEC</a>
+<li><a href="http://www.nehrp.gov/">NEHRP</a>
+<li><a href="http://volcanoes.usgs.gov/observatories/cvo/">CVO</a>
+</ul>
+
+</h4><h2><font color="#006600">Research</font></h2>
+<h4><ul>
+<li><a href="pnw/index.html">Pacific Northwest</a>
+<li><a href="indo_gps.html">Indonesia</a>
+<li><a href="toba.html">Toba Caldera</a>
+<li><a href="sumatra04/index.html">Sumatra earthquakes</a>
+</ul></h4>
+
+
+<h2><font color="#006600">Publications</font></h2>
+<h4><ul>
+
+<li><a href="pubs.html">Publications</a>
+<li><a href="reports.html">Reports</a>
+<li><a href="cv.pdf">My CV (pdf)</a>
+</ul></h4>
+
+
+<h2><font color="#006600">Software</font></h2>
+<h4><ul>
+<li><a href="defnode/defnode.html">DEFNODE/TDEFNODE</a>
+<li><a href="index_mt5.html">MT5</a>
+</ul></h4>
+
+
+<br><i><font color="#993300">Last update 12/25/2020</font></i>
+
+
+</body></html>
