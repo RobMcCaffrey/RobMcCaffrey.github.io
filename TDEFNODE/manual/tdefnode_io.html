@@ -1,0 +1,1438 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>TDEFNODE User's Manual</title>
+</head>
+
+<body background="TDEFNODE_io_files/bak.html">
+<!--comment-->
+
+<center><h2>TDEFNODE User's Manual<br>I/O descriptions</h2></center>
+<b></b><h2><b>INPUT FILES</b> </h2>
+<h4><p>Input files are described in the manual. 
+
+<b></b></p></h4><h2><b>OUTPUT FILES</b> </h2>
+
+<h4>
+<p>All output files are put in model directory.
+
+</p><p>Not all of these listings have been checked intensely for for accuracy, some could be different than shown. 
+Let me know if something looks awry. Not all files are described here
+
+</p><p><a name="menu">Menu</a>
+
+<br><a href="http://web.pdx.edu/%7Emccaf/defnode/manual/tdefnode.html">Return to main manual</a>
+<br><a href="http://web.pdx.edu/%7Emccaf/defnode/manual/tdefnode_gmt.html">Plotting with GMT</a>
+
+</p><pre>The rake angle follows Aki&amp;Richards p. 106:
+   rake =  90         thrust
+   rake = -90 or 270  normal
+   rake =   0 or 360  sinstral, left-lateral
+   rake = 180 or -180 dextral, right-lateral
+</pre>
+
+<pre>MODL = 4-character experiment name
+NNNN = 4-character GPS data code
+IIII = 4-character InSAR data code
+SSSS = 4-character site name
+FFF  = 3-digit fault number
+EEE  = 3-digit transient source number
+PPP  = 3-digit profile number
+JJJ  = 3-digit index 
+
+(Options or flags listed in parentheses)
+
+</pre>
+<p>General block model files
+</p><pre>
+MODL.cov              - covariance matrix ('+wcv')
+MODL.der              - derivatives matrix ('+wdr')
+MODL.dgt              - residual strain rates and rotations for blocks (+dgt)
+<a href="#hc">MODL.hcs</a>              - result of hard constraints (HC:)
+<a href="#nod">MODL.nod</a>              - summary of node information 
+<a href="#dsum">MODL.dsum</a>             - observed and calculated displacements (DS:)
+<a href="#vsum">MODL.vsum</a>             - observed and calculated velocity vectors (GP:)
+<a href="#poles">MODL.poles</a>            - summary of poles (relative poles for all block pairs)
+<a href="#strain">MODL.strain</a>           - summary of strain rate tensors
+MODL.prm              - input parameters
+MODL_prm.in           - input parameters
+MODL_prm.out          - output parameters
+<a href="#srs">MODL.srs</a>              - summary of fits to slip rate data (SR:)
+MODL.sss              - summary of fits to strain rate data (SS:)
+<a href="#sum">MODL.sum</a>              - summary of fits to data, poles, blocks
+<a href="#svs">MODL.svs</a>              - summary of fits to slip vectors/fault azimuths (SV:)
+MODL.tlt              - summary of fits to tilt rate data (TI:)
+<a href="#fapr">MODL_flt_atr.gmt </a>     - interseismic fault locking distributions for all faults
+<a href="#fapr">MODL_flt_FFF_atr.gmt </a> - interseismic fault locking distribution for single fault number FFF (+atr)
+<a href="#blkout">MODL_blocks.out</a>       - block information output (see below)
+<a href="#grid1">MODL_grid_N.vec</a>       - predicted vectors for grid points in psvelo format, N is grid number (GR:)
+<a href="#grid2">MODL_grid_N.info</a>      - predicted vectors for grid points, N is grid number (GR:)
+<a href="#grid3">MODL_grid_N_strain_atr.gmt</a>       - grid of strain rates, N is grid number (GR:)
+<a href="#fslip">MODL_fslip.out</a>        - relative velocities at requested points (FS:)
+MODL_info.out         - information on each subsegment of faults (+inf)
+MODL_model.input      - poles, block boundaries and faults in control file format
+MODL_control.backup   - copy of control file
+<a href="#midvec">MODL_mid.vec</a>          - relative block vectors on faults at midpoints between surface nodes
+<a href="#prout">MODL_pPPP.out</a>          - output for profile number PPP (PR:)
+MODL_removed.vec      - vectors removed from inversion (RM:, etc)
+MODL_sa.out           - summary of simulated annealing run with final solution (+sim)
+<a href="#insout">MODL_IIII.insar</a>       - InSAR output (IS:)
+
+</pre>
+<p>Files relating to time series (TS:)
+</p><pre>
+<a href="#tsum">MODL.tsum</a>              - observed and calculated velocities of time series  
+<a href="#tsout">MODL/ts/SSSS_NNNN.out</a>  - time series output (observed and calculated)  
+<a href="#tssyn">MODL/ts/SSSS_NNNN.syn</a>  - time series output (synthetics)  
+<a href="#tsstat">MODL_ts.stat</a>           - time series statistics  
+<a href="#tsdata">MODL_ts_data.out</a>       - time series coefficients  
+
+</pre>
+<p>Files relating to transients  (ES:)
+</p><pre>
+<a href="#sources">MODL.sources </a>         - description of all sources
+<a href="#trapr">MODL_src_EEE.atr </a>     - transient slip distributions  
+<a href="#eplt">MODL_src_EEE.plt </a>     - source parameters
+<a href="#estf">MODL_src_EEE.stf </a>     - time history
+<a href="#epoly">MODL_src_EEE.poly </a>    - source polygon
+MODL_src_EEE.pxy      - source centroid (longitude, latitude)
+<a href="#edisp">MODL_src_EEE.disp </a>    - predicted source displacement vectors
+<a href="#enod">MODL_src_EEE.nod </a>     - information at nodes
+
+</pre>
+<p>Files relating to time windows  (DW:)
+</p><pre><a href="#tslice">MODL_time_JJJ.nod </a>    - time window displacements at nodes
+<a href="#tslice2">MODL_time_JJJ.atr </a>    - time window displacement distribution on fault
+<a href="#tslice3">MODL_time_JJJ.disp </a>   - time window displacements at sites
+
+</pre>
+
+<p>Files ending with .gmt are plot files for GMT and are described in the PLOTTING section.
+</p><pre>Plot with psxy:
+MODL_blk.gmt      - all block outlines
+MODL_blk0.gmt     - all fault segments
+MODL_blk1.gmt     - all pseudo-faults
+MODL_blk2.gmt     - block boundaries separating blocks with same poles
+MODL_blk3.gmt     - block boundaries separating blocks with different poles
+MODL_blk4.gmt     - block boundaries that are locked faults
+MODL_blk5.gmt     - block boundaries that are locked faults being adjusted
+MODL_obs.gmt      - tilt lines and strain network polygons 
+</pre>
+
+<hr>
+<a name="dsum"></a>
+<br>MODL.dsum  ----  summary of displacements  
+<p>These displacements include all sources plus the secular motions between the times Year1 and Year2.
+</p><pre>Site name 
+Data code 
+Block     
+Pole      
+E N U flags (1=used, 0=not)
+Longitude
+latitude
+Year 1 (decimal year)
+Year 2 (decimal year)
+E observed (mm)
+E calculated
+E residual
+E 1-sigma uncertainty
+E res/sigma
+N observed
+N calculated
+N residual
+N 1-sigma uncertainty
+N res/sigma
+U observed
+U calculated
+U residual
+U 1-sigma uncertainty
+U res/sigma
+Unused
+E calculated site secular displacement
+N calculated site secular displacement
+U calculated site secular displacement
+E calculated site secular velocity
+N calculated site secular velocity
+U calculated site secular velocity
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="vsum"></a>
+MODL.vsum  ----  summary of velocities  
+<pre> 1 Site name 
+ 2 Data code 
+ 3 Block code     
+ 4 Pole code     
+ 5 E flag (1=used, 0=not)
+ 6 N flag (1=used, 0=not)
+ 7 U flag (1=used, 0=not)
+ 8 Longitude
+ 9 latitude
+10 Year 1
+11 Year 2
+12 E observed
+13 E calculated
+14 E residual
+15 E 1-sigma uncertainty
+16 E res/sigma
+17 N observed
+18 N calculated
+19 N residual
+20 N 1-sigma uncertainty
+21 N res/sigma
+22 U observed
+23 U calculated
+24 U residual
+25 U 1-sigma uncertainty
+26 U res/sigma
+27 rho observed (NE)
+28 E calculated elastic velocity
+29 N calculated elastic velocity
+30 U calculated elastic velocity
+31 E calculated elastic velocity 1-sigma uncertainty (not yet calculated)
+32 N calculated elastic velocity 1-sigma uncertainty (not yet calculated)
+33 U calculated elastic velocity 1-sigma uncertainty (not yet calculated)
+34 E calculated strain rate velocity
+35 N calculated strain rate velocity
+36 E calculated strain rate velocity 1-sigma uncertainty (not yet calculated)
+37 N calculated strain rate velocity 1-sigma uncertainty (not yet calculated)
+38 E calculated rotation velocity
+39 N calculated rotation velocity
+40 E calculated rotation velocity 1-sigma uncertainty
+41 N calculated rotation velocity 1-sigma uncertainty
+42 NE calculated rotation correlation
+43 E calculated network velocity
+44 N calculated network velocity
+45 E calculated network velocity 1-sigma uncertainty
+46 N calculated network velocity 1-sigma uncertainty
+47 NE calculated network correlation 
+48 E component of MR velocity
+49 N component of MR velocity
+50 U component of MR velocity
+51 Sum of squares of weighted residuals (E,N,U)
+52 Site elevation
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+
+<a name="tsum"></a>
+MODL.tsum  ----  summary of time series velocities  
+<pre> 1 Site name 
+ 2 Data code 
+ 3 Block code     
+ 4 Pole code     
+ 5 E slope flag (see TS:)
+ 6 N slope flag (see TS:)
+ 7 U slope flag (see TS:)
+ 8 Longitude
+ 9 latitude
+10 Year 1
+11 Year 2
+12 E block velocity in time series reference frame
+13 N block velocity in time series reference frame
+14 U block velocity in time series reference frame
+15 E block velocity in new reference frame, or slope of time series
+16 N block velocity in new reference frame, or slope of time series
+17 U block velocity in new reference frame, or slope of time series
+18 E residual velocity 
+19 N residual velocity 
+20 U residual velocity 
+21 E 1-sigma uncertainty
+22 N 1-sigma uncertainty
+23 U 1-sigma uncertainty
+24 E calculated elastic velocity
+25 N calculated elastic velocity
+26 U calculated elastic velocity
+27 E calculated elastic velocity 1-sigma uncertainty
+28 N calculated elastic velocity 1-sigma uncertainty
+29 U calculated elastic velocity 1-sigma uncertainty
+30 E calculated strain velocity
+31 N calculated strain velocity
+32 E calculated strain velocity 1-sigma uncertainty
+33 N calculated strain velocity 1-sigma uncertainty
+34 E calculated rotation velocity
+35 N calculated rotation velocity
+36 E calculated rotation velocity 1-sigma uncertainty
+37 N calculated rotation velocity 1-sigma uncertainty
+38 NE calculated rotation correlation
+39 E calculated network velocity
+40 N calculated network velocity
+41 E calculated network velocity 1-sigma uncertainty
+42 N calculated network velocity 1-sigma uncertainty
+43 NE calculated network correlation 
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="tsout"></a>
+MODL/ts/SSSS_NNNN.out  ----  time series observed and calculated
+<pre> MODL = model name
+ SSSS = 4-char sitename
+ NNNN = 4-char network name
+
+
+Header line starts with 'H'
+Entries are 
+  Longitude  latutude       Ve       Vn      Esig    Nsig    Rho    Site
+     Data Blok Pole     Vz     Zsig    Start    End     E_off   N_off   
+Z_off
+H  124.0351   -5.9047    -16.76    -60.21   15.60   15.60   0.0000  491A
+     sGPS BSea P008    0.00   15.60  2006.72  2008.94   11.03   21.60  
+-21.75
+
+Data lines  ---- the first set of positions in brackets [ ] are 
+corrected for the offset and slope; second set in curly brackets { } are
+ not
+  Year     [ E_obs   E_calc    E_sig    E_res    N_obs   N_calc    N_sig
+    N_res    Z_obs   Z_calc    Z_sig    Z_res ] { E_obs   N_obs    Z_obs
+   E_calc   N_calc  Z_calc }Site     Data
+2006.7151   -11.03     1.07     9.75   -12.10   -21.60     2.23     4.20
+   -23.83    21.75     0.16    20.52    21.59     0.00     0.00     0.00
+    12.10    23.83   -21.59 491A     sGPS
+
+1  Time 
+2  E obs detrended
+3  E calc detrended
+4  E sigma
+5  E res
+6  N obs detrended
+7  N calc detrended
+8  N sigma
+9  N res
+10 U obs detrended
+11 U calc detrended
+12 U sigma
+13 U res
+14 E obs (not detrended)
+15 N obs (not detrended)
+16 U obs (not detrended)
+17 E calc (not detrended)
+18 N calc (not detrended)
+19 U calc (not detrended)
+20 E seasonal
+21 N seasonal
+22 U seasonal
+23 Site code
+24 Network code
+
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="tssyn"></a>
+MODL/ts/SSSS_NNNN.syn  ----  time series synthetics
+<pre> MODL = 4-char model name
+ SSSS = 4-char sitename
+ NNNN = 4-char network name
+
+Year  E1 N1 U1   E2 N2 U2   E3 N3 U3  Site  SSSS
+
+E1 N1 U1 - ENU detrended (steady velocity removed)
+E2 N2 U2 - ENU not detrended  (steady velocity included)
+E3 N3 U3 - ENU seasonal correction
+
+MODL/ts/SSSS_NNNN.syn  ---- synthetic time series output 
+  Year       E_det    N_det    U_det   E_calc   N_calc   U_calc   E_seas   N_seas   U_seas Site     Data
+2005.0096    -0.16    -0.02     1.85    -4.36   -11.17    -3.44    -0.06    -0.24     1.36 EDAM     CGPS
+
+1  Time 
+2  E detrended
+3  N detrended
+4  U detrended
+5  E not detrended
+6  N not detrended
+7  U not detrended
+8  E seasonal
+9  N seasonal
+10 U seasonal
+11 Site code
+12 Network code
+
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+
+<a name="insout"></a>
+InSAR output files
+<pre>MODL_IIII.insar
+ IIII = 4-char code for InSAR file
+
+Header line 
+1. #
+2. Shortname   
+3. Runtime   
+4. File#   
+5. Year1    
+6. Year2   
+7. Offset_constant (mm)
+8. E_gradient (mm per degree)
+9. N_gradient (mm per degree)
+10. Vertical gradient (mm per km)
+11. Offset_origin_Lon   
+12. Offset_origin_Lat  
+13. Lon_min 
+14. Lon_max 
+15. Lat_min 
+16. Lat_max
+17. Max sigma used
+18. Heading
+19. Incidence angle
+
+output lines
+
+ 1. Longitude
+ 2. Latitude
+ 3. Elevation (km)
+ 4. Observed LOS change (mm)
+ 5. LOS 1-sigma uncertainty (mm)
+ 6. Calculated LOS change (mm) (includes correction)
+ 7. Residual LOS change (mm)
+ 8. Calculated LOS change due to ground deformation (mm) (uncorrected)
+ 9. East component of ground deformation (mm)
+10. North component of ground deformation (mm)
+11. Up component of ground deformation (mm)
+12. East component of look vector
+13. North component of look vector
+14. Up component of look vector
+15. Site name
+16. Block name
+17. East component of rotation
+18. North component of rotation
+19. East component of block strain
+20. North component of block strain
+21. East component of elastic strain
+22. North component of elastic strain
+23. Up component of elastic strain
+24. Offset Correction to LOS
+25. East gradient correction to LOS
+26. North gradient correction to LOS
+27. Vertical gradient correction to LOS
+
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="fslip"></a>
+<p><b>MODL_fslip.out</b> - relative velocities between blocks at 
+requested points (from FS: option). In psvelo -Se format. The site_name 
+field has the block pairs and this is followed 
+by the total velocity and its 1-sigma uncertainty.
+</p><pre>format (2f10.4, 4f8.1, f9.4, 1x, a9, 2f8.1)
+Items:
+1. Longitude 
+2. Latitude 
+3. East_velocity
+4. North_velocity 
+5. East_1-sigma uncertainty 
+6. North_1-sigma uncertainty 
+7. NE_correlation 
+8. Block pairs (9-characters)
+9. Total velocity
+10. Total velocity 1-sigma uncertainty
+11. Azimuth of velocity vector
+12. Azimuth 1-sigma
+13. Azimuth of fault (optional, input)
+14. Velocity parallel to optional Azimuth
+15. Velocity normal to optional Azimuth
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="midvec"></a>
+<b>MODL_mid.vec</b> - fault information at mid-points between each pair of nodes along faults
+<pre>format(2f8.3, 4f7.1, f7.3, 1x, a10,2(1x,a4),i4,4f6.1,2f7.3,6f6.1)
+Items:
+1. Longitude 
+2. Latitude 
+3. East_velocity
+4. North_velocity 
+5. East_1-sigma uncertainty 
+6. North_1-sigma uncertainty 
+7. NE_correlation 
+8. Fault name
+9. Hangingwall block
+10. Footwall block
+11. Fault number
+12. Total velocity
+13. Total velocity 1-sigma uncertainty
+14. Velocity azimuth
+15. Velocity azimuth 1-sigma uncertainty
+16. Phi value
+17. Phi value 1-sigma uncertainty
+18. Velocity parallel to fault (positive is right-lateral)
+19. Velocity parallel to fault 1-sigma uncertainty
+20. Velocity normal to fault (positive is divergence)
+21. Velocity normal to fault 1-sigma uncertainty
+22. Fault strike
+23. Fault dip
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="blkout"></a>
+<b>MODL_blocks.out</b> - summary of block information
+
+<pre>format(a4, 4f8.3, 2f8.3, 2f7.2, f6.2, 4f6.1, f8.4, f6.1, f7.3, 1x, f8.1, 14f8.1, i5, 3f6.1, 2f8.2, f8.1)
+Items:
+1. Block name (4-char)
+2. Block centroid longitude
+3. Block centroid latitude
+4. Block pole longitude
+5. Block pole latitude
+6. Block pole rotation rate (deg/Ma)
+7. Block pole rotation rate 1-sigma uncertainty (deg/Ma)
+8. Azimuth of pole error ellipse semi-major axis
+9. Pole semi-major axis length (degrees)
+10. Pole semi-minor axis length (degrees)
+11. Block east velocity at centroid (mm/a)
+12. Block north velocity at centroid (mm/a)
+13. Block east velocity 1-sigma uncertainty at centroid (mm/a)
+14. Block north velocity 1-sigma uncertainty at centroid (mm/a)
+15. Block velocity NE correlation coefficent at centroid
+16. Distance of pole to block centroid (degrees)
+17. Vertical axis rotation rate at centroid (deg/Ma)
+18. Area of block (10^6 km^2)
+19. Principle axis of strain rate in block (nanostrain/a; most contractional)
+20. 1-sigma uncertainty of principle axis of strain rate in block (nanostrain/a)
+21. Principle axis of strain rate in block (nanostrain/a; least contractional)
+22. 1-sigma uncertainty of principle axis of strain rate in block (nanostrain/a)
+23. Azimuth of most contractional principle axis of strain rate in block
+24. 1-sigma uncertainty of azimuth of most contractional principle axis of strain rate in block
+25. Principle axis of residual strain rate in block (nanostrain/a; most contractional)
+26. 1-sigma uncertainty of principle axis of residual strain rate in block (nanostrain/a)
+27. Principle axis of residual strain rate in block (nanostrain/a; least contractional)
+28. 1-sigma uncertainty of principle axis of residual strain rate in block (nanostrain/a)
+29. Azimuth of most contractional principle axis of residual strain rate in block
+30. 1-sigma uncertainty of azimuth of most contractional principle axis of residual strain rate in block
+31. Rotation rate of GPS residuals in block (nanoradians/a)
+32. 1-sigma uncertainty of rotation rate of GPS residuals in block (nanoradians/a)
+33. Number of GPS observations in block
+34. Not used
+35. Not used
+36. Angular distance from block centroid to block pole
+37. Normalized RMS of GPS in block
+38. Weighted RMS of GPS in block
+39. Probability that GPS is satisfied (Q of Press et al., 1989; pp. 502-503)
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="fapr"></a>
+MODL_flt_atr.gmt - interseismic slip distributions on all faults
+<p>MODL_flt_FFF_atr.gmt - interseismic slip distributions on fault number FFF (if +atr flag set)
+
+</p><p>Files contain fault attributes 
+and quadrilaterals that can be used to make color plots of locking distributions. 
+Since the header line for each fault segment has multiple attributes following the -Z, use awk to select the one to plot.
+
+</p><p>To plot the slip rate deficit for fault 1:
+</p><pre>awk '{ if ($1 =="&gt;") print $1,$2,$4; else print $1,$2 }' MODL_flt_001_atr.gmt  | psxy -Cpalette.cpt .... </pre>
+
+<p>The entries on the segment header line are (in order): 
+
+</p><pre>1-2 ' &gt; -Z '
+3 fault_number 
+4 slip rate deficit (mm/yr)
+5 locking fraction (phi)
+6 locking fraction 1-sigma uncertainty
+7 strike-slip plate rate  (Okada U1; see Fig. 2)
+8 dip-slip plate rate (U2)
+9 fault opening plate rate (U3)
+10 Rake angle on sub-segment
+11 Sub-segment centroid longitude
+12 Sub-segment centroid latitude
+13 Sub-segment centroid depth (in km, positive downward)
+14 Node X-index
+15 Node Z-index
+16 Sub-segment X-index
+17 Sub-segment Z-index
+18 Fault sub-segment area (km^2)
+19 Fault sub-segment moment (N-m)
+20 Fault sub-segment moment sigma (N-m)
+21 East component of slip rate on fault
+22 North component of slip rate on fault
+</pre>
+Followed by the 4 coordinates of trapezoid:
+<pre>Lon1 Lat1 Depth1  X1  W1
+.
+.
+Lon4 Lat4 Depth4  X4  W4
+ 
+Example:
+
+&gt; -Z    1         0.00000         0.00000         0.00000        
+30.16152       -20.90267       -21.74386  0.0000E+00  234.860   40.541  
+ 3.78   1   1   1   5
+    234.86091538     40.49830769      3.69230769      0.00000000      
+0.00000000
+    234.84405577     40.58858654      3.69230769     10.14146550      
+5.50326989
+    234.85948846     40.58450192      3.86538462     10.18068770      
+6.89529515
+    234.87646923     40.49388462      3.86538462      0.00000000      
+0.00000000
+</pre>
+
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="nod"></a>
+<p><b>MODL.nod</b> Summary of node information
+</p><pre>format (a10, 3i4, 2(1x,a4), 1x, 3f9.3, 2f10.3, 4f8.1, f8.4, 8f8.1, 1pe10.3)
+
+Item:
+1. Fault name (10-char)
+2. Fault number
+3. Node X index
+4. Node Z index
+5. Hanging wall block name
+6. Foot wall block name
+7. Node Longitude
+8. Node Latitude
+9. Node depth
+10. Node phi
+11. Node phi 1-sigma uncertainty
+12. Fault East slip rate (mm/yr)
+13. Fault North slip rate (mm/yr)
+14. Fault East slip rate  1-sigma uncertainty (mm/yr)
+15. Fault North slip rate  1-sigma uncertainty (mm/yr)
+16. Fault slip rate NE correlation
+17. East component of slip deficit rate (mm/yr)
+18. North component of slip deficit rate (mm/yr)
+19. Azimuth of slip at node (Hanging wall relative to foot wall)
+20. Along strike distance of node (from first node) in km
+21. Across strike (horizontal) distance of node from surface node updip from it, in km
+22. Downdip distance of node from surface node updip from it, in km
+23. Fault strike at node
+24. Fault dip at node
+25. Moment (rate) associated with this node in N-m
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="prout"></a>
+<p><b>MODL_pPP.out</b> (NN=profile number) contain calculated and observed values along profile lines.
+</p><pre>In columns:
+
+First column is a letter: 
+C for calculated values, 
+G for observed gps, 
+T for observed tilt rate, 
+U for observed uplift, 
+S for observed slip vector azimuth, 
+R for observed slip rate, 
+N for fault node, 
+V for volcano,
+Q for earthquake,
+B for intersection with block boundary (fault),
+L for label
+
+'C' lines (calculated values):
+1. C
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. Velocity in x
+6. Velocity in y
+7. Velocity in z
+8. Horizontal velocity
+9. Radial velocity (along profile line)
+10. Transverse velocity (perpendicular to profile)
+11. Azimuth of vector
+12. Tilt rate in nanoradians/year
+13. Radial component of rotation
+14. Transverse component of rotation
+15. Radial component of locking
+16. Transverse component of locking
+17. Radial component of strain velocity
+18. Transverse component of strain velocity
+
+
+'G' lines (GPS): (changed from DEFNODE)
+1. G
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. East flag (0 or 1)
+6. North flag (0 or 1)
+7. Up flag (0 or 1)
+8. Observed E Velocity 
+9. E  1-sigma uncertainty
+10. Observed N Velocity
+11. N  1-sigma uncertainty
+12. Observed up velocity  
+13. Up  1-sigma uncertainty  
+14. Radial velocity (along profile line)
+15. radial  1-sigma uncertainty
+16. Transverse velocity (perpendicular to profile)
+17. Transverse  1-sigma uncertainty
+18. Calculated east velocity
+19. Calculated north velocity
+20. Calculated vertical velocity
+21. Ve residual
+22. Vn residual
+23. Vz residual
+24. Horizontal velocity
+25. Horizontal velocity  1-sigma uncertainty
+26. Velocity azimuth
+27. Velocity azimuth  1-sigma uncertainty
+28. Perpendicular distance from profile (km)
+29. Site name
+30. GPS file name
+31. Block name
+
+
+'R' lines (slip rates):
+1. R
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. Slip rate observed
+6. Slip rate  1-sigma uncertainty
+7. Calculated slip rate
+8. Perpendicular distance from profile (km)
+
+
+'T' lines (tilt rates):
+1. T
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. Tilt rate observed
+6. Tilt rate  1-sigma uncertainty
+7. Calculated tilt rate
+8. Perpendicular distance from profile (km)
+
+
+'S' lines (slip vectors):
+1. A
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. Azimuth
+6. Azimuth  1-sigma uncertainty
+7. Perpendicular distance from profile (km)
+
+
+'V' lines (volcanoes):
+1. V
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. Perpendicular distance from profile (km)
+
+
+'Q' lines (earthquakes):
+1. Q
+2. Longitude
+3. Latitude
+4. Distance along profile (km)
+5. Depth (km)
+6. Perpendicular distance from profile (km)
+
+
+'B' lines (intersection of profile with block boundary fault)
+1. B
+2. Longitude of intersection
+3. Latitude of intersection
+4. Distance along profile (km)
+5. Fault number
+6. Flag (1) if locking used (FF:)
+7. Flag (1) if 3D slip on fault 
+8. Flag (1) if locking was adjusted (FI:)
+9. Flag (1) if fault used to make blocks (FB:)
+10. Flag (1) if fault read in with FA:
+11. Fault name
+
+
+'N' fault nodes along profile line
+1. N
+2. Longitude of node
+3. Latitude of node
+4. Depth of node
+5. Distance along profile (km)
+6. Perpendicular distance from profile (km)
+7. Fault number
+8. Node along-strike index
+9. Node down-dip index
+10. Locking fraction (phi)
+11. Locking fraction uncertainty  
+12. East locking velocity 
+13. North locking velocity 
+14. Total locking velocity 
+
+
+'L' line (profile label):
+The last line contains the label for plotting. Use grep "^L' to extract it.
+
+Line  1 242.5 31.8  46  40
+
+It contains in order the Line number, longitude and latitude of starting point, 
+the profile azimuth, and the width of the included data.
+</pre>
+
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="grid1"></a>
+<p><b>MODL_grid_N.vec</b> file contains vectors at grid points in psvelo format.
+N is the grid number
+
+</p><pre>format(2f9.3, 5f9.2, 1x,a8)
+
+1. Longitude of grid point
+2. Latitude of grid point
+3. East velocity total
+4. North velocity total
+5. East velocity 1-sigma uncertainty
+6. North velocity 1-sigma uncertainty
+7. NE correlation
+8. Site name (point number)
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="grid2"></a>
+<p><b>MODL_grid_N.info</b> file contains complete grid information
+</p><pre>format(2f9.3, 19(1x,f10.2), 2x, a4, a1)
+
+1. Longitude of grid point
+2. Latitude of grid point
+3. East velocity total
+4. North velocity total
+5. East velocity 1-sigma uncertainty
+6. North velocity 1-sigma uncertainty
+7. E component of block rotation
+8. N component of block rotation
+9. E component velocity 1-sigma uncertainty
+10. N component velocity 1-sigma uncertainty
+11. NE correlation of block velocity
+12. E component of block strain
+13. N component of block strain
+14. E component of block strain 1-sigma uncertainty
+15. N component of block strain 1-sigma uncertainty
+16. E component of fault locking strain
+17. N component of fault locking strain
+18. E component of fault locking strain 1-sigma uncertainty
+19. N component of fault locking strain 1-sigma uncertainty
+20. Up component of fault locking strain
+21. Up component of fault locking strain 1-sigma uncertainty
+22. Block name (4-char)
+23. * if point falls on a fault, blank otherwise
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="grid3"></a>
+<p><b>MODL_grid_N_strain_atr.gmt</b>  
+</p><p>Files contain strain rates
+and quadrilaterals that can be used to make color plots of strain rate distribution. 
+Since the header line for each grid point has multiple attributes following the -Z, use awk to select the one to plot.
+</p><pre>First line for each quadrilateral (E -east, N-north):
+1-2 '&gt; -Z'
+3-4 lon, lat of grid center
+5-6 block number and name
+7 is grid area in km^2
+8-13 Block strain Exx Eyy Exy SExx SEyy SExy (nanostrain/yr)
+14-19 Residual block strain and sigmas
+20-25 Block+Res strain and sigmas
+26-28 Total strain (not working)
+29-31 Permanent strain (not working)
+32 Savage and Simpson max block strain (max of |Exx| |Eyy| |Exx + Eyy| )
+33 S&amp;S max res strain
+34 S&amp;S max block+res strain
+35 S&amp;S max total strain
+36 S&amp;S max perm strain
+37 Max block strain (larger principle axis)
+38 Max res strain (larger principle axis)
+39 Max block+res strain (larger principle axis)
+40 Max total strain (larger principle axis)
+41 Max perm strain (larger principle axis)
+
+This line is followed by the (lon lat) of 4 points making up the quadrilateral.
+</pre>
+
+<p>To plot the EE strain rates (for example) on a map:
+</p><pre>awk '{ if ($1 =="&gt;") print $1,$2,$5; else print $1,$2 }' MODL_grid_N_strain_atr.gmt | psxy -Cpalette.cpt .... </pre>
+
+ 
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="sum"></a>
+<p><b>MODL.sum</b> - model statistics by data, block, and pole
+</p><pre>First line:
+format('SUM',1x, a4, 1x, a12, f9.3, 3i6, f10.2, f8.3)
+1. SUM
+2. Model name
+3. Run date (YYYYMMDDHHMM)
+4. Reduced chi**2
+5. Degrees of freedom
+6. Number of data
+7. Number of free parameters
+8. Total chi**2
+9. Probability of fit
+
+For each data type/file
+format(1x,a4, i5, 2(1x, e10.3), 3f9.3, f9.2)
+1. Data aggregate name (Data type, GPS file code, block code, or pole number)
+2. #obs = Number of GPS components
+3. DataVar = Weighted variance of data -&gt; SUM [ Obs/Sigma)**2 ]
+4. Chi2 = Chi**2 of residual -&gt; SUM [ (Res/Sigma)**2 ]
+5. Chi2/N = Chi**2 per observation
+6. Nrms = Normalized rms -&gt; SQRT ( chi**2 / N )
+7. Wrms = weighted rms -&gt; SQRT ( chi**2 / SumWt)
+8. SumWt = sum of weights  -&gt; SUM ( 1.0/ sigma**2 )
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="svs"></a>
+<p><b>MODL.svs</b> - fits to slip vector / transform azimuths
+</p><pre>format(2f9.3, 4f6.1, f7.2, 2(1x, a4), 1x, a4, 1x, a25,1x,a30)
+Items:
+1. Longitude
+2. Latitude
+3. Azimiuth
+4. 1-sigma uncertainty
+5. Calculated
+6. Residual
+7. residual / sigma
+8. Fixed block
+9. Moving block
+10. Input file number
+11. Slip vector label
+12. Input file name
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="srs"></a>
+<p><b>MODL.srs</b> - fits to fault slip rates
+</p><pre>format(2f9.3, 5f6.1, f7.2, 1x, a1, 1x, 2(1x, a4), 2f6.1, 1x, a4, 1x, a25, 1x, a30)
+Items:
+1. Longitude
+2. Latitude
+3. Observed slip rate (mean or minimum)
+4. Observed slip rate (zero or maximim)
+5. 1-sigma uncertainty
+6. Calculated
+7. Residual
+8. Residual divided by sigma
+9. M* or S** (M indicates min/max was fit, S indicates mean/sigma was fit)
+10. Block 1
+11. Block 2
+12. Azimuth of slip rate measurement
+13. Total rate at that point (not corrected for azimuth)
+14. Input file number
+15. Data label
+16. input file name
+</pre>
+<p>* If item #9 is M then #3 is the minimum slip rate, #4 is the maximum
+ slip rate, and #5 is the assigned  1-sigma uncertainty for the 
+inversion (one-quarter the min/max range). The residual is zero if the 
+calculated slip rate #6 falls between the min and max observed. If the 
+calculated is outside the observed range, the residual is how far it 
+falls outside the range.
+</p><p>** If item 9 is S, then #3 is the mean slip rate, #4 is not used, and #5 is the assigned  1-sigma uncertainty in the slip rate.
+
+<br><a href="#menu"></a></p></h4><h6><a href="#menu">Back to Menu</a></h6><hr>
+
+<a name="poles"></a>
+<p><b>MODL.poles</b> - rotation poles. This file lists all the relative 
+rotation poles as lat, lon, omega and as Cartesian vectors with 
+uncertainties.
+</p><pre>format (2i3, 1x, a4, 3f10.4, 6f10.4)
+1. File number
+2. No = pole number
+3. Name = Block/GPS file name
+4. Wx = x component of angular velocity (deg/Myr)
+5. Wy = y component of angular velocity (deg/Myr)
+6. Wz = z component of angular velocity (deg/Myr)
+7. Sx = standard error of Wx
+8. Sy = standard error of Wy
+9. Sz = standard error of Wz
+10. Sxy = covariance of Wx and Wy
+11. Sxz = covariance of Wx and Wz
+12. Syz = covariance of Wy and Wz
+
+and
+
+format (2i3, 1x, a4, 4f10.4, ff8.2)
+1. File number
+2. No = pole number
+3. Name = Block/GPS file name
+4. Lon. = Longitude of pole 
+5. Lat. =  Latitude of pole
+6. Omega = rotation rate (deg/Myr)
+7. SigOm = standard error of rotation rate (deg/Myr)
+8. Emax = maximum axis of lon/lat error ellipse
+9. Emin = minimum axis of lon/lat error ellipse
+10. Az = azimuth of maximum axis of lon/lat error ellipse
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="strain"></a>
+<p><b>MODL.strain</b> - strain rate tensors in nanostrain/year
+</p><pre>Block strain rate tensors in N-E coordinate system
+format (a1,i4, 1x, a4, 2f8.3, 6f10.2, 3f10.4)
+1. T
+2. No = pole number
+3. Block = Block name
+4. Longitude of origin
+5. Latitude of origin
+6. Exx = normal strain rate in East direction
+7. Eyy = normal strain rate in North direction
+8. Exy = shear strain rate
+9. Sxx = standard error in Exx
+10. Syy = standard error in Eyy
+11. Sxy = standard error in Exy
+12. Cxx-yy = covariance between Exx and Eyy
+13. Cxx-xy = covariance between Exx and Exy  
+14. Cyy-xy = covariance between Exy and Eyy            
+
+Block principle strain rates (nanostrain/yr)
+format(a1,i4, 1x, a4, 2f8.3, 6f10.2)
+1. P
+2. No = pole number
+3. Block = Block name
+4. Longitude of origin
+5. Latitude of origin
+6. E1 = most compressive strain rate
+7. SigE1 = standard error in E1
+8. E2 = least compressive strain rate
+9. SigE2 = standard error in E2
+10. A1 = azimuth of E1
+11. SigA1 = standard error in A1
+
+Block residual principle strain rates (ns/yr) and rotations (nanoradians/yr);
+format(a4, 8f10.2)
+1. Block = Block name
+2  E1 = most compressive strain rate
+3. SigE1 = standard error in E1
+4. E2 = least compressive strain rate
+5. SigE2 = standard error in E2
+6. A1 = azimuth of E1
+7. SigA1 = standard error in A1
+8. Rot = rotation rate in nanoradians/year
+9. SigRot = standard error in Rot
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="hc"></a>
+<p><b>MODL.hc</b> - results of hard constraints
+</p><pre>format(a4, i2, 2f10.4, 2(1x,a4), 3f8.2, 1x, e12.4)
+Item
+1. Type
+2. Type code: 1 = slip rate; 2 = azimuth; 3 = rotation
+3. Longitude
+4. Latitude
+5. Fixed block
+6. Moving block
+7. Minimum value
+8. Maximum value
+9. Calculated value
+10. Penalty
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+
+
+<a name="estf"></a>
+MODL_src_EEE.stf  ---- source time histories
+<pre>(i5, 6f15.5)
+Integer counter
+Time from start of event (in decimal years)
+Time in decimal years
+Slip rate history (mm/yr)
+Displacement history (mm)
+Normalized displacement history
+Time from start of event (in days)
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+
+
+<a name="eplt"></a>
+MODL_src_EEE.plt  ---- source parameters
+
+<br>Each line starts with a 3-character source type indentifier:
+<pre>
+DSE - Types 1-8 (Distributed slip, Wang exponential, 1D Boxcar, 1D Gauss,
+2D Gauss, 2D Boxcar, Polygon)
+SDR - Types 9, 11 (Uniform slip plane, Planar crack)
+MGI - Type 10 (Mogi source)
+
+---------------------------------------------------------------------
+Distributed slip event (type = 0 to 8).  
+
+Source type identifier (DSE)
+Source number  
+Fault number  
+Transient spatial type  
+Not used  
+Transient time history type  
+Not used 
+YYYYMMDD start time 
+YYYY.YYY start time 
+Duration in days 
+Longitude
+Latitude 
+P3 - see Parameter list 
+P4 - see Parameter list 
+Amplitude 
+P6 - see Parameter list 
+Time constant
+Migration Rate (km/day)
+Migration azimuth 
+P11
+P12
+P13 - slip azimuth
+Mw
+Average slip
+Moment (N-m)
+Area (km^2)
+YYYYMMDD - start date
+YYYYMMDD - end date
+Number of days (start to end)
+
+format ("DSE ",6i3, 1x,a8, f9.3, f9.1, 2f9.3, 10f9.1, f8.2,  f9.1, 1pe12.4, 1pe12.4, 2(1x,a8), i6)
+
+---------------------------------------------------------------------
+Uniform slip plane (type = 9)  
+
+Source type identifier (SDR)
+Source number  
+Fault number  
+Transient spatial type = 9  
+Not used  
+Transient time history type 
+Not used       
+YYYYMMDD start time 
+YYYY.YYY start time  
+Duration in days  
+Longitude  
+Latitude   
+Depth  
+Downdip width  
+Amplitude   
+Along strike width  
+Strike  
+Dip  
+Rake  
+Migration Rate (km/day)
+Migration azimuth 
+Mw
+Average slip
+Moment (N-m)
+Area (km^2)
+YYYYMMDD - start date
+YYYYMMDD - end date
+Number of days (start to end)
+
+format ("SDR ",6i3, 1x, a8,  f9.3, f9.1, 2f9.3, 9f9.1, f8.2,  f9.1, 1pe12.4, 1pe12.4, 2(1x,a8), i6 )
+
+---------------------------------------------------------------------
+Mogi source (type = 10)
+
+Source type identifier (MGI)
+Source number  
+Fault number - not needed 
+Transient spatial type = 10 
+Not used  
+Transient time history type  
+Not used
+YYYYMMDD start time 
+YYYY.YYY decimal year start time 
+Duration in days  
+Longitude  
+Latitude 
+Depth
+Migration Rate (km/day)
+Migration azimuth 
+Source amplitude
+YYYYMMDD - start date
+YYYYMMDD - end date
+Number of days start to end
+
+format ("MGI ",6i3, 1x,a8, f9.3, f9.1, 2f9.3, 4f9.1, 2(1x,a8), i6, 10f4.1)
+</pre>
+
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="trapr"></a>
+MODL_src_EEE.atr - transient slip distributions on fault 
+
+<p>Files contain fault attributes 
+and quadrilaterals that can be used to make color plots of slip distributions. 
+Since the header line for each fault segment has multiple attributes following the -Z, use awk to select the one to plot.
+
+</p><pre>awk '{ if ($1 =="&gt;") print $1,$2,$4; else print $1,$2 }' MODL_src_001.atr  | psxy -Cpalette.cpt .... </pre>
+
+<p> where $1 = '&gt;', $2 = '-Z' and the attributes are (in order): 
+</p><pre>3 fault_number 
+4 slip amplitude (mm) 
+5 strike-slip component (Okada U1; see Fig. 2)
+6 dip-slip component (U2)*
+7 fault opening component (U3)*
+8 East component of slip*
+9 North component of slip*
+10 Rake angle on sub-segment
+11 Sub-segment centroid longitude
+12 Sub-segment centroid latitude
+13 Sub-segment centroid depth (in km, positive downward)
+14 Transient number
+15 Node X-index
+16 Node Z-index
+17 Sub-segment X-index
+18 Sub-segment Z-index
+19 Date of transient start at patch (Years)
+20 Area of patch (km^2)
+
+* Footwall relative to hanging wall
+</pre>
+Followed by 4 coordinates of the trapezoid:
+<pre>Lon1 Lat1 Depth1  X1  W1
+.
+.
+Lon4 Lat4 Depth4  X4  W4
+ 
+&gt; -Z   1       1.6056       0.0016       0.0000       0.0010       
+0.0004       0.0009  0.0000E+00  235.3400   46.2152  13.04   1  24   6  
+ 1   2
+    235.32998571     46.13531429     12.85714286    656.46578903     
+83.39779242
+    235.32540000     46.29485714     12.85714286    674.21566098     
+86.36659501
+    235.35040000     46.29521429     13.21428571    674.83307374     
+88.32741377
+    235.35402143     46.13522857     13.21428571    657.03441510     
+85.29031594
+</pre>
+
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="tsstat"></a>
+MODL_ts.stat  -  time series information
+<pre>Site
+Time series code
+Block
+Pole
+Longitude
+Latitude
+E velocity
+N velocity
+U velocity
+E velocity 1-sigma uncertainty
+N velocity 1-sigma uncertainty
+U velocity 1-sigma uncertainty
+EN velocity correlation
+Start time of time series
+End time of time series
+Duration (years)
+Number of points
+Weighted rms of total time series (mm)
+Normalized rms
+East weighted rms (mm)
+North weighted rms (mm)
+Up weighted rms (mm)
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="tsdata"></a>
+MODL_ts_data.out  -  time series coefficients
+<p> 
+Coefficients of equation for time series:
+</p><pre>x(t) = Xo + Vt + A sin ( 2 pii t ) + B cos (2 pii t) +
+               + C sin ( 4 pii t ) + D cos (4 pii t)  
+
+Site
+Time series code
+Longitude
+Latitude
+Number of points
+Duration (years)
+E offset Xo
+N offset Xo
+U offset Xo
+E slope V
+N slope V
+U slope V
+E annual coefficient A
+N annual coefficient A
+U annual coefficient A
+E annual coefficient B
+N annual coefficient B
+U annual coefficient B
+E semi-annual coefficient C
+N semi-annual coefficient C
+U semi-annual coefficient C
+E semi-annual coefficient D
+N semi-annual coefficient D
+U semi-annual coefficient D
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="edisp"></a>
+MODL_src_EEE.disp  - predicted displacements for sources
+<pre>Sitename
+Data code 
+Block
+Pole number
+Longitude
+Latitude
+East displacement
+North displacement
+Up displacement
+East displacement 1-sigma uncertainty
+North displacement 1-sigma uncertainty
+Up displacement 1-sigma uncertainty
+Y if site operating during transient, N otherwise
+Year of transient start
+Year of time series start
+Year of time series end
+Not used
+Not used
+Not used
+Year transient starts at this site (if source migration used)
+</pre>
+<p>These displacements are for the entire source, and include future slip if the event extends beyond the time series.
+
+<a href="#menu"></a></p><h6><a href="#menu">Back to Menu</a></h6><hr>
+
+<a name="epoly"></a>
+MODL_src_EEE.poly  - polygon estimating slip area for sources
+<pre>Longitude Latitude X-coordinate W-coordinate
+</pre>
+
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+
+<a name="enod"></a>
+<p><b>MODL_src_EEE.nod</b> Node information for transient EEE
+</p><pre>1. Fault name (10-char)
+2. Fault number
+3. Node X index
+4. Node Z index
+5. Hanging wall block name
+6. Foot wall block name
+7. Node Longitude
+8. Node Latitude
+9. Node depth
+10. Node transient slip amplitude (mm)
+11. Node transient slip 1-sigma uncertainty (mm)
+12. Interseismic East* slip rate (mm/yr)
+13. Interseismic North* slip rate (mm/yr)
+14. Interseismic East slip rate 1-sigma uncertainty (mm/yr)
+15. Interseismic North slip rate 1-sigma uncertainty (mm/yr)
+16. Interseismic slip rate NE correlation
+17. East component* of transient slip at node (mm)
+18. North component* of transient slip at node (mm)
+19. Azimuth* of transient slip at node
+20. Along strike distance X of node (from first node) in km
+21. Across strike (horizontal) distance of node from surface node updip from it, in km
+22. Downdip distance W of node from surface node updip from it, in km
+23. Fault strike at node
+24. Fault dip at node
+25. Start time of transient at this node (decimal years)
+26. Moment associated with this node in N-m
+
+* Footwall relative to hanging wall
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+
+<a name="sources"></a>
+<p><b>MODL.sources</b> Transient source information
+</p><p>Lists information for all sources. 
+</p><pre>
+Source         - Source number
+Spat type      - Spatial transient type 
+Temp type      - Time dependence type
+Tau            - Duration of triangle time element 
+YYYYMMDD       - Year/month/day start and end
+STF area, mm   - area under time function
+Duration, days - Source duration
+Mw  /  Mo      - magnitude and moment (N-M)
+Av Slip, mm    - average slip 
+Area, km^2     - area of slip
+Amplitude (deltaV, km^3)  - change in Volume for Mogi source
+
+-- Followed by list of parameter values and uncertainties
+   Tau rates also list times of start and end of time function element
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="tslice"></a>
+<p><b>MODL_time_JJJ.nod</b>  - displacements at nodes for time window
+</p><p>First line in file is header: 
+</p><pre># Time_1   Time_2  List_of_events</pre>
+Then each line:
+<pre>1. Node X index
+2. Node Z index
+3. Node Longitude
+4. Node Latitude
+5. Node Depth (km)
+6. Node transient slip amplitude (mm)
+7. East component of transient slip amplitude (mm)
+8. North component of transient slip amplitude (mm)
+9. Moment in N-m
+</pre>
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+<a name="tslice3"></a>
+<p><b>MODL_time_JJJ.disp</b>  - displacements at sites for time window
+</p><p>First line in file is header: 
+</p><pre># Time_1   Time_2  List_of_events</pre>
+Then each line:
+<pre>1. Sitename
+2. Data code 
+3. Block
+4. Pole number
+5. Longitude
+6. Latitude
+7. East displacement
+8. North displacement
+9. Up displacement
+10. Site operation code (A - site operating entire window; 
+                         N - site NOT operating entire window; 
+                         P - site operating part of window) 
+11. Start time for site 
+12. End time for site
+</pre>
+
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+
+<a name="tslice2"></a>
+<p><b>MODL_time_JJJ.atr</b> - time window slip distributions on fault 
+
+</p><p>Files contain fault attributes 
+and quadrilaterals that can be used to make color plots of slip distributions. 
+
+</p><p>First line in file is header: 
+</p><pre># Time_1   Time_2  List_of_events</pre>
+
+<p>The header line for each fault segment has multiple attributes following the -Z; use awk to select the one to plot.
+
+</p><pre>awk '{ if ($1 =="&gt;") print $1, $2, $4; else print $1, $2 }' MODL_time_001.atr  | psxy -Cpalette.cpt .... </pre>
+
+<p> where $1 = '&gt;', $2 = '-Z' and the attributes are (in order): 
+</p><pre>3 time window index (from DW: option) 
+4 total slip amplitude (mm) 
+5 strike-slip component (Okada U1; see Fig. 2)
+6 dip-slip component (U2)
+7 fault opening component (U3)
+8 Rake angle on sub-segment
+9 Sub-segment centroid longitude
+10 Sub-segment centroid latitude
+11 Sub-segment centroid depth (in km, positive downward)
+12 Node X-index
+13 Node Z-index
+14 Sub-segment X-index
+15 Sub-segment Z-index
+16 Area of patch (km^2)
+</pre>
+Followed by coordinates of the trapezoid:
+<pre>Lon1 Lat1 Depth1   
+.
+.
+Lon4 Lat4 Depth4   
+ 
+&gt; -Z   1     0.006     0.000     0.006     0.000    90.000   265.502    14.802     -5.10   2   2   1   1
+    265.52165000     14.78570000     -5.00000000
+    265.47878889     14.81039444     -5.00000000
+    265.48159022     14.81915733     -5.20000000
+    265.52448000     14.79450400     -5.20000000
+</pre>
+
+<a href="#menu"><h6>Back to Menu</h6></a><hr>
+
+END
+
+</body></html>

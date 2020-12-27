@@ -1,0 +1,223 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>TDEFNODE User's Manual</title>
+</head>
+<body background="TDEFNODE_gmt_files/bak.html">
+
+<!--comment-->
+
+<center><h2>TDEFNODE User's Manual<br>GMT descriptions</h2></center>
+
+<li><a href="http://web.pdx.edu/%7Emccaf/defnode/manual/tdefnode.html">Return to main manual</a>
+
+<b></b><h2><b>PLOTTING WITH GMT</b></h2>
+
+<p>Plotting csh script <b>td_plot</b> 
+
+</p><p>The script <b>td_plot</b> reads from the command line for input. 
+<br>Set the variable TD_HOME to the directory containing these files and put it in your PATH. 
+<b>td_plot</b> copies all your plot command lines (with time stamp) to a 
+file called .td_plot_history in the working directory.
+
+</p><p>td_plot -p map    - plots maps
+</p><p>td_plot -p insar  - plots InSAR maps
+</p><p>td_plot -p ts1    - plots time series on 1 page
+</p><p>td_plot -p ts     - plots multiple time series per page
+</p><p>td_plot -p xsec   - plots fault cross-sections
+</p><p>td_plot -p stf    - plot source time function displacement or velocity history
+</p><p>td_plot -p prof   - plot profile
+
+</p><p>Command line arguments are as follows. Items in brackets [ ] are required input.
+</p><pre>   -bird            			plot Bird (2002) plate outlines
+   -blk3                                plot .blk3 file on map
+   -blocks            			plot block outlines
+   -bname             			plot names of blocks
+   -calcv             			plot calculated velocities
+   -demets            			plot DeMets NUVEL-1 plate outlines
+   -detrend           			detrend time series
+   -d                                   plot STF displacement (default is velocity)
+   -dl     [ incr ]   			gridline increment in degrees
+   -dt     [ dt ]     			time-axis increment
+   -dx     [ dx ]     			x-axis increment
+   -dy     [ dy ]     			y-axis increment
+   -dz     [ dz ]     			z-axis increment
+   -ehb    [ size ]	        	plot EHB earthquakes (symbol size)
+   -elasv  [ fnum ]           		plot elastic vectors for fault fnum or 'all'
+   -eps                                 remove .eps file
+   -es     [ scale ]  			error ellipse scale
+   -file   [filename color ]            plot misc GMT format file(s) on map, specify color
+   -flock  [ num ]    			fault number or 'all' for locking
+   -fsegs                               plot fault segments on map
+   -fslip                               fault slip vectors
+   -gcmt             			plot GCMT mechanisms
+   -gcode  [ CODE ]   			GPS or InSAR file 4-letter code for time series
+   -grdgrad                             use gradient for SRTM
+   -icode  [ CODE ]   			InSAR 4-letter code
+   -insar        			plot InSAR  
+   -isize  [ size ]                     InSAR dot size in inches
+   -lscale [ Lon Lat Size ]  		Length_scale Lon Lat Size(kms)
+   -mag    [ mag1 mag2 ]		magnitude range
+   -m      [ CODE ]   			model 4-letter code
+   -netv              			plot reference frame vectors on map
+   -node   [ num ]    			plot nodes; all, fault number or 0 for surface nodes
+   -nppg   [ num ]                      number of time series per page (td_plot_time_series)
+   -ns     [ size ]   			fontsize of GPS site names
+   -numb                                write block pole and strain indices on map
+   -numf                                number faults on map
+   -obsv              			plot observed velocities 
+   -o      [ filename ] 		output file name prefix
+   -omev              			plot observed minus elastic vectors 
+   -omrv              			plot observed minus rotation vectors 
+   -pal    [ palette ]               	color palette
+   -pdf                                 remove .pdf file
+   -pfile  [ filename color ]		plot polygon file
+   -phi               			plot PHI on map
+   -ph     [ num ]               	page height in inches
+   -pnum   [ num ]                      profile number to plot
+   -poles                               plot poles on map
+   -p      [ plot_type ]                plotting routine to run (see above)
+   -proline                             plot profile lines on map
+   -pw     [ num ]     			page width in inches
+   -qfault            			plot USGS Quaternary faults 
+   -qkfile [ filename ]			plot earthquakes
+   -resv              			plot residual velocities
+   -rivers                              plot rivers on map
+   -rotv              			plot rotational velocities
+   -season            			remove seasonal signal from time series
+   -site   [ CODE ]   			site code
+   -slab   [ num interval ]   		Fault contours, fault number and contour interval
+   -slip   [ min max ]   		Min and Max_slip for scale bars
+   -srtm   [ filename ]                 put SRTM topography on map
+   -strain [ scale lon lat size ] 	plot strain rates  
+   -strv              			plot permanent strain velocities 
+   -sv              			plot earthquake slip vectors 
+   -trans  [ num ]    			transient number
+   -transv      			plot transient displacement vectors
+   -t      [ T1 T2 ]			Min and max for time-axis plot
+   -var                                 write vertical axis rotation rate on map
+   -votw   [ size ]                     Plot volcanoes (VOTW)
+   -vphi              			plot VPHI on map
+   -vscale [ scale lon lat size ]  	Vector scale Lon Lat Size
+   -wesn   [ W E S N ] 			West East South North degrees
+   -x      [ Xmin Xmax ]		Min and max for x-axis plot
+   -xyfile [ filename color size ]	plot points file
+   -y      [ Ymin Ymax ]		Min and max for y-axis plot
+   -z      [ Zmin Zmax ]		Min and max depths for z-axis plot, EHB or GCMT
+
+
+# get list of options
+td_plot
+
+# Plot residual velocities on map
+td_plot -p map -m srp1 -wesn -122 -109 39 48 -resv -blocks -bname -o srp1_res -pw 7 -dx 2 -dy 2 -vscale .25 -110 40.5 5 
+
+# plot transient slip distribution
+td_plot -p map -m ni32 -wesn 175 179 -42 -37 -o e8 -dx 1 -dy 1 -trans 8 -slip 0 200 -pw 5 -vscale 0.2 178.5 -41.8 10 -ns 6 -blocks -transv -es 0
+
+# plot locking map for fault 1 with calculated vectors
+td_plot -p map -m ni32 -wesn 173 180 -43 -37 -o f1 -dx 1 -dy 1 -flock 1 -slip 0 60  -pw 5 -vphi -vscale 0.1 178.5 -41.8 10 -ns 6 -bird -calcv -es 0
+
+# profile line of GPS
+td_plot -p prof -x 25 150 -dx 50  -y -3 1 -dy 1 -m mnt2 -o mnt2_prof -pnum 1 -pw 5 -ph 2 -calcv -rotv -obsv
+
+# profile line of InSAR
+td_plot -p prof -m sis1 -gcode L021 -pnum 1 -x -0.5 4.0 -dx 1 -y -25 10 -dy 5 -o level_line_1' -pw 5 -insar  
+
+# STF velocity for transient 1, include bars showing InSAR times
+td_plot -p stf -m sis1    -tnum 1 -t 1992 2015 -dt 5 -y -5 40 -dy  5 -o stfv -pw 5 -insar
+
+# STF displacement for transient 1
+td_plot -p stf -m sis1 -d -tnum 1 -t 1992 2015 -dt 5 -y -5 80 -dy 20 -o stfd -pw 5 
+
+</pre>
+
+
+<p><b>Using GREP and AWK </b>
+
+</p><p>Use <i>grep</i> and <i>awk</i> to extract desired columns from the 
+files. For example, to get the profile distance and the 
+observed East GPS velocity and sigma from the profile file:
+</p><pre>% grep '^G' MODL_p01.out | awk '{ print $4, $5, $6 }' | psxy ...
+</pre>
+grep '^G' gets all the lines starting with 'G' from the file, the 'awk' 
+command prints the 4th, 5th, and 6th entries from each line. 
+
+<p>
+<b>Vector files</b>. Old defnode output many vector files, these have been combined into one, called MODL.vsum.
+To make vector plottable files in psvelo -Se format:
+</p><pre># observed vectors
+awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $12, $17, $15, $20, $27, $1 }' MODL.vsum &gt; MODL.obs 
+
+# calculated vectors
+awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $13, $18, $15, $20, $27, $1 }' MODL.vsum &gt; MODL.vec 
+
+# residual vectors
+awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $14, $19, $15, $20, $27, $1 }' MODL.vsum &gt; MODL.res
+
+# block rotational vectors
+awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $38, $39, $40, $41, $42, $1 }' MODL.vsum &gt; MODL.rot
+
+# velocity field rotation vectors
+awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $43, $44, $45, $46, $47, $1 }' MODL.vsum &gt; MODL.net
+
+# fault locking elastic strain rate vectors
+awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $28, $29, $31, $32, " 0.000 ", $1 }' MODL.vsum &gt; MODL.slp
+
+# permanent strain rate vectors
+awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $34, $35, $36, $37, " 0.000 ", $1 }' MODL.vsum &gt; MODL.str
+
+# observed vectors with block rotations removed
+awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $12-$38, $17-$39, sqrt($15*$15+$40*$40), sqrt($20*$20+$41*$41), $42, $1 }' MODL.vsum &gt; MODL.omr
+</pre>
+
+<p>Similar commands can be used for the displacements (MODL.dsum) and 
+time series displacements (MODL.tsum) but check the columns for those 
+files.
+
+
+</p><p>Some files contain fault attributes and quadrilaterals that can 
+be used to make color plots of slip distributions. 
+The header line for each fault segment has multiple attributes following
+ the -Z, use awk to select the one to plot. For example, 
+
+</p><pre>awk '{ if ($1 =="&gt;") print $1,$2,$4; else print $1,$2 }' MODL_flt_001_atr.gmt  | psxy -Cpalette.cpt .... </pre>
+
+<p> where $1 = '&gt;', $2 = '-Z' and $4 is the attribute to be plotted. 
+
+</p><p>The MODL_blk.gmt file contains the block outlines, with multiple attributes on the header line; 
+the attributes are (in order): (3)block_number, (4)pole_number, (5)block_name
+
+</p><p># filled blocks, fill color based on pole number
+</p><pre>awk '{ if ($1 =="&gt;") print $1,$2,$4; else print $1,$2 }' MODL_blk.gmt | psxy -Cpalette.cpt -L -M ... </pre>
+
+<p># unfilled block outlines
+</p><pre>psxy MODL_blk.gmt -W5/100/100/100  -L -M ... </pre>
+
+<p># dashed lines for profiles, for profile #19 in this case,
+</p><pre>grep '^C' MODL_p19.out | awk ' { print $2, $3 } ' | psxy -W4/0/200/200t5_5:5 ... </pre>
+
+<p># dots at all node positions
+</p><pre>awk '{print $7, $8}' MODL.nod |psxy -Sc.1i .... </pre>
+
+<p># dots at surface node positions
+</p><pre>awk '{if ($4==1) print $7, $8}' MODL.nod |psxy -Sc.1i  ... </pre>
+
+<p>#label node with fault number at surface only
+</p><pre>awk '{if ($4==1) print $7, $8, " 7 0 0 CM ", $2}' MODL.nod |pstext .... </pre>
+
+<p># label blocks with names ( -W255/255/255 results in whiting out beneath label)
+</p><pre>awk ' { print $2, $3, " 8 0 0 CM ", $1 } ' MODL_blocks.out | pstext -W255/255/255  ... </pre>
+
+<p># plot pole positions (dot) and error ellipses
+</p><pre>awk ' { print $4, $5 } ' MODL_blocks.out | psxy -Sc0.1i .... </pre>
+<pre>awk ' { print $4, $5, $8, $9*111.2, $10*111.2 } ' MODL_blocks.out | psxy -SE .... </pre>
+
+<p># plot fault slip vectors halfway between fault nodes
+</p><pre>awk '{ print $3, $4, $5, $6, $7, $8, $9, $10 }' MODL_mid.vec | psvelo -Se .... </pre>
+
+<p># principle axes for block strain rates
+</p><pre>awk ' { print $2, $3, $21, $19, $23 } ' MODL_blocks.out | psvelo -Sx0.1 ... </pre>
+
+
+
+</li></body></html>
