@@ -1,36 +1,38 @@
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<html>
+<head>
 <title>TDEFNODE User's Manual</title>
 </head>
 
-<body background="TDEFNODE_io_files/bak.html">
-<!--comment-->
+<body background="../bak.jpg">
+<!comment>
 
-<center><h2>TDEFNODE User's Manual<br>I/O descriptions</h2></center>
-<b></b><h2><b>INPUT FILES</b> </h2>
+<center><h2>TDEFNODE User's Manual<br>I/O descriptions</center></h2>
+<b><h2>INPUT FILES</b> </h2>
 <h4><p>Input files are described in the manual. 
 
-<b></b></p></h4><h2><b>OUTPUT FILES</b> </h2>
+<b><h2>OUTPUT FILES</b> </h2>
 
 <h4>
 <p>All output files are put in model directory.
 
-</p><p>Not all of these listings have been checked intensely for for accuracy, some could be different than shown. 
+<p>Not all of these listings have been checked intensely for for accuracy, some could be different than shown. 
 Let me know if something looks awry. Not all files are described here
 
-</p><p><a name="menu">Menu</a>
+<p><a name = menu >Menu</a>
 
-<br><a href="http://web.pdx.edu/%7Emccaf/defnode/manual/tdefnode.html">Return to main manual</a>
-<br><a href="http://web.pdx.edu/%7Emccaf/defnode/manual/tdefnode_gmt.html">Plotting with GMT</a>
+<br><a href= tdefnode.html>Return to main manual</a>
+<br><a href= tdefnode_gmt.html>Plotting with GMT</a>
 
-</p><pre>The rake angle follows Aki&amp;Richards p. 106:
+<pre>
+The rake angle follows Aki&Richards p. 106:
    rake =  90         thrust
    rake = -90 or 270  normal
    rake =   0 or 360  sinstral, left-lateral
    rake = 180 or -180 dextral, right-lateral
 </pre>
 
-<pre>MODL = 4-character experiment name
+<pre>
+MODL = 4-character experiment name
 NNNN = 4-character GPS data code
 IIII = 4-character InSAR data code
 SSSS = 4-character site name
@@ -43,71 +45,76 @@ JJJ  = 3-digit index
 
 </pre>
 <p>General block model files
-</p><pre>
+<pre>
+
 MODL.cov              - covariance matrix ('+wcv')
 MODL.der              - derivatives matrix ('+wdr')
 MODL.dgt              - residual strain rates and rotations for blocks (+dgt)
-<a href="#hc">MODL.hcs</a>              - result of hard constraints (HC:)
-<a href="#nod">MODL.nod</a>              - summary of node information 
-<a href="#dsum">MODL.dsum</a>             - observed and calculated displacements (DS:)
-<a href="#vsum">MODL.vsum</a>             - observed and calculated velocity vectors (GP:)
-<a href="#poles">MODL.poles</a>            - summary of poles (relative poles for all block pairs)
-<a href="#strain">MODL.strain</a>           - summary of strain rate tensors
+<a href= #hc>MODL.hcs</a>              - result of hard constraints (HC:)
+<a href= #nod>MODL.nod</a>              - summary of node information 
+<a href= #dsum>MODL.dsum</a>             - observed and calculated displacements (DS:)
+<a href= #vsum>MODL.vsum</a>             - observed and calculated velocity vectors (GP:)
+<a href= #poles>MODL.poles</a>            - summary of poles (relative poles for all block pairs)
+<a href= #strain>MODL.strain</a>           - summary of strain rate tensors
 MODL.prm              - input parameters
 MODL_prm.in           - input parameters
 MODL_prm.out          - output parameters
-<a href="#srs">MODL.srs</a>              - summary of fits to slip rate data (SR:)
+<a href= #srs>MODL.srs</a>              - summary of fits to slip rate data (SR:)
 MODL.sss              - summary of fits to strain rate data (SS:)
-<a href="#sum">MODL.sum</a>              - summary of fits to data, poles, blocks
-<a href="#svs">MODL.svs</a>              - summary of fits to slip vectors/fault azimuths (SV:)
+<a href= #sum>MODL.sum</a>              - summary of fits to data, poles, blocks
+<a href= #svs>MODL.svs</a>              - summary of fits to slip vectors/fault azimuths (SV:)
 MODL.tlt              - summary of fits to tilt rate data (TI:)
-<a href="#fapr">MODL_flt_atr.gmt </a>     - interseismic fault locking distributions for all faults
-<a href="#fapr">MODL_flt_FFF_atr.gmt </a> - interseismic fault locking distribution for single fault number FFF (+atr)
-<a href="#blkout">MODL_blocks.out</a>       - block information output (see below)
-<a href="#grid1">MODL_grid_N.vec</a>       - predicted vectors for grid points in psvelo format, N is grid number (GR:)
-<a href="#grid2">MODL_grid_N.info</a>      - predicted vectors for grid points, N is grid number (GR:)
-<a href="#grid3">MODL_grid_N_strain_atr.gmt</a>       - grid of strain rates, N is grid number (GR:)
-<a href="#fslip">MODL_fslip.out</a>        - relative velocities at requested points (FS:)
+<a href= #fapr>MODL_flt_atr.gmt </a>     - interseismic fault locking distributions for all faults
+<a href= #fapr>MODL_flt_FFF_atr.gmt </a> - interseismic fault locking distribution for single fault number FFF (+atr)
+<a href= #blkout>MODL_blocks.out</a>       - block information output (see below)
+<a href= #grid1>MODL_grid_N.vec</a>       - predicted vectors for grid points in psvelo format, N is grid number (GR:)
+<a href= #grid2>MODL_grid_N.info</a>      - predicted vectors for grid points, N is grid number (GR:)
+<a href= #grid3>MODL_grid_N_strain_atr.gmt</a>       - grid of strain rates, N is grid number (GR:)
+<a href= #fslip>MODL_fslip.out</a>        - relative velocities at requested points (FS:)
 MODL_info.out         - information on each subsegment of faults (+inf)
 MODL_model.input      - poles, block boundaries and faults in control file format
 MODL_control.backup   - copy of control file
-<a href="#midvec">MODL_mid.vec</a>          - relative block vectors on faults at midpoints between surface nodes
-<a href="#prout">MODL_pPPP.out</a>          - output for profile number PPP (PR:)
+<a href= #midvec>MODL_mid.vec</a>          - relative block vectors on faults at midpoints between surface nodes
+<a href= #prout>MODL_pPPP.out</a>          - output for profile number PPP (PR:)
 MODL_removed.vec      - vectors removed from inversion (RM:, etc)
 MODL_sa.out           - summary of simulated annealing run with final solution (+sim)
-<a href="#insout">MODL_IIII.insar</a>       - InSAR output (IS:)
+<a href= #insout>MODL_IIII.insar</a>       - InSAR output (IS:)
 
 </pre>
 <p>Files relating to time series (TS:)
-</p><pre>
-<a href="#tsum">MODL.tsum</a>              - observed and calculated velocities of time series  
-<a href="#tsout">MODL/ts/SSSS_NNNN.out</a>  - time series output (observed and calculated)  
-<a href="#tssyn">MODL/ts/SSSS_NNNN.syn</a>  - time series output (synthetics)  
-<a href="#tsstat">MODL_ts.stat</a>           - time series statistics  
-<a href="#tsdata">MODL_ts_data.out</a>       - time series coefficients  
+<pre>
+
+<a href= #tsum>MODL.tsum</a>              - observed and calculated velocities of time series  
+<a href= #tsout>MODL/ts/SSSS_NNNN.out</a>  - time series output (observed and calculated)  
+<a href= #tssyn>MODL/ts/SSSS_NNNN.syn</a>  - time series output (synthetics)  
+<a href= #tsstat>MODL_ts.stat</a>           - time series statistics  
+<a href= #tsdata>MODL_ts_data.out</a>       - time series coefficients  
 
 </pre>
 <p>Files relating to transients  (ES:)
-</p><pre>
-<a href="#sources">MODL.sources </a>         - description of all sources
-<a href="#trapr">MODL_src_EEE.atr </a>     - transient slip distributions  
-<a href="#eplt">MODL_src_EEE.plt </a>     - source parameters
-<a href="#estf">MODL_src_EEE.stf </a>     - time history
-<a href="#epoly">MODL_src_EEE.poly </a>    - source polygon
+<pre>
+
+<a href= #sources>MODL.sources </a>         - description of all sources
+<a href= #trapr>MODL_src_EEE.atr </a>     - transient slip distributions  
+<a href= #eplt>MODL_src_EEE.plt </a>     - source parameters
+<a href= #estf>MODL_src_EEE.stf </a>     - time history
+<a href= #epoly>MODL_src_EEE.poly </a>    - source polygon
 MODL_src_EEE.pxy      - source centroid (longitude, latitude)
-<a href="#edisp">MODL_src_EEE.disp </a>    - predicted source displacement vectors
-<a href="#enod">MODL_src_EEE.nod </a>     - information at nodes
+<a href= #edisp>MODL_src_EEE.disp </a>    - predicted source displacement vectors
+<a href= #enod>MODL_src_EEE.nod </a>     - information at nodes
 
 </pre>
 <p>Files relating to time windows  (DW:)
-</p><pre><a href="#tslice">MODL_time_JJJ.nod </a>    - time window displacements at nodes
-<a href="#tslice2">MODL_time_JJJ.atr </a>    - time window displacement distribution on fault
-<a href="#tslice3">MODL_time_JJJ.disp </a>   - time window displacements at sites
+<pre>
+<a href= #tslice>MODL_time_JJJ.nod </a>    - time window displacements at nodes
+<a href= #tslice2>MODL_time_JJJ.atr </a>    - time window displacement distribution on fault
+<a href= #tslice3>MODL_time_JJJ.disp </a>   - time window displacements at sites
 
 </pre>
 
 <p>Files ending with .gmt are plot files for GMT and are described in the PLOTTING section.
-</p><pre>Plot with psxy:
+<pre>
+Plot with psxy:
 MODL_blk.gmt      - all block outlines
 MODL_blk0.gmt     - all fault segments
 MODL_blk1.gmt     - all pseudo-faults
@@ -119,10 +126,11 @@ MODL_obs.gmt      - tilt lines and strain network polygons
 </pre>
 
 <hr>
-<a name="dsum"></a>
+<a name = dsum></a>
 <br>MODL.dsum  ----  summary of displacements  
 <p>These displacements include all sources plus the secular motions between the times Year1 and Year2.
-</p><pre>Site name 
+<pre>
+Site name 
 Data code 
 Block     
 Pole      
@@ -154,11 +162,12 @@ E calculated site secular velocity
 N calculated site secular velocity
 U calculated site secular velocity
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="vsum"></a>
+<a name = vsum></a>
 MODL.vsum  ----  summary of velocities  
-<pre> 1 Site name 
+<pre>
+ 1 Site name 
  2 Data code 
  3 Block code     
  4 Pole code     
@@ -211,12 +220,13 @@ MODL.vsum  ----  summary of velocities
 51 Sum of squares of weighted residuals (E,N,U)
 52 Site elevation
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
 
-<a name="tsum"></a>
+<a name = tsum></a>
 MODL.tsum  ----  summary of time series velocities  
-<pre> 1 Site name 
+<pre>
+ 1 Site name 
  2 Data code 
  3 Block code     
  4 Pole code     
@@ -260,33 +270,24 @@ MODL.tsum  ----  summary of time series velocities
 42 N calculated network velocity 1-sigma uncertainty
 43 NE calculated network correlation 
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="tsout"></a>
+<a name = tsout></a>
 MODL/ts/SSSS_NNNN.out  ----  time series observed and calculated
-<pre> MODL = model name
+<pre>
+ MODL = model name
  SSSS = 4-char sitename
  NNNN = 4-char network name
 
 
 Header line starts with 'H'
 Entries are 
-  Longitude  latutude       Ve       Vn      Esig    Nsig    Rho    Site
-     Data Blok Pole     Vz     Zsig    Start    End     E_off   N_off   
-Z_off
-H  124.0351   -5.9047    -16.76    -60.21   15.60   15.60   0.0000  491A
-     sGPS BSea P008    0.00   15.60  2006.72  2008.94   11.03   21.60  
--21.75
+  Longitude  latutude       Ve       Vn      Esig    Nsig    Rho    Site     Data Blok Pole     Vz     Zsig    Start    End     E_off   N_off   Z_off
+H  124.0351   -5.9047    -16.76    -60.21   15.60   15.60   0.0000  491A     sGPS BSea P008    0.00   15.60  2006.72  2008.94   11.03   21.60  -21.75
 
-Data lines  ---- the first set of positions in brackets [ ] are 
-corrected for the offset and slope; second set in curly brackets { } are
- not
-  Year     [ E_obs   E_calc    E_sig    E_res    N_obs   N_calc    N_sig
-    N_res    Z_obs   Z_calc    Z_sig    Z_res ] { E_obs   N_obs    Z_obs
-   E_calc   N_calc  Z_calc }Site     Data
-2006.7151   -11.03     1.07     9.75   -12.10   -21.60     2.23     4.20
-   -23.83    21.75     0.16    20.52    21.59     0.00     0.00     0.00
-    12.10    23.83   -21.59 491A     sGPS
+Data lines  ---- the first set of positions in brackets [ ] are corrected for the offset and slope; second set in curly brackets { } are not
+  Year     [ E_obs   E_calc    E_sig    E_res    N_obs   N_calc    N_sig    N_res    Z_obs   Z_calc    Z_sig    Z_res ] { E_obs   N_obs    Z_obs   E_calc   N_calc  Z_calc }Site     Data
+2006.7151   -11.03     1.07     9.75   -12.10   -21.60     2.23     4.20   -23.83    21.75     0.16    20.52    21.59     0.00     0.00     0.00    12.10    23.83   -21.59 491A     sGPS
 
 1  Time 
 2  E obs detrended
@@ -314,11 +315,12 @@ corrected for the offset and slope; second set in curly brackets { } are
 24 Network code
 
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="tssyn"></a>
+<a name = tssyn></a>
 MODL/ts/SSSS_NNNN.syn  ----  time series synthetics
-<pre> MODL = 4-char model name
+<pre>
+ MODL = 4-char model name
  SSSS = 4-char sitename
  NNNN = 4-char network name
 
@@ -346,12 +348,13 @@ MODL/ts/SSSS_NNNN.syn  ---- synthetic time series output
 12 Network code
 
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
 
-<a name="insout"></a>
+<a name = insout></a>
 InSAR output files
-<pre>MODL_IIII.insar
+<pre>
+MODL_IIII.insar
  IIII = 4-char code for InSAR file
 
 Header line 
@@ -406,14 +409,13 @@ output lines
 27. Vertical gradient correction to LOS
 
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="fslip"></a>
-<p><b>MODL_fslip.out</b> - relative velocities between blocks at 
-requested points (from FS: option). In psvelo -Se format. The site_name 
-field has the block pairs and this is followed 
+<a name = fslip></a>
+<p><b>MODL_fslip.out</b> - relative velocities between blocks at requested points (from FS: option). In psvelo -Se format. The site_name field has the block pairs and this is followed 
 by the total velocity and its 1-sigma uncertainty.
-</p><pre>format (2f10.4, 4f8.1, f9.4, 1x, a9, 2f8.1)
+<pre>
+format (2f10.4, 4f8.1, f9.4, 1x, a9, 2f8.1)
 Items:
 1. Longitude 
 2. Latitude 
@@ -431,11 +433,12 @@ Items:
 14. Velocity parallel to optional Azimuth
 15. Velocity normal to optional Azimuth
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="midvec"></a>
+<a name = midvec></a>
 <b>MODL_mid.vec</b> - fault information at mid-points between each pair of nodes along faults
-<pre>format(2f8.3, 4f7.1, f7.3, 1x, a10,2(1x,a4),i4,4f6.1,2f7.3,6f6.1)
+<pre>
+format(2f8.3, 4f7.1, f7.3, 1x, a10,2(1x,a4),i4,4f6.1,2f7.3,6f6.1)
 Items:
 1. Longitude 
 2. Latitude 
@@ -461,12 +464,13 @@ Items:
 22. Fault strike
 23. Fault dip
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="blkout"></a>
+<a name = blkout></a>
 <b>MODL_blocks.out</b> - summary of block information
 
-<pre>format(a4, 4f8.3, 2f8.3, 2f7.2, f6.2, 4f6.1, f8.4, f6.1, f7.3, 1x, f8.1, 14f8.1, i5, 3f6.1, 2f8.2, f8.1)
+<pre>
+format(a4, 4f8.3, 2f8.3, 2f7.2, f6.2, 4f6.1, f8.4, f6.1, f7.3, 1x, f8.1, 14f8.1, i5, 3f6.1, 2f8.2, f8.1)
 Items:
 1. Block name (4-char)
 2. Block centroid longitude
@@ -508,22 +512,23 @@ Items:
 38. Weighted RMS of GPS in block
 39. Probability that GPS is satisfied (Q of Press et al., 1989; pp. 502-503)
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="fapr"></a>
+<a name = fapr></a>
 MODL_flt_atr.gmt - interseismic slip distributions on all faults
 <p>MODL_flt_FFF_atr.gmt - interseismic slip distributions on fault number FFF (if +atr flag set)
 
-</p><p>Files contain fault attributes 
+<p>Files contain fault attributes 
 and quadrilaterals that can be used to make color plots of locking distributions. 
 Since the header line for each fault segment has multiple attributes following the -Z, use awk to select the one to plot.
 
-</p><p>To plot the slip rate deficit for fault 1:
-</p><pre>awk '{ if ($1 =="&gt;") print $1,$2,$4; else print $1,$2 }' MODL_flt_001_atr.gmt  | psxy -Cpalette.cpt .... </pre>
+<p>To plot the slip rate deficit for fault 1:
+<pre>awk '{ if ($1 ==">") print $1,$2,$4; else print $1,$2 }' MODL_flt_001_atr.gmt  | psxy -Cpalette.cpt .... </pre>
 
 <p>The entries on the segment header line are (in order): 
 
-</p><pre>1-2 ' &gt; -Z '
+<pre>
+1-2 ' > -Z '
 3 fault_number 
 4 slip rate deficit (mm/yr)
 5 locking fraction (phi)
@@ -546,31 +551,27 @@ Since the header line for each fault segment has multiple attributes following t
 22 North component of slip rate on fault
 </pre>
 Followed by the 4 coordinates of trapezoid:
-<pre>Lon1 Lat1 Depth1  X1  W1
+<pre>
+Lon1 Lat1 Depth1  X1  W1
 .
 .
 Lon4 Lat4 Depth4  X4  W4
  
 Example:
 
-&gt; -Z    1         0.00000         0.00000         0.00000        
-30.16152       -20.90267       -21.74386  0.0000E+00  234.860   40.541  
- 3.78   1   1   1   5
-    234.86091538     40.49830769      3.69230769      0.00000000      
-0.00000000
-    234.84405577     40.58858654      3.69230769     10.14146550      
-5.50326989
-    234.85948846     40.58450192      3.86538462     10.18068770      
-6.89529515
-    234.87646923     40.49388462      3.86538462      0.00000000      
-0.00000000
+> -Z    1         0.00000         0.00000         0.00000        30.16152       -20.90267       -21.74386  0.0000E+00  234.860   40.541   3.78   1   1   1   5
+    234.86091538     40.49830769      3.69230769      0.00000000      0.00000000
+    234.84405577     40.58858654      3.69230769     10.14146550      5.50326989
+    234.85948846     40.58450192      3.86538462     10.18068770      6.89529515
+    234.87646923     40.49388462      3.86538462      0.00000000      0.00000000
 </pre>
 
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="nod"></a>
+<a name = nod></a>
 <p><b>MODL.nod</b> Summary of node information
-</p><pre>format (a10, 3i4, 2(1x,a4), 1x, 3f9.3, 2f10.3, 4f8.1, f8.4, 8f8.1, 1pe10.3)
+<pre>
+format (a10, 3i4, 2(1x,a4), 1x, 3f9.3, 2f10.3, 4f8.1, f8.4, 8f8.1, 1pe10.3)
 
 Item:
 1. Fault name (10-char)
@@ -599,11 +600,12 @@ Item:
 24. Fault dip at node
 25. Moment (rate) associated with this node in N-m
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="prout"></a>
+<a name = prout></a>
 <p><b>MODL_pPP.out</b> (NN=profile number) contain calculated and observed values along profile lines.
-</p><pre>In columns:
+<pre>
+In columns:
 
 First column is a letter: 
 C for calculated values, 
@@ -762,13 +764,14 @@ It contains in order the Line number, longitude and latitude of starting point,
 the profile azimuth, and the width of the included data.
 </pre>
 
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="grid1"></a>
+<a name = grid1></a>
 <p><b>MODL_grid_N.vec</b> file contains vectors at grid points in psvelo format.
 N is the grid number
 
-</p><pre>format(2f9.3, 5f9.2, 1x,a8)
+<pre>
+format(2f9.3, 5f9.2, 1x,a8)
 
 1. Longitude of grid point
 2. Latitude of grid point
@@ -779,11 +782,12 @@ N is the grid number
 7. NE correlation
 8. Site name (point number)
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="grid2"></a>
+<a name = grid2></a>
 <p><b>MODL_grid_N.info</b> file contains complete grid information
-</p><pre>format(2f9.3, 19(1x,f10.2), 2x, a4, a1)
+<pre>
+format(2f9.3, 19(1x,f10.2), 2x, a4, a1)
 
 1. Longitude of grid point
 2. Latitude of grid point
@@ -809,15 +813,16 @@ N is the grid number
 22. Block name (4-char)
 23. * if point falls on a fault, blank otherwise
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="grid3"></a>
+<a name = grid3></a>
 <p><b>MODL_grid_N_strain_atr.gmt</b>  
-</p><p>Files contain strain rates
+<p>Files contain strain rates
 and quadrilaterals that can be used to make color plots of strain rate distribution. 
 Since the header line for each grid point has multiple attributes following the -Z, use awk to select the one to plot.
-</p><pre>First line for each quadrilateral (E -east, N-north):
-1-2 '&gt; -Z'
+<pre>
+First line for each quadrilateral (E -east, N-north):
+1-2 '> -Z'
 3-4 lon, lat of grid center
 5-6 block number and name
 7 is grid area in km^2
@@ -827,10 +832,10 @@ Since the header line for each grid point has multiple attributes following the 
 26-28 Total strain (not working)
 29-31 Permanent strain (not working)
 32 Savage and Simpson max block strain (max of |Exx| |Eyy| |Exx + Eyy| )
-33 S&amp;S max res strain
-34 S&amp;S max block+res strain
-35 S&amp;S max total strain
-36 S&amp;S max perm strain
+33 S&S max res strain
+34 S&S max block+res strain
+35 S&S max total strain
+36 S&S max perm strain
 37 Max block strain (larger principle axis)
 38 Max res strain (larger principle axis)
 39 Max block+res strain (larger principle axis)
@@ -841,14 +846,15 @@ This line is followed by the (lon lat) of 4 points making up the quadrilateral.
 </pre>
 
 <p>To plot the EE strain rates (for example) on a map:
-</p><pre>awk '{ if ($1 =="&gt;") print $1,$2,$5; else print $1,$2 }' MODL_grid_N_strain_atr.gmt | psxy -Cpalette.cpt .... </pre>
+<pre>awk '{ if ($1 ==">") print $1,$2,$5; else print $1,$2 }' MODL_grid_N_strain_atr.gmt | psxy -Cpalette.cpt .... </pre>
 
  
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="sum"></a>
+<a name = sum></a>
 <p><b>MODL.sum</b> - model statistics by data, block, and pole
-</p><pre>First line:
+<pre>
+First line:
 format('SUM',1x, a4, 1x, a12, f9.3, 3i6, f10.2, f8.3)
 1. SUM
 2. Model name
@@ -864,18 +870,19 @@ For each data type/file
 format(1x,a4, i5, 2(1x, e10.3), 3f9.3, f9.2)
 1. Data aggregate name (Data type, GPS file code, block code, or pole number)
 2. #obs = Number of GPS components
-3. DataVar = Weighted variance of data -&gt; SUM [ Obs/Sigma)**2 ]
-4. Chi2 = Chi**2 of residual -&gt; SUM [ (Res/Sigma)**2 ]
+3. DataVar = Weighted variance of data -> SUM [ Obs/Sigma)**2 ]
+4. Chi2 = Chi**2 of residual -> SUM [ (Res/Sigma)**2 ]
 5. Chi2/N = Chi**2 per observation
-6. Nrms = Normalized rms -&gt; SQRT ( chi**2 / N )
-7. Wrms = weighted rms -&gt; SQRT ( chi**2 / SumWt)
-8. SumWt = sum of weights  -&gt; SUM ( 1.0/ sigma**2 )
+6. Nrms = Normalized rms -> SQRT ( chi**2 / N )
+7. Wrms = weighted rms -> SQRT ( chi**2 / SumWt)
+8. SumWt = sum of weights  -> SUM ( 1.0/ sigma**2 )
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="svs"></a>
+<a name = svs></a>
 <p><b>MODL.svs</b> - fits to slip vector / transform azimuths
-</p><pre>format(2f9.3, 4f6.1, f7.2, 2(1x, a4), 1x, a4, 1x, a25,1x,a30)
+<pre>
+format(2f9.3, 4f6.1, f7.2, 2(1x, a4), 1x, a4, 1x, a25,1x,a30)
 Items:
 1. Longitude
 2. Latitude
@@ -890,11 +897,12 @@ Items:
 11. Slip vector label
 12. Input file name
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="srs"></a>
+<a name = srs></a>
 <p><b>MODL.srs</b> - fits to fault slip rates
-</p><pre>format(2f9.3, 5f6.1, f7.2, 1x, a1, 1x, 2(1x, a4), 2f6.1, 1x, a4, 1x, a25, 1x, a30)
+<pre>
+format(2f9.3, 5f6.1, f7.2, 1x, a1, 1x, 2(1x, a4), 2f6.1, 1x, a4, 1x, a25, 1x, a30)
 Items:
 1. Longitude
 2. Latitude
@@ -913,21 +921,15 @@ Items:
 15. Data label
 16. input file name
 </pre>
-<p>* If item #9 is M then #3 is the minimum slip rate, #4 is the maximum
- slip rate, and #5 is the assigned  1-sigma uncertainty for the 
-inversion (one-quarter the min/max range). The residual is zero if the 
-calculated slip rate #6 falls between the min and max observed. If the 
-calculated is outside the observed range, the residual is how far it 
-falls outside the range.
-</p><p>** If item 9 is S, then #3 is the mean slip rate, #4 is not used, and #5 is the assigned  1-sigma uncertainty in the slip rate.
+<p>* If item #9 is M then #3 is the minimum slip rate, #4 is the maximum slip rate, and #5 is the assigned  1-sigma uncertainty for the inversion (one-quarter the min/max range). The residual is zero if the calculated slip rate #6 falls between the min and max observed. If the calculated is outside the observed range, the residual is how far it falls outside the range.
+<p>** If item 9 is S, then #3 is the mean slip rate, #4 is not used, and #5 is the assigned  1-sigma uncertainty in the slip rate.
 
-<br><a href="#menu"></a></p></h4><h6><a href="#menu">Back to Menu</a></h6><hr>
+<br><a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="poles"></a>
-<p><b>MODL.poles</b> - rotation poles. This file lists all the relative 
-rotation poles as lat, lon, omega and as Cartesian vectors with 
-uncertainties.
-</p><pre>format (2i3, 1x, a4, 3f10.4, 6f10.4)
+<a name = poles></a>
+<p><b>MODL.poles</b> - rotation poles. This file lists all the relative rotation poles as lat, lon, omega and as Cartesian vectors with uncertainties.
+<pre>
+format (2i3, 1x, a4, 3f10.4, 6f10.4)
 1. File number
 2. No = pole number
 3. Name = Block/GPS file name
@@ -955,11 +957,12 @@ format (2i3, 1x, a4, 4f10.4, ff8.2)
 9. Emin = minimum axis of lon/lat error ellipse
 10. Az = azimuth of maximum axis of lon/lat error ellipse
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="strain"></a>
+<a name = strain></a>
 <p><b>MODL.strain</b> - strain rate tensors in nanostrain/year
-</p><pre>Block strain rate tensors in N-E coordinate system
+<pre>
+Block strain rate tensors in N-E coordinate system
 format (a1,i4, 1x, a4, 2f8.3, 6f10.2, 3f10.4)
 1. T
 2. No = pole number
@@ -1002,11 +1005,12 @@ format(a4, 8f10.2)
 8. Rot = rotation rate in nanoradians/year
 9. SigRot = standard error in Rot
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="hc"></a>
+<a name = hc></a>
 <p><b>MODL.hc</b> - results of hard constraints
-</p><pre>format(a4, i2, 2f10.4, 2(1x,a4), 3f8.2, 1x, e12.4)
+<pre>
+format(a4, i2, 2f10.4, 2(1x,a4), 3f8.2, 1x, e12.4)
 Item
 1. Type
 2. Type code: 1 = slip rate; 2 = azimuth; 3 = rotation
@@ -1019,13 +1023,14 @@ Item
 9. Calculated value
 10. Penalty
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
 
 
-<a name="estf"></a>
+<a name = estf></a>
 MODL_src_EEE.stf  ---- source time histories
-<pre>(i5, 6f15.5)
+<pre>
+(i5, 6f15.5)
 Integer counter
 Time from start of event (in decimal years)
 Time in decimal years
@@ -1034,15 +1039,16 @@ Displacement history (mm)
 Normalized displacement history
 Time from start of event (in days)
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
 
 
-<a name="eplt"></a>
+<a name = eplt></a>
 MODL_src_EEE.plt  ---- source parameters
 
 <br>Each line starts with a 3-character source type indentifier:
 <pre>
+
 DSE - Types 1-8 (Distributed slip, Wang exponential, 1D Boxcar, 1D Gauss,
 2D Gauss, 2D Boxcar, Polygon)
 SDR - Types 9, 11 (Uniform slip plane, Planar crack)
@@ -1143,19 +1149,20 @@ Number of days start to end
 format ("MGI ",6i3, 1x,a8, f9.3, f9.1, 2f9.3, 4f9.1, 2(1x,a8), i6, 10f4.1)
 </pre>
 
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="trapr"></a>
+<a name = trapr></a>
 MODL_src_EEE.atr - transient slip distributions on fault 
 
 <p>Files contain fault attributes 
 and quadrilaterals that can be used to make color plots of slip distributions. 
 Since the header line for each fault segment has multiple attributes following the -Z, use awk to select the one to plot.
 
-</p><pre>awk '{ if ($1 =="&gt;") print $1,$2,$4; else print $1,$2 }' MODL_src_001.atr  | psxy -Cpalette.cpt .... </pre>
+<pre>awk '{ if ($1 ==">") print $1,$2,$4; else print $1,$2 }' MODL_src_001.atr  | psxy -Cpalette.cpt .... </pre>
 
-<p> where $1 = '&gt;', $2 = '-Z' and the attributes are (in order): 
-</p><pre>3 fault_number 
+<p> where $1 = '>', $2 = '-Z' and the attributes are (in order): 
+<pre>
+3 fault_number 
 4 slip amplitude (mm) 
 5 strike-slip component (Okada U1; see Fig. 2)
 6 dip-slip component (U2)*
@@ -1177,29 +1184,25 @@ Since the header line for each fault segment has multiple attributes following t
 * Footwall relative to hanging wall
 </pre>
 Followed by 4 coordinates of the trapezoid:
-<pre>Lon1 Lat1 Depth1  X1  W1
+<pre>
+Lon1 Lat1 Depth1  X1  W1
 .
 .
 Lon4 Lat4 Depth4  X4  W4
  
-&gt; -Z   1       1.6056       0.0016       0.0000       0.0010       
-0.0004       0.0009  0.0000E+00  235.3400   46.2152  13.04   1  24   6  
- 1   2
-    235.32998571     46.13531429     12.85714286    656.46578903     
-83.39779242
-    235.32540000     46.29485714     12.85714286    674.21566098     
-86.36659501
-    235.35040000     46.29521429     13.21428571    674.83307374     
-88.32741377
-    235.35402143     46.13522857     13.21428571    657.03441510     
-85.29031594
+> -Z   1       1.6056       0.0016       0.0000       0.0010       0.0004       0.0009  0.0000E+00  235.3400   46.2152  13.04   1  24   6   1   2
+    235.32998571     46.13531429     12.85714286    656.46578903     83.39779242
+    235.32540000     46.29485714     12.85714286    674.21566098     86.36659501
+    235.35040000     46.29521429     13.21428571    674.83307374     88.32741377
+    235.35402143     46.13522857     13.21428571    657.03441510     85.29031594
 </pre>
 
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="tsstat"></a>
+<a name = tsstat></a>
 MODL_ts.stat  -  time series information
-<pre>Site
+<pre>
+Site
 Time series code
 Block
 Pole
@@ -1222,13 +1225,14 @@ East weighted rms (mm)
 North weighted rms (mm)
 Up weighted rms (mm)
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="tsdata"></a>
+<a name = tsdata></a>
 MODL_ts_data.out  -  time series coefficients
-<p> 
+<P> 
 Coefficients of equation for time series:
-</p><pre>x(t) = Xo + Vt + A sin ( 2 pii t ) + B cos (2 pii t) +
+<pre>
+x(t) = Xo + Vt + A sin ( 2 pii t ) + B cos (2 pii t) +
                + C sin ( 4 pii t ) + D cos (4 pii t)  
 
 Site
@@ -1256,11 +1260,12 @@ E semi-annual coefficient D
 N semi-annual coefficient D
 U semi-annual coefficient D
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="edisp"></a>
+<a name = edisp></a>
 MODL_src_EEE.disp  - predicted displacements for sources
-<pre>Sitename
+<pre>
+Sitename
 Data code 
 Block
 Pole number
@@ -1283,19 +1288,21 @@ Year transient starts at this site (if source migration used)
 </pre>
 <p>These displacements are for the entire source, and include future slip if the event extends beyond the time series.
 
-<a href="#menu"></a></p><h6><a href="#menu">Back to Menu</a></h6><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="epoly"></a>
+<a name = epoly></a>
 MODL_src_EEE.poly  - polygon estimating slip area for sources
-<pre>Longitude Latitude X-coordinate W-coordinate
+<pre>
+Longitude Latitude X-coordinate W-coordinate
 </pre>
 
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
 
-<a name="enod"></a>
+<a name = enod></a>
 <p><b>MODL_src_EEE.nod</b> Node information for transient EEE
-</p><pre>1. Fault name (10-char)
+<pre>
+1. Fault name (10-char)
 2. Fault number
 3. Node X index
 4. Node Z index
@@ -1324,13 +1331,14 @@ MODL_src_EEE.poly  - polygon estimating slip area for sources
 
 * Footwall relative to hanging wall
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
 
-<a name="sources"></a>
+<a name = sources></a>
 <p><b>MODL.sources</b> Transient source information
-</p><p>Lists information for all sources. 
-</p><pre>
+<p>Lists information for all sources. 
+<pre>
+
 Source         - Source number
 Spat type      - Spatial transient type 
 Temp type      - Time dependence type
@@ -1346,14 +1354,15 @@ Amplitude (deltaV, km^3)  - change in Volume for Mogi source
 -- Followed by list of parameter values and uncertainties
    Tau rates also list times of start and end of time function element
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="tslice"></a>
+<a name = tslice></a>
 <p><b>MODL_time_JJJ.nod</b>  - displacements at nodes for time window
-</p><p>First line in file is header: 
-</p><pre># Time_1   Time_2  List_of_events</pre>
+<p>First line in file is header: 
+<pre># Time_1   Time_2  List_of_events</pre>
 Then each line:
-<pre>1. Node X index
+<pre>
+1. Node X index
 2. Node Z index
 3. Node Longitude
 4. Node Latitude
@@ -1363,14 +1372,15 @@ Then each line:
 8. North component of transient slip amplitude (mm)
 9. Moment in N-m
 </pre>
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
-<a name="tslice3"></a>
+<a name = tslice3></a>
 <p><b>MODL_time_JJJ.disp</b>  - displacements at sites for time window
-</p><p>First line in file is header: 
-</p><pre># Time_1   Time_2  List_of_events</pre>
+<p>First line in file is header: 
+<pre># Time_1   Time_2  List_of_events</pre>
 Then each line:
-<pre>1. Sitename
+<pre>
+1. Sitename
 2. Data code 
 3. Block
 4. Pole number
@@ -1386,24 +1396,25 @@ Then each line:
 12. End time for site
 </pre>
 
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
 
-<a name="tslice2"></a>
+<a name = tslice2></a>
 <p><b>MODL_time_JJJ.atr</b> - time window slip distributions on fault 
 
-</p><p>Files contain fault attributes 
+<p>Files contain fault attributes 
 and quadrilaterals that can be used to make color plots of slip distributions. 
 
-</p><p>First line in file is header: 
-</p><pre># Time_1   Time_2  List_of_events</pre>
+<p>First line in file is header: 
+<pre># Time_1   Time_2  List_of_events</pre>
 
 <p>The header line for each fault segment has multiple attributes following the -Z; use awk to select the one to plot.
 
-</p><pre>awk '{ if ($1 =="&gt;") print $1, $2, $4; else print $1, $2 }' MODL_time_001.atr  | psxy -Cpalette.cpt .... </pre>
+<pre>awk '{ if ($1 ==">") print $1, $2, $4; else print $1, $2 }' MODL_time_001.atr  | psxy -Cpalette.cpt .... </pre>
 
-<p> where $1 = '&gt;', $2 = '-Z' and the attributes are (in order): 
-</p><pre>3 time window index (from DW: option) 
+<p> where $1 = '>', $2 = '-Z' and the attributes are (in order): 
+<pre>
+3 time window index (from DW: option) 
 4 total slip amplitude (mm) 
 5 strike-slip component (Okada U1; see Fig. 2)
 6 dip-slip component (U2)
@@ -1419,20 +1430,20 @@ and quadrilaterals that can be used to make color plots of slip distributions.
 16 Area of patch (km^2)
 </pre>
 Followed by coordinates of the trapezoid:
-<pre>Lon1 Lat1 Depth1   
+<pre>
+Lon1 Lat1 Depth1   
 .
 .
 Lon4 Lat4 Depth4   
  
-&gt; -Z   1     0.006     0.000     0.006     0.000    90.000   265.502    14.802     -5.10   2   2   1   1
+> -Z   1     0.006     0.000     0.006     0.000    90.000   265.502    14.802     -5.10   2   2   1   1
     265.52165000     14.78570000     -5.00000000
     265.47878889     14.81039444     -5.00000000
     265.48159022     14.81915733     -5.20000000
     265.52448000     14.79450400     -5.20000000
 </pre>
 
-<a href="#menu"><h6>Back to Menu</h6></a><hr>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
 
 END
-
-</body></html>
+</html>

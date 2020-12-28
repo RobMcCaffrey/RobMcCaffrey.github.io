@@ -1,34 +1,35 @@
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<html>
+<head>
 <title>TDEFNODE User's Manual</title>
 </head>
-<body background="TDEFNODE_gmt_files/bak.html">
+<body background="../bak.jpg">
 
-<!--comment-->
+<!comment>
 
-<center><h2>TDEFNODE User's Manual<br>GMT descriptions</h2></center>
+<center><h2>TDEFNODE User's Manual<br>GMT descriptions</center></h2>
 
-<li><a href="http://web.pdx.edu/%7Emccaf/defnode/manual/tdefnode.html">Return to main manual</a>
+<li><a href= tdefnode.html>Return to main manual</a>
 
-<b></b><h2><b>PLOTTING WITH GMT</b></h2>
+<b><h2>PLOTTING WITH GMT</b></h2>
 
 <p>Plotting csh script <b>td_plot</b> 
 
-</p><p>The script <b>td_plot</b> reads from the command line for input. 
+<p>The script <b>td_plot</b> reads from the command line for input. 
 <br>Set the variable TD_HOME to the directory containing these files and put it in your PATH. 
 <b>td_plot</b> copies all your plot command lines (with time stamp) to a 
 file called .td_plot_history in the working directory.
 
-</p><p>td_plot -p map    - plots maps
-</p><p>td_plot -p insar  - plots InSAR maps
-</p><p>td_plot -p ts1    - plots time series on 1 page
-</p><p>td_plot -p ts     - plots multiple time series per page
-</p><p>td_plot -p xsec   - plots fault cross-sections
-</p><p>td_plot -p stf    - plot source time function displacement or velocity history
-</p><p>td_plot -p prof   - plot profile
+<p>td_plot -p map    - plots maps
+<p>td_plot -p insar  - plots InSAR maps
+<p>td_plot -p ts1    - plots time series on 1 page
+<p>td_plot -p ts     - plots multiple time series per page
+<p>td_plot -p xsec   - plots fault cross-sections
+<p>td_plot -p stf    - plot source time function displacement or velocity history
+<p>td_plot -p prof   - plot profile
 
-</p><p>Command line arguments are as follows. Items in brackets [ ] are required input.
-</p><pre>   -bird            			plot Bird (2002) plate outlines
+<p>Command line arguments are as follows. Items in brackets [ ] are required input.
+<pre>
+   -bird            			plot Bird (2002) plate outlines
    -blk3                                plot .blk3 file on map
    -blocks            			plot block outlines
    -bname             			plot names of blocks
@@ -134,10 +135,11 @@ td_plot -p stf -m sis1 -d -tnum 1 -t 1992 2015 -dt 5 -y -5 80 -dy 20 -o stfd -pw
 
 <p><b>Using GREP and AWK </b>
 
-</p><p>Use <i>grep</i> and <i>awk</i> to extract desired columns from the 
+<p>Use <i>grep</i> and <i>awk</i> to extract desired columns from the 
 files. For example, to get the profile distance and the 
 observed East GPS velocity and sigma from the profile file:
-</p><pre>% grep '^G' MODL_p01.out | awk '{ print $4, $5, $6 }' | psxy ...
+<pre>
+% grep '^G' MODL_p01.out | awk '{ print $4, $5, $6 }' | psxy ...
 </pre>
 grep '^G' gets all the lines starting with 'G' from the file, the 'awk' 
 command prints the 4th, 5th, and 6th entries from each line. 
@@ -145,79 +147,75 @@ command prints the 4th, 5th, and 6th entries from each line.
 <p>
 <b>Vector files</b>. Old defnode output many vector files, these have been combined into one, called MODL.vsum.
 To make vector plottable files in psvelo -Se format:
-</p><pre># observed vectors
-awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $12, $17, $15, $20, $27, $1 }' MODL.vsum &gt; MODL.obs 
+<pre>
+# observed vectors
+awk '{ if ($5==1 && $6==1) print $8, $9, $12, $17, $15, $20, $27, $1 }' MODL.vsum > MODL.obs 
 
 # calculated vectors
-awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $13, $18, $15, $20, $27, $1 }' MODL.vsum &gt; MODL.vec 
+awk '{ if ($5==1 && $6==1) print $8, $9, $13, $18, $15, $20, $27, $1 }' MODL.vsum > MODL.vec 
 
 # residual vectors
-awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $14, $19, $15, $20, $27, $1 }' MODL.vsum &gt; MODL.res
+awk '{ if ($5==1 && $6==1) print $8, $9, $14, $19, $15, $20, $27, $1 }' MODL.vsum > MODL.res
 
 # block rotational vectors
-awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $38, $39, $40, $41, $42, $1 }' MODL.vsum &gt; MODL.rot
+awk '{ if ($5==1 && $6==1) print $8, $9, $38, $39, $40, $41, $42, $1 }' MODL.vsum > MODL.rot
 
 # velocity field rotation vectors
-awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $43, $44, $45, $46, $47, $1 }' MODL.vsum &gt; MODL.net
+awk '{ if ($5==1 && $6==1) print $8, $9, $43, $44, $45, $46, $47, $1 }' MODL.vsum > MODL.net
 
 # fault locking elastic strain rate vectors
-awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $28, $29, $31, $32, " 0.000 ", $1 }' MODL.vsum &gt; MODL.slp
+awk '{ if ($5==1 && $6==1) print $8, $9, $28, $29, $31, $32, " 0.000 ", $1 }' MODL.vsum > MODL.slp
 
 # permanent strain rate vectors
-awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $34, $35, $36, $37, " 0.000 ", $1 }' MODL.vsum &gt; MODL.str
+awk '{ if ($5==1 && $6==1) print $8, $9, $34, $35, $36, $37, " 0.000 ", $1 }' MODL.vsum > MODL.str
 
 # observed vectors with block rotations removed
-awk '{ if ($5==1 &amp;&amp; $6==1) print $8, $9, $12-$38, $17-$39, sqrt($15*$15+$40*$40), sqrt($20*$20+$41*$41), $42, $1 }' MODL.vsum &gt; MODL.omr
+awk '{ if ($5==1 && $6==1) print $8, $9, $12-$38, $17-$39, sqrt($15*$15+$40*$40), sqrt($20*$20+$41*$41), $42, $1 }' MODL.vsum > MODL.omr
 </pre>
 
-<p>Similar commands can be used for the displacements (MODL.dsum) and 
-time series displacements (MODL.tsum) but check the columns for those 
-files.
+<p>Similar commands can be used for the displacements (MODL.dsum) and time series displacements (MODL.tsum) but check the columns for those files.
 
 
-</p><p>Some files contain fault attributes and quadrilaterals that can 
-be used to make color plots of slip distributions. 
-The header line for each fault segment has multiple attributes following
- the -Z, use awk to select the one to plot. For example, 
+<p>Some files contain fault attributes and quadrilaterals that can be used to make color plots of slip distributions. 
+The header line for each fault segment has multiple attributes following the -Z, use awk to select the one to plot. For example, 
 
-</p><pre>awk '{ if ($1 =="&gt;") print $1,$2,$4; else print $1,$2 }' MODL_flt_001_atr.gmt  | psxy -Cpalette.cpt .... </pre>
+<pre>awk '{ if ($1 ==">") print $1,$2,$4; else print $1,$2 }' MODL_flt_001_atr.gmt  | psxy -Cpalette.cpt .... </pre>
 
-<p> where $1 = '&gt;', $2 = '-Z' and $4 is the attribute to be plotted. 
+<p> where $1 = '>', $2 = '-Z' and $4 is the attribute to be plotted. 
 
-</p><p>The MODL_blk.gmt file contains the block outlines, with multiple attributes on the header line; 
+<p>The MODL_blk.gmt file contains the block outlines, with multiple attributes on the header line; 
 the attributes are (in order): (3)block_number, (4)pole_number, (5)block_name
 
-</p><p># filled blocks, fill color based on pole number
-</p><pre>awk '{ if ($1 =="&gt;") print $1,$2,$4; else print $1,$2 }' MODL_blk.gmt | psxy -Cpalette.cpt -L -M ... </pre>
+<p># filled blocks, fill color based on pole number
+<pre>awk '{ if ($1 ==">") print $1,$2,$4; else print $1,$2 }' MODL_blk.gmt | psxy -Cpalette.cpt -L -M ... </pre>
 
 <p># unfilled block outlines
-</p><pre>psxy MODL_blk.gmt -W5/100/100/100  -L -M ... </pre>
+<pre>psxy MODL_blk.gmt -W5/100/100/100  -L -M ... </pre>
 
 <p># dashed lines for profiles, for profile #19 in this case,
-</p><pre>grep '^C' MODL_p19.out | awk ' { print $2, $3 } ' | psxy -W4/0/200/200t5_5:5 ... </pre>
+<pre>grep '^C' MODL_p19.out | awk ' { print $2, $3 } ' | psxy -W4/0/200/200t5_5:5 ... </pre>
 
 <p># dots at all node positions
-</p><pre>awk '{print $7, $8}' MODL.nod |psxy -Sc.1i .... </pre>
+<pre>awk '{print $7, $8}' MODL.nod |psxy -Sc.1i .... </pre>
 
 <p># dots at surface node positions
-</p><pre>awk '{if ($4==1) print $7, $8}' MODL.nod |psxy -Sc.1i  ... </pre>
+<pre>awk '{if ($4==1) print $7, $8}' MODL.nod |psxy -Sc.1i  ... </pre>
 
 <p>#label node with fault number at surface only
-</p><pre>awk '{if ($4==1) print $7, $8, " 7 0 0 CM ", $2}' MODL.nod |pstext .... </pre>
+<pre>awk '{if ($4==1) print $7, $8, " 7 0 0 CM ", $2}' MODL.nod |pstext .... </pre>
 
 <p># label blocks with names ( -W255/255/255 results in whiting out beneath label)
-</p><pre>awk ' { print $2, $3, " 8 0 0 CM ", $1 } ' MODL_blocks.out | pstext -W255/255/255  ... </pre>
+<pre>awk ' { print $2, $3, " 8 0 0 CM ", $1 } ' MODL_blocks.out | pstext -W255/255/255  ... </pre>
 
 <p># plot pole positions (dot) and error ellipses
-</p><pre>awk ' { print $4, $5 } ' MODL_blocks.out | psxy -Sc0.1i .... </pre>
+<pre>awk ' { print $4, $5 } ' MODL_blocks.out | psxy -Sc0.1i .... </pre>
 <pre>awk ' { print $4, $5, $8, $9*111.2, $10*111.2 } ' MODL_blocks.out | psxy -SE .... </pre>
 
 <p># plot fault slip vectors halfway between fault nodes
-</p><pre>awk '{ print $3, $4, $5, $6, $7, $8, $9, $10 }' MODL_mid.vec | psvelo -Se .... </pre>
+<pre>awk '{ print $3, $4, $5, $6, $7, $8, $9, $10 }' MODL_mid.vec | psvelo -Se .... </pre>
 
 <p># principle axes for block strain rates
-</p><pre>awk ' { print $2, $3, $21, $19, $23 } ' MODL_blocks.out | psvelo -Sx0.1 ... </pre>
+<pre>awk ' { print $2, $3, $21, $19, $23 } ' MODL_blocks.out | psvelo -Sx0.1 ... </pre>
 
 
-
-</li></body></html>
+</html>

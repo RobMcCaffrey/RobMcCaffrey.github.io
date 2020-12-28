@@ -1,0 +1,67 @@
+Table of changes to convert DEFNODE control file to TDEFNODE. 
+TDEFNODE has many more options, see manual
+
+FC-format change, must be changed
+MO-more options available
+RM-option removed
+
+If no NOTE for option, it should work as is.
+
+
+DEFNODE NOTE		Function
+BL: 			outline of elastic rotating plate 
+BP: 			specify pole and strain tensor for a block (overrides BL: statement)
+CF: 			connect 2 faults (remove overlap or gap from subsurface intersection of faults)
+CL: MO			clear specified data type
+CO: 			continue reading from input file (used sith SK: option)
+DD: 			depth and dip to nodes (used only within FA:, fault input section)
+EM: 			end of model input section
+EN: 			end of input data
+EQ: MO			equate two nodes on different faults (set their phi's equal)
+FA: MO			fault geometry input
+FF: 			fault flags (turn faults on and off)
+FL: MO			set flags
+FO: RM			change fault orientation and offset
+FS: 			calculate relative block velocities at specified points 
+FT: FC			fault parameterization type
+FX: 			specify position of a particular fault node - overrides all other specifications
+GD: FC, MO		specify Green's functions directory and interpolation step sizes
+GI: 			lists GPS velocity field rotations (relative to reference frame) to be adjusted
+GP: FC, MO		GPS input data file
+GR: FC, MO		grid of vectors to calculate
+GS: FC, MO		grid search controls
+HC: MO			hard constraints
+IN: MO			interpolation lengths for fault segments between nodes (for forward run)
+MF: 			merge faults at T-junction
+MM: RM (use SM:)	range of moment allowed
+MO: 			model experiment name, used for output filenames
+MV: 			move points
+NN: MO 			node parameter index numbers (same as old NF:)
+NV: 			node values (same as old NO:)
+NX: 			fixed node indices
+PE: 			scaling factors for penalty functions
+PF: 			parameter I/O file for quick restart
+PG: 			initialize pole of rotation for GPS vector file
+PI: 			lists block poles to be adjusted in inversion
+PM: 			parameter min and max values
+PN: 			node z-profile parameter index numbers
+PO: 			block pole of rotation values
+PR: FC, MO		surface profile line
+PV: 			node z-profile parameter values
+PX: RM (use FT:)	fix node z-profile parameters
+RE: 			reference block for vectors
+RM: 			remove named GPS sites or blocks from data
+RO: 			rotation rates data file
+RS: MO			reference site for GPS vectors
+SA: FC, MO		simulated annealing controls
+SI: MO			strain rates tensors to be adjusted
+SK: 			skip following lines of input data until a CO: line is encountered
+SM: FC, MO		apply along-strike smoothing to fault coupling
+SR: FC, MO		fault slip rate / spreading rate data file
+SS: 			strain rate tensor data file
+ST: 			initialize strain rate tensor values
+SV: MO			slip vector / transform azimuth data file
+TI: 			tilt rate data file
+UP: RM (use GP:)	uplift rate data file
+ZD: 			similar to DD:
+

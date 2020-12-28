@@ -1,7 +1,7 @@
-README for TDEFNODE 2015.07.30
+README for TDEFNODE 2020.03.06
 
 TDEFNODE is the time-dependent version of DEFNODE and has many changes. DEFNODE control files will not work in TDEFNODE. 
-See http://web.pdx.edu/~mccaf/www/defnode/DEF_2_TDEF.txt for help converting from DEFNODE to TDEFNODE.
+See DEF_2_TDEF.txt for help converting from DEFNODE to TDEFNODE.
 
 You may use TDEFNODE but do not make changes or redistribute. It has enough bugs already.
 
@@ -20,11 +20,13 @@ If you will use the supplied plotting scripts, make an alias (syntax depends on 
 set TD_HOME = ~/TDEFNODE 
 (or whatever your directory is) and add this to your PATH.
 
-2. Set array dimensions within 'tdefcom1.h'. The dimensions are set in a fortran PARAMETER statement and all start with MAX_ . 
+2. If this is a new installation, rename tdefcom1.h.tmp to tdefcom1.h, If you already have tdefcom1.h in a previous version, you can use it.
+
+3. Set array dimensions within 'tdefcom1.h'. The dimensions are set in a fortran PARAMETER statement and all start with MAX_ . 
 (don't set them to 0). Be sure to keep the structure of the PARAMETER statement intact. Exceeding array dimensions is not always checked 
 explicitly and can cause strange behavior. Where dimensions are checked and exceeded, the program will quit and give a message.
 
-3. {Optional} Set paths to the volcanoes (votw.gmt; needed if +vtw flag set) and 
+4. {Optional} Set paths to the volcanoes (votw.gmt; needed if +vtw flag set) and 
 earthquakes (ehb.gmt; needed if +eqk flag set) files in the file 'tdeffiles.h' (see instructions in 'tdeffiles.h' file) if
 you want to include these in the profile files. 
 For example:
@@ -39,9 +41,9 @@ c- path of earthquake file(s)
       quakefile(1) = '/home/mcc/TDEFNODE/ehb.gmt'
 
 
-4. Edit the Makefile to your specifications.
+5. Edit the Makefile to your specifications.
 
-5. Run 'make' to compile. Success depends on your compiler.
+6. Run 'make' to compile. Success depends on your compiler.
 
 RUNNING:
 

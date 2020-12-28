@@ -1,21 +1,23 @@
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<html>
+<head>
 <title>TDEFNODE bugs and changes </title>
 </head>
-<body background="TDEFNODE%20bugs%20and%20changes_files/bak.html">
+<body background="../bak.jpg">
 
-<b></b><h2><b>TDEFNODE bugs, fixes and clarifications:</b></h2>
+<b><h2>TDEFNODE bugs, fixes and clarifications:</b></h2>
 <hr>
 <h3>
 	
 <p> 9-11-15:  'sp 8' under ES: does not work as described
-</p><p> 9-17-15: Revised td_plot and td_flag; download new <a href="http://web.pdx.edu/%7Emccaf/defnode/manual/td_plot">td_plot</a> and <a href="http://web.pdx.edu/%7Emccaf/defnode/manual/td_flags">td_flags</a>
+<p> 9-17-15: Revised td_plot and td_flag; download new <a href = "td_plot">td_plot</a> and <a href = "td_flags">td_flags</a>
 
-</p><p>10-19-15: Incorrect decimation of time series. Delete or comment out line (around line 6254) 
-</p><pre>      if (Tdec .eq. zero .and. npts.gt.500 ) Tdec = 10.0d0/365.25d0
+<p>10-19-15: Incorrect decimation of time series. Delete or comment out line (around line 6254) 
+<pre>
+      if (Tdec .eq. zero .and. npts.gt.500 ) Tdec = 10.0d0/365.25d0
 </pre>
 <br>Unnecessary zeroing of arrays. Delete or comment out the 6 lines starting around line 28297:
-<pre>      NN = MAX_ii*npmax
+<pre>
+      NN = MAX_ii*npmax
       call cleareal(aa,NN)
       call cleareal(r,MAX_ii)
       call cleareal(s,MAX_ii)
@@ -24,22 +26,16 @@
 </pre>
 
 <p> 2-25-17:  TDEFNODE source code updated
-</p><p> 4-6-17:  'NVg:' option does not work as described, use NV: instead
-</p><p> 7-26-17:
-InSAR data: Earlier version had an error in calculating east and north 
-InSAR displacements. This has been fixed. 
-The program reads the look vector as ground to satellite unit vector or 
-calculates it from incidence angle and heading. 
-The sign is reversed when dotted with surface displacement vector, so 
-that calculated change in LOS is negative if ground moves toward 
-satellite.
-If your data are opposite, that is, positive LOS change is shortening of
- the distance to the satellite, use a negative for the file index number
- in the IS: line, 
+<p> 4-6-17:  'NVg:' option does not work as described, use NV: instead
+<p> 7-26-17:
+InSAR data: Earlier version had an error in calculating east and north InSAR displacements. This has been fixed. 
+The program reads the look vector as ground to satellite unit vector or calculates it from incidence angle and heading. 
+The sign is reversed when dotted with surface displacement vector, so that calculated change in LOS is negative if ground moves toward satellite.
+If your data are opposite, that is, positive LOS change is shortening of the distance to the satellite, use a negative for the file index number in the IS: line, 
 which flips the sign of the LOS change as they are read in. </p>
-<p> 7-27-17: Fixed IC: 0 option to correctly add elastic component to predicted velocities. Source code updated.
+<p> 7-27-17: Fixed IC: 0 option to correctly add elastic component to predicted velocities. Source code updated.</p>
+<p> 3-6-20: Miscellaneous corrections. Source code updated. </p>
+</body>
+</html>
 
 
-
-
-</p></h3></body></html>
