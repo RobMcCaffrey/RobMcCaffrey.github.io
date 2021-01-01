@@ -1,0 +1,65 @@
+Decaying Rate of Volcanic Inflation near Three Sisters, Oregon, Measured with GPS and InSAR
+Authors
+Michael Lisowski, Robert McCaffrey, CW Wicks Jr, Daniel Dzurisin
+Publication date
+2014/12
+Journal
+AGUFM
+Volume
+2014
+Pages
+V41B-4795
+Description
+
+A joint analysis of GPS and InSAR measurements from 1992 to 2014 is used to track ongoing volcanic deformation in a broad area 
+centered ~6 km west of South Sister Volcano in central Oregon. We use the tdefnode software to model the observed deformation 
+with a linear combination of steady background tectonic deformation across the Cascades volcanic arc and time-dependent inflation 
+of a buried magma chamber with variable depth and geometry. We find that the observed InSAR interferograms and GPS-measured 
+uplift and radially outward displacement of the ground is consistent with that predicted by an exponentially decaying rate of 
+inflation within a ~7-km-deep, nearly spherical magma chamber. The main pulse of deformation started sometime in 1998, and the 
+rate of deformation has since decayed with an exponential time constant of ~7 years. The post-2001, 3-D displacements measured 
+by the continuous and campaign-mode GPS stations only are best-fit by decaying inflation of a slightly shallower 5-km-deep 
+prolate spheroid with an aspect ratio of ~1.4. The continuous GPS displacement time series from station HUSB, installed in 
+May 2001, provides the clearest evidence for smoothly decaying rate of deformation. This study does not support Riddick and 
+Schmidt's (G3, 2011) conclusion, based on 1992-2009 InSAR data only, that the volcanic deformation in this region is best 
+fit by a piece-wise linear rate of decay, and it conflicts with their hypothesis that the source of deformation is an inflating 
+sill. Our results are consistent with those of Dzurisin and others (JVGR, 2009), which were based on GPS data only.
+
+
+
+https://ui.adsabs.harvard.edu/abs/2014AGUFM.V41B4795L/abstract
+
+https://ui.adsabs.harvard.edu/abs/2015AGUFMNH51G..04L/abstract
+
+USGS GNSS Applications to Volcano Disaster Response and Hazard Mitigation
+
+Show affiliations
+Lisowski, M.;  McCaffrey, R.
+Abstract
+Volcanic unrest is often identified by increased rates of seismicity, deformation, or the release of volcanic gases. 
+Deformation results when ascending magma accumulates in crustal reservoirs, creates new pathways to the surface, or 
+drains from magma reservoirs to feed an eruption. This volcanic deformation is overprinted by deformation from tectonic 
+processes. GNSS monitoring of volcanoes captures transient volcanic deformation and steady and transient tectonic 
+deformation, and we use the TDEFNODE software to unravel these effects. We apply the technique on portions of the 
+Cascades Volcanic arc in central Oregon and in southern Washington that include a deforming volcano. In central Oregon, 
+the regional TDEFNODE model consists of several blocks that rotate and deform internally and a decaying inflationary 
+volcanic pressure source to reproduce the crustal bulge centered ~5 km west of South Sister. We jointly invert 47 
+interferograms that cover the interval from 1992 to 2010, as well as 2001 to 2015 continuous GNSS (cGNSS) and survey-mode 
+(sGNSS) time series from stations in and around the Three Sisters, Newberry, and Crater Lake areas. A single, 
+smoothly-decaying ~5 km deep spherical or prolate spheroid volcanic pressure source activated around 1998 provides 
+the best fit to the combined geodetic data. In southern Washington, GNSS displacement time-series track decaying 
+deflation of a ~8 km deep magma reservoir that fed the 2004 to 2008 eruption of Mount St. Helens. That deformation 
+reversed when it began to recharge after the eruption ended. Offsets from slow slip events on the Cascadia subduction 
+zone punctuate the GNSS displacement time series, and we remove them by estimating source parameters for these events. 
+This regional TDEFNODE model extends from Mount Rainier south to Mount Hood, and additional volcanic sources could be 
+added if these volcanoes start deforming. Other TDEFNODE regional models are planned for northern Washington (Mount Baker 
+and Glacier Peak), northern California (Mount Shasta, Medicine Lake, Lassen Peak), and Long Valley. These models take 
+advantage of the data from dense GNSS networks, they provide source parameters for volcanic and tectonic transients, and 
+can be used to discriminate possible short- and long-term volcano- tectonic interactions.
+
+
+Publication: 
+American Geophysical Union, Fall Meeting 2015, abstract id. NH51G-04
+Pub Date: December 2015 Bibcode: 2015AGUFMNH51G..04L Keywords: 
+4306 Multihazards; NATURAL HAZARDS; 4332 Disaster resilience; NATURAL HAZARDS; 4339 Disaster mitigation; 
+NATURAL HAZARDS; 4341 Early warning systems; NATURAL HAZARDS
