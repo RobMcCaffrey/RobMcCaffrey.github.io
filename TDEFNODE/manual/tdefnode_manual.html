@@ -2441,6 +2441,17 @@ AUCK **** 2003.121 2003.130
 </pre>
 
 <h6><a href= #menu >Back to Commands</a></h6>
+<a name = RV></a>
+<hr><b>RV -  fix velocities of selected GPS time series</b>
+<pre>RV: FILENAME </pre>
+The file lists Site, Name and Ve Vn Vz to fix. If value is exactly zero it is not fixed.
+Name is the 4-character name given to the file in the TS: line. 
+<pre>
+AUCK CGPS 2.0  5.0 -1.2
+NEWO CGPS -1.0 0.0 0.0
+</pre>
+
+<h6><a href= #menu >Back to Commands</a></h6>
 <a name = RX></a>
 <hr><b>RX -  add/subtract offsets to time series</b>
 <pre>RX: FILENAME {Sign} </pre>
