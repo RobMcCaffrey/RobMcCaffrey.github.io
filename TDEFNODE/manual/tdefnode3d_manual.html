@@ -264,65 +264,7 @@ Some parameters do not appear on this list. They are estimated by regression at 
 These include: GPS time series offsets (and slopes if estimated); GPS time series seasonal amplitudes;
   and InSAR planar and troposphere offset parameters
 
-<p><b>Penalty codes:</b> Parameter values can be limited globally by using the PM: option or individually for transients with the EX: option. 
-When the parameter goes outside this limit, a penalty is applied. The penalties have the following codes:
-<pre>
-Code Parameter  
- 1 - GPS velocity field rotation pole component (deg/Ma)
- 2 - block pole component (deg/Ma)
- 3 - strain rate component (nanostrain/yr)
- 4 - coupling factor phi (unitless)
- 5 - Wang gamma value (unitless)
- 6 - minumim locking depth; Wang or Boxcar (km)
- 7 - maximum locking depth; Wang or Boxcar (km)
- 8 - interseismic mean locking depth for Gaussian phi(z) (km)
- 9 - interseismic sigma of locking depth for Gaussian phi(z) (km) 
-80 - damp phi amplitudes
-81 - damp phi gradient
-82 - damp phi spread 
-83 - damp phi Laplacian
-89 - damp block strain rates (flag +dst)
-94 - downdip decrease in phi
-95 - bounds on moment rate
-96 - hard constraints
-97 - max depth > min depth (parameter types 6 and 7)
-
-For transients:
-EEPP - transient constraints (EE=event number, PP = transient parameter number)
-       (eg 0521 is longitude for event 5)
-EE21 ln - Longitude of source (deg E)
-EE22 lt - Latitude of source (deg N)
-EE23 zh - Depth of source (km below surface)
-EE24 d1 - W-width [plane] or W-Sigma [2D Gaussian] (km)
-EE25 am - Amplitude (mm or mm/yr)
-EE26 d2 - X-width [plane] or X-Sigma [2D Gaussian] (km)
-EE27 to - Transient origin time (decimal year)
-EE28 tc - Transient time constant [Gaussian width, boxcar duration, decay constant] (days)  
-EE29 mr - Transient migration rate (km/day)
-EE30 ma - Transient migration azimuth (degrees)
-EE31 st - Strike of fault plane (deg)
-EE32 dp - Dip of fault plane (deg)
-EE33 rk - Rake on fault plane or azimuth of slip (deg)
-EE34 az - Azimuth of X-axis for 2D Gaussian (deg)
-EE35 rd - Polygon radius (km)
-EE36 ta - Amplitude of stf element for transient (mm/yr)
-EE37 ga - 1D Gaussian amplitude (mm/yr)
-EE38 gm - 1D Gaussian mean depth (km)
-EE39 gs - 1D Gaussian spread (km)
-EE40 ba - 1D Boxcar amplitude (mm/yr)
-EE41 b1 - 1D Boxcar minimum depth (km)
-EE42 b2 - 1D Boxcar maximum depth (km)
-EE50    - moment of event  
-EE51    - planar source extends above surface
-EE54    - damp tau values or tau smoothing
-EE55    - polygon   
-EE56    - source on fault
-EE60    - damp slip amplitudes
-EE61    - damp slip gradient 
-EE62    - damp slip spread  
-EE63    - damp slip LaPlacian  
-EE97    - max depth > min depth (parameter types 41 and 42)
-</pre>
+<p><b><li><a href= #pcode>Penalty codes</a></b>
 
 <a name = cf></a>
 <p><b><h2>CONTROL FILE</b></h2>
@@ -615,6 +557,7 @@ Connect 2 faults at their intersection. Where fault #F1 and fault #F2 intersect 
 <li>'sss' remove surface strain rates
 <li>'srs' remove fault slip rates 
 <li>'tlt' remove tilt rates
+<li>'lvl' remove leveling data
 <li>'rot' remove rotation rates
 <li>'nrm' turn off all RM: lines
 <li>'nse' turn off all SE: lines
@@ -2788,6 +2731,68 @@ Then as a site separator, set Yr > 3000.0; 9999.0 works
  2007.3137    -297.0       9.9    -162.7       3.4     227.1      18.7
 9999.0
 
+</pre>
+
+<hr>
+<a name = pcode></a>
+<b>Penalties</b> Parameter values can be limited globally by using the PM: option or individually for transients with the EX: option. 
+When the parameter goes outside this limit, a penalty is applied. The penalties have the following codes:
+<pre>
+Code Parameter  
+ 1 - GPS velocity field rotation pole component (deg/Ma)
+ 2 - block pole component (deg/Ma)
+ 3 - strain rate component (nanostrain/yr)
+ 4 - coupling factor phi (unitless)
+ 5 - Wang gamma value (unitless)
+ 6 - minumim locking depth; Wang or Boxcar (km)
+ 7 - maximum locking depth; Wang or Boxcar (km)
+ 8 - interseismic mean locking depth for Gaussian phi(z) (km)
+ 9 - interseismic sigma of locking depth for Gaussian phi(z) (km) 
+80 - damp phi amplitudes
+81 - damp phi gradient
+82 - damp phi spread 
+83 - damp phi Laplacian
+89 - damp block strain rates (flag +dst)
+94 - downdip decrease in phi
+95 - bounds on moment rate
+96 - hard constraints
+97 - max depth > min depth (parameter types 6 and 7)
+
+For transients:
+EEPP - transient constraints (EE=event number, PP = transient parameter number)
+       (eg 0521 is longitude for event 5)
+EE21 ln - Longitude of source (deg E)
+EE22 lt - Latitude of source (deg N)
+EE23 zh - Depth of source (km below surface)
+EE24 d1 - W-width [plane] or W-Sigma [2D Gaussian] (km)
+EE25 am - Amplitude (mm or mm/yr)
+EE26 d2 - X-width [plane] or X-Sigma [2D Gaussian] (km)
+EE27 to - Transient origin time (decimal year)
+EE28 tc - Transient time constant [Gaussian width, boxcar duration, decay constant] (days)  
+EE29 mr - Transient migration rate (km/day)
+EE30 ma - Transient migration azimuth (degrees)
+EE31 st - Strike of fault plane (deg)
+EE32 dp - Dip of fault plane (deg)
+EE33 rk - Rake on fault plane or azimuth of slip (deg)
+EE34 az - Azimuth of X-axis for 2D Gaussian (deg)
+EE35 rd - Polygon radius (km)
+EE36 ta - Amplitude of stf element for transient (mm/yr)
+EE37 ga - 1D Gaussian amplitude (mm/yr)
+EE38 gm - 1D Gaussian mean depth (km)
+EE39 gs - 1D Gaussian spread (km)
+EE40 ba - 1D Boxcar amplitude (mm/yr)
+EE41 b1 - 1D Boxcar minimum depth (km)
+EE42 b2 - 1D Boxcar maximum depth (km)
+EE50    - moment of event  
+EE51    - planar source extends above surface
+EE54    - damp tau values or tau smoothing
+EE55    - polygon   
+EE56    - source on fault
+EE60    - damp slip amplitudes
+EE61    - damp slip gradient 
+EE62    - damp slip spread  
+EE63    - damp slip LaPlacian  
+EE97    - max depth > min depth (parameter types 41 and 42)
 </pre>
 
 <hr>
