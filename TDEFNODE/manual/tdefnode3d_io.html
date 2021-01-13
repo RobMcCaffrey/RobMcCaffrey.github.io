@@ -385,7 +385,7 @@ output lines
  3. Elevation (km)
  4. Observed LOS change (mm)
  5. LOS 1-sigma uncertainty (mm)
- 6. Calculated LOS change (mm) (includes correction)
+ 6. Calculated LOS change (mm) (includes offset correction)
  7. Residual LOS change (mm)
  8. Calculated LOS change due to ground deformation (mm) (uncorrected)
  9. East component of ground deformation (mm)
@@ -407,6 +407,7 @@ output lines
 25. East gradient correction to LOS
 26. North gradient correction to LOS
 27. Vertical gradient correction to LOS
+28. Total correction to LOS
 
 </pre>
 <a href= #menu ><h6>Back to Menu</h6></a><hr>
@@ -610,6 +611,8 @@ In columns:
 First column is a letter: 
 C for calculated values, 
 G for observed gps, 
+I for InSAR, 
+H for leveling data,
 T for observed tilt rate, 
 U for observed uplift, 
 S for observed slip vector azimuth, 
@@ -754,6 +757,10 @@ L for label
 13. North locking velocity 
 14. Total locking velocity 
 
+I lines InSAR
+lon lat X(along profile) obs sig calc_corrected residual perpendicular_dist  site  file_code block
+H lines leveling 
+c H lon lat X(along profile) obs sig calc_corrected residual perpendicular_dist  site  file_code block
 
 'L' line (profile label):
 The last line contains the label for plotting. Use grep "^L' to extract it.
