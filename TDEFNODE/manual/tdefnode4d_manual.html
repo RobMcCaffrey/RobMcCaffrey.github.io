@@ -349,7 +349,7 @@ The control file can contain lines after the end of input (EN:) statement and th
 <li><a href= #EI>EI:</a> ++ flags to invert transient events
 <li><a href= #EM>EM:</a>    end of model (MO:) input section
 <li><a href= #EN>EN:</a>    end of input data
-<li><a href= #EQ>EQ:</a>    equate phi of two nodes on different faults  
+<li><a href= #EQ>EQ:</a>    equate phi of two nodes on different faults, or transient parameters  
 <li><a href= #ER>ER:</a> ++ polygon source information
 <li><a href= #ES>ES:</a> ++ transient source parameters
 <li><a href= #ET>ET:</a> ++ transient source time function parameters 
@@ -686,25 +686,30 @@ End of control file (no arguments), anything in the file after this line is igno
 <h6><a href= #menu >Back to Commands</a></h6>
 
 <a name = EQ></a>
-<hr><b>EQ[pt] - equate phi, transient slip or position of two nodes on different faults </b>
+<hr><b>EQ[pts] - equate phi, transient parameters or position of two nodes on different faults </b>
+
+<p></p>Make two nodes on different faults have same value of <i>phi</i> in the inversion. F, X, and Z are the indices for 
+the nodes of fault F. 
+Applies to fault types FT: 0 and 1 only. Phi of nodes on the same fault are equated via the NN: option, and the phi for 
+entire faults are equated with FC: option.
 <pre>EQ: F1 X1 Z1 F2 X2 Z2</pre>
-Make two nodes on different faults have same value of <i>phi</i> in the inversion. F, X, and Z are the indices for the nodes. 
-Applies to fault types FT: 0 and 1 only.
 
-<pre>EQp: F1 X1 Z1 F2 X2 Z2</pre>
 Set node position to one from other fault, second node listed takes position of first
+<pre>EQp: F1 X1 Z1 F2 X2 Z2</pre>
 
-<pre>EQt: T1 T2 P1</pre>
 Equate two transients parameters. T1 and T2 are transient numbers, P1 is the parameter number (see ES:)
+<pre>EQs: T1 T2 P1 T1 T2 P2 </pre>
 
+Equate slip of two transients at a node.  [**** Not working ****]
 <pre>EQt: T1 X1 Z1 T2 X2 Z2</pre>
-Equate slip of two transients at a nodes.  [**** Not working ****]
 
 <pre>eq: 1 4 2 2 1 2</pre>
-
 forces the node of the first fault which is fourth along strike and second downdip to have the same <i>phi</i> as the 
 second fault's first node along strike and second downdip.
-<br>Phi of nodes on the same fault are equated via the NN: option, and the phi for entire faults are equated with FC: option.
+
+<pre>eqs: 1 2 21  1 2 22  </pre> 
+equates longitude and latitude of sources 1 and 2
+
 
 <h6><a href= #menu >Back to Commands</a></h6>
 <a name = ER></a>
