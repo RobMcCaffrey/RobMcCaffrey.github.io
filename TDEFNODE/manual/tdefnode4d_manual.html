@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>TDEFNODE3D User's Manual</title>
+<title>TDEFNODE4D User's Manual</title>
 </head>
 <body background="../bak.jpg">
 
@@ -19,7 +19,7 @@
 <li><a href= #bg>Background</a>
 <li><a href= #cf>Control File</a>
 <li><a href= #menu >Commands Menu</a>
-<li><a href= tdefnode3d_io.html>Ouput Files</a>
+<li><a href= tdefnode4d_io.html>Ouput Files</a>
 <li><a href= tdefnode_gmt.html>Plot with GMT</a>
 <li><a href= #inp>Sample Input</a>
 <li><a href= #cite>Citations</a>
@@ -197,11 +197,11 @@ Linear inversions can be used only for the simplest, linear problems like solvin
 <pre>
 Screen output during simulated annealing:
 
- It      Ptot   D_Chi      Penalty  Parameters -->
+ It      Ptot   D_RChi      Penalty  Parameters -->
 
 It         iteration number
-Ptot       total penalty
-D_Chi      data reduced chi**2
+Ptot       total misfit + penalties (D_RChi + P_sum)
+D_RChi     data reduced chi**2  (SUM (R^2/S^2)/DOF
 P_sum      sum of all penalties
 Parameters parameter values
 
@@ -212,12 +212,12 @@ Screen output during gradient grid search:
 
 No         parameter number
 Type       parameter type code
-Ptot       total penalty
-D_Chi      data reduced chi**2
+Ptot       total misfit + penalties (D_RChi + P_sum)
+D_RChi     data reduced chi**2  (SUM (R^2/S^2)/DOF
 P_sum      sum of all penalties
 Parameter  parameter value
 Change     change in parameter value
-Max_P      source of maximum penalty (see Penalty codes)
+Max_P      source of maximum penalty (see <a href= #pcode>Penalty codes</a>)
 Steps      number of steps grid search made
 
 </pre>
@@ -267,6 +267,16 @@ These include: GPS time series offsets (and slopes if estimated); GPS time serie
   and InSAR planar and troposphere offset parameters
 
 <p><b><li><a href= #pcode>Penalty codes</a></b>
+
+<p>
+<b>Statistical formulas:</b> 
+<pre>
+(R=residual, S=sigma, DOF = Ndata - Nparms )
+Chi-squared, Chi2 = SUM( R^2/S^2 ) 
+Normalized RMS, Nrms = SQRT ( Chi2 / Ndata ) 
+Weighted RMS,   Wrms = SQRT ( Chi2 / SUM (1/S^2) ) 
+Reduced Chi-squared, RChi2 = Chi2 / DOF
+</pre>
 
 <a name = cf></a>
 <p><b><h2>CONTROL FILE</b></h2>

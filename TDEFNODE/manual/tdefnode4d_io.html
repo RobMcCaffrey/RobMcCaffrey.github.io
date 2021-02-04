@@ -1,12 +1,12 @@
 <html>
 <head>
-<title>TDEFNODE User's Manual</title>
+<title>TDEFNODE4D User's Manual</title>
 </head>
 
 <body background="../bak.jpg">
 <!comment>
 
-<center><h2>TDEFNODE User's Manual<br>I/O descriptions</center></h2>
+<center><h2>TDEFNODE4D User's Manual<br>I/O descriptions</center></h2>
 <b><h2>INPUT FILES</b> </h2>
 <h4><p>Input files are described in the manual. 
 
@@ -20,8 +20,7 @@ Let me know if something looks awry. Not all files are described here
 
 <p><a name = menu >Menu</a>
 
-<br><a href= tdefnode.html>Return to main manual</a>
-<br><a href= tdefnode_gmt.html>Plotting with GMT</a>
+<br><a href= tdefnode4d_manual.html>Return to main manual</a>
 
 <pre>
 The rake angle follows Aki&Richards p. 106:
@@ -35,6 +34,7 @@ The rake angle follows Aki&Richards p. 106:
 MODL = 4-character experiment name
 NNNN = 4-character GPS data code
 IIII = 4-character InSAR data code
+LLLL = 4-character Leveling data code
 SSSS = 4-character site name
 FFF  = 3-digit fault number
 EEE  = 3-digit transient source number
@@ -79,6 +79,7 @@ MODL_control.backup   - copy of control file
 MODL_removed.vec      - vectors removed from inversion (RM:, etc)
 MODL_sa.out           - summary of simulated annealing run with final solution (+sim)
 <a href= #insout>MODL_IIII.insar</a>       - InSAR output (IS:)
+<a href= #lvlout>MODL_LLLL.level</a>       - Leveling output (LV:)
 
 </pre>
 <p>Files relating to time series (TS:)
@@ -411,13 +412,69 @@ output lines
 
 </pre>
 <a href= #menu ><h6>Back to Menu</h6></a><hr>
+<a name = lvlout></a>
+Leveling output files
+<pre>
+MODL_LLLL.level
+ LLLL = 4-char code for leveling file
+
+Header line 
+1. #
+2. Shortname   
+3. Runtime   
+4. File#   
+5. Year1    
+6. Year2   
+7. Offset_constant (mm)
+8. E_gradient (mm per degree)
+9. N_gradient (mm per degree)
+10. Vertical gradient (mm per km)
+11. Offset_origin_Lon   
+12. Offset_origin_Lat  
+13. Lon_min 
+14. Lon_max 
+15. Lat_min 
+16. Lat_max
+17. Max sigma used
+
+output lines
+
+ 1. Longitude
+ 2. Latitude
+ 3. Elevation (km)
+ 4. Observed vertical change (mm)
+ 5. 1-sigma uncertainty (mm)
+ 6. Calculated UP change (mm) (includes offset correction)
+ 7. Residual UP change (mm)
+ 8. Calculated UP change due to ground deformation (mm) (uncorrected)
+ 9. East component of ground deformation (mm)
+10. North component of ground deformation (mm)
+11. Up component of ground deformation (mm)
+15. Site name
+16. Block name
+17. East component of rotation
+18. North component of rotation
+19. East component of block strain
+20. North component of block strain
+21. East component of elastic strain
+22. North component of elastic strain
+23. Up component of elastic strain
+24. Offset Correction to LOS
+25. East gradient correction to LOS
+26. North gradient correction to LOS
+27. Vertical gradient correction to LOS
+28. Total correction to LOS
+
+</pre>
+<a href= #menu ><h6>Back to Menu</h6></a><hr>
+
 
 <a name = fslip></a>
 <p><b>MODL_fslip.out</b> - relative velocities between blocks at requested points (from FS: option). In psvelo -Se format. The site_name field has the block pairs and this is followed 
 by the total velocity and its 1-sigma uncertainty.
 <pre>
-format (2f10.4, 4f8.1, f9.4, 1x, a9, 2f8.1)
 Items:
+
 1. Longitude 
 2. Latitude 
 3. East_velocity
@@ -439,8 +496,8 @@ Items:
 <a name = midvec></a>
 <b>MODL_mid.vec</b> - fault information at mid-points between each pair of nodes along faults
 <pre>
-format(2f8.3, 4f7.1, f7.3, 1x, a10,2(1x,a4),i4,4f6.1,2f7.3,6f6.1)
 Items:
+
 1. Longitude 
 2. Latitude 
 3. East_velocity
@@ -471,8 +528,8 @@ Items:
 <b>MODL_blocks.out</b> - summary of block information
 
 <pre>
-format(a4, 4f8.3, 2f8.3, 2f7.2, f6.2, 4f6.1, f8.4, f6.1, f7.3, 1x, f8.1, 14f8.1, i5, 3f6.1, 2f8.2, f8.1)
 Items:
+
 1. Block name (4-char)
 2. Block centroid longitude
 3. Block centroid latitude
@@ -572,7 +629,6 @@ Example:
 <a name = nod></a>
 <p><b>MODL.nod</b> Summary of node information
 <pre>
-format (a10, 3i4, 2(1x,a4), 1x, 3f9.3, 2f10.3, 4f8.1, f8.4, 8f8.1, 1pe10.3)
 
 Item:
 1. Fault name (10-char)
@@ -778,7 +834,6 @@ the profile azimuth, and the width of the included data.
 N is the grid number
 
 <pre>
-format(2f9.3, 5f9.2, 1x,a8)
 
 1. Longitude of grid point
 2. Latitude of grid point
@@ -794,7 +849,6 @@ format(2f9.3, 5f9.2, 1x,a8)
 <a name = grid2></a>
 <p><b>MODL_grid_N.info</b> file contains complete grid information
 <pre>
-format(2f9.3, 19(1x,f10.2), 2x, a4, a1)
 
 1. Longitude of grid point
 2. Latitude of grid point
@@ -861,36 +915,41 @@ This line is followed by the (lon lat) of 4 points making up the quadrilateral.
 <a name = sum></a>
 <p><b>MODL.sum</b> - model statistics by data, block, and pole
 <pre>
-First line:
-format('SUM',1x, a4, 1x, a12, f9.3, 3i6, f10.2, f8.3)
+Header line:
+
 1. SUM
 2. Model name
 3. Run date (YYYYMMDDHHMM)
-4. Reduced chi**2
+4. Misfit (Reduced chi**2 + Penalty)
 5. Degrees of freedom
 6. Number of data
-7. Number of free parameters
-8. Total chi**2
-9. Probability of fit
+7. Number of free model parameters
+8. Number of parameters related to time series
+9. Total chi**2
+10. Data reduced chi**2
+11. Penalty
 
-For each data type/file
-format(1x,a4, i5, 2(1x, e10.3), 3f9.3, f9.2)
+For each data type/file:
+
 1. Data aggregate name (Data type, GPS file code, block code, or pole number)
 2. #obs = Number of GPS components
-3. DataVar = Weighted variance of data -> SUM [ Obs/Sigma)**2 ]
-4. Chi2 = Chi**2 of residual -> SUM [ (Res/Sigma)**2 ]
-5. Chi2/N = Chi**2 per observation
-6. Nrms = Normalized rms -> SQRT ( chi**2 / N )
-7. Wrms = weighted rms -> SQRT ( chi**2 / SumWt)
-8. SumWt = sum of weights  -> SUM ( 1.0/ sigma**2 )
+3. Nrms = Normalized rms -> SQRT ( chi**2 / N )
+4. Wrms = weighted rms -> SQRT ( chi**2 / SumWt)
+5. Prob - unused
+6. SumWt = sum of weights  -> SUM ( 1.0/ sigma**2 )
+7. SSData = Weighted variance of data -> SUM [ Obs/Sigma)**2 ]
+8. SSfit = Chi**2 of residual -> SUM [ (Res/Sigma)**2 ]
+9. SSres
+10. Chi2/N = Chi**2 per observation
+11. Data file name
 </pre>
 <a href= #menu ><h6>Back to Menu</h6></a><hr>
 
 <a name = svs></a>
 <p><b>MODL.svs</b> - fits to slip vector / transform azimuths
 <pre>
-format(2f9.3, 4f6.1, f7.2, 2(1x, a4), 1x, a4, 1x, a25,1x,a30)
 Items:
+
 1. Longitude
 2. Latitude
 3. Azimiuth
@@ -909,8 +968,8 @@ Items:
 <a name = srs></a>
 <p><b>MODL.srs</b> - fits to fault slip rates
 <pre>
-format(2f9.3, 5f6.1, f7.2, 1x, a1, 1x, 2(1x, a4), 2f6.1, 1x, a4, 1x, a25, 1x, a30)
 Items:
+
 1. Longitude
 2. Latitude
 3. Observed slip rate (mean or minimum)
@@ -936,7 +995,6 @@ Items:
 <a name = poles></a>
 <p><b>MODL.poles</b> - rotation poles. This file lists all the relative rotation poles as lat, lon, omega and as Cartesian vectors with uncertainties.
 <pre>
-format (2i3, 1x, a4, 3f10.4, 6f10.4)
 1. File number
 2. No = pole number
 3. Name = Block/GPS file name
@@ -952,7 +1010,6 @@ format (2i3, 1x, a4, 3f10.4, 6f10.4)
 
 and
 
-format (2i3, 1x, a4, 4f10.4, ff8.2)
 1. File number
 2. No = pole number
 3. Name = Block/GPS file name
@@ -970,7 +1027,7 @@ format (2i3, 1x, a4, 4f10.4, ff8.2)
 <p><b>MODL.strain</b> - strain rate tensors in nanostrain/year
 <pre>
 Block strain rate tensors in N-E coordinate system
-format (a1,i4, 1x, a4, 2f8.3, 6f10.2, 3f10.4)
+ 
 1. T
 2. No = pole number
 3. Block = Block name
@@ -987,7 +1044,7 @@ format (a1,i4, 1x, a4, 2f8.3, 6f10.2, 3f10.4)
 14. Cyy-xy = covariance between Exy and Eyy            
 
 Block principle strain rates (nanostrain/yr)
-format(a1,i4, 1x, a4, 2f8.3, 6f10.2)
+ 
 1. P
 2. No = pole number
 3. Block = Block name
@@ -1001,7 +1058,7 @@ format(a1,i4, 1x, a4, 2f8.3, 6f10.2)
 11. SigA1 = standard error in A1
 
 Block residual principle strain rates (ns/yr) and rotations (nanoradians/yr);
-format(a4, 8f10.2)
+ 
 1. Block = Block name
 2  E1 = most compressive strain rate
 3. SigE1 = standard error in E1
@@ -1017,7 +1074,7 @@ format(a4, 8f10.2)
 <a name = hc></a>
 <p><b>MODL.hc</b> - results of hard constraints
 <pre>
-format(a4, i2, 2f10.4, 2(1x,a4), 3f8.2, 1x, e12.4)
+ 
 Item
 1. Type
 2. Type code: 1 = slip rate; 2 = azimuth; 3 = rotation
@@ -1037,7 +1094,7 @@ Item
 <a name = estf></a>
 MODL_src_EEE.stf  ---- source time histories
 <pre>
-(i5, 6f15.5)
+
 Integer counter
 Time from start of event (in decimal years)
 Time in decimal years
@@ -1094,8 +1151,6 @@ YYYYMMDD - start date
 YYYYMMDD - end date
 Number of days (start to end)
 
-format ("DSE ",6i3, 1x,a8, f9.3, f9.1, 2f9.3, 10f9.1, f8.2,  f9.1, 1pe12.4, 1pe12.4, 2(1x,a8), i6)
-
 ---------------------------------------------------------------------
 Uniform slip plane (type = 9)  
 
@@ -1128,8 +1183,6 @@ YYYYMMDD - start date
 YYYYMMDD - end date
 Number of days (start to end)
 
-format ("SDR ",6i3, 1x, a8,  f9.3, f9.1, 2f9.3, 9f9.1, f8.2,  f9.1, 1pe12.4, 1pe12.4, 2(1x,a8), i6 )
-
 ---------------------------------------------------------------------
 Mogi source (type = 10)
 
@@ -1153,7 +1206,6 @@ YYYYMMDD - start date
 YYYYMMDD - end date
 Number of days start to end
 
-format ("MGI ",6i3, 1x,a8, f9.3, f9.1, 2f9.3, 4f9.1, 2(1x,a8), i6, 10f4.1)
 </pre>
 
 <a href= #menu ><h6>Back to Menu</h6></a><hr>
