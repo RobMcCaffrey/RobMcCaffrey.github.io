@@ -939,12 +939,16 @@ adjusted. (Gaussian spread, gs, is fixed.)
 <ul>
 <li>I= source number
 <li>N = number of source time function elements  
-<li>Tau = width of triangle or boxcar (days)
+<li>Tau = duration of triangle or boxcar (duration in days)
 <li>Damp = damping factor to damp STF; penalty is variance of STF times damp factor
 <li>A = amplitudes of triangles or boxcars (mm/yr)
 </ul>
 
 <pre>et: 3  4  7.0  0.0  30.0 30.0 30.0 30.0</pre>
+
+If Tau < 0 then listed instead of amplitudes A are the Tau durations in days.
+<pre>et: 3 4 -1 0.0 100 100 50 50 </pre>
+
 <h6><a href= #menu >Back to Commands</a></h6>
 
 <a name = EX></a>
