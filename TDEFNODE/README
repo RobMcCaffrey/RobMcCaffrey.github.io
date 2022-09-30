@@ -1,4 +1,4 @@
-README for TDEFNODE 2020.03.06
+README for TDEFNODE
 
 TDEFNODE is the time-dependent version of DEFNODE and has many changes. DEFNODE control files will not work in TDEFNODE. 
 See DEF_2_TDEF.txt for help converting from DEFNODE to TDEFNODE.
@@ -41,7 +41,7 @@ c- path of earthquake file(s)
       quakefile(1) = '/home/mcc/TDEFNODE/ehb.gmt'
 
 
-5. Edit the Makefile to your specifications.
+5. Edit the Makefile to your compiler specifications.
 
 6. Run 'make' to compile. Success depends on your compiler.
 
