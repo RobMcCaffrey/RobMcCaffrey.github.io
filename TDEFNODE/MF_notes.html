@@ -1,0 +1,30 @@
+<h3>Install TDEFNDODE on Mac with M1 processor</h3>
+
+<p>My process is the following (note this may only work from scratch because of the gfortran/gcc compatibility issues if a user already has other versions installed, e.g. from HPC, Homebrew, Macports, Fink, etc.):
+<p>
+<p>Install prerequisite compilers
+<ul>
+<li>Install Command Line Tools for Xcode by opening the Terminal app and running the command "xcode-select --install"
+<li>Download and install an appropriate gfortran installer package from https://gcc.gnu.org/wiki/GFortranBinaries#MacOS -> https://github.com/fxcoudert/gfortran-for-macOS/releases
+</ul>
+
+
+<p>Install tdefnode
+<ul>
+<li>Download tdefnode source code from https://robmccaffrey.github.io/TDEFNODE/TDEFNODE.html to an appropriate location on your computer, e.g. ~/Applications/src/
+<li>Untar the tdefnode source code in an appropriate location on your computer, e.g. for the 2022.11.03 version:
+
+<br><pre>mkdir tdefnode_20221103
+<br>cd tdefnode_20221103
+<br>tar xfzv ~/Applications/src/TDEFNODE.source.20221103.tar.gz </pre>
+
+<li>Edit the distributed makefile to ensure use of native clang for the C compiler, e.g.
+<pre>sed 's/^CC = gcc/CC = clang/' Makefile > Makefile.user </pre>
+
+<li>Compile tdefnode
+<br><pre> make -f Makefile.user </pre>
+</ul>
+
+<p> Note that you may experience clashing libraries if you have multiple versions of gfortran and/or gcc installed on your system. I recommend using macOS's native "clang" for C code and the standalone gfortran package from the gfortran maintainers via the GCC Wiki, which can easily be removed if no longer required. You may like or need to remove one or more versions of gfortran and/or gcc, and keep the standalone GCC Wiki version, e.g. see notes at <a 
+href = http://web.mit.edu/mfloyd/www/computing/mac/gfortran/ > Compatibility and uninstalling </a>. 
+<p> Mike Floyd
