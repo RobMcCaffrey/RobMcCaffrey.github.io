@@ -6,13 +6,13 @@
 
 <!comment>
 
-<center><h2>TDEFNODE User's Manual<br>Version 2020.xx.xx</center></h2>
+<center><h2>TDEFNODE User's Manual<br>Version 2023.07.18</center></h2>
 
 <h4>
 <b>Author: </b><a href="http://web.pdx.edu/~mccaf/">Rob McCaffrey</a>
 <br>Email: <a href="mailto:mccafr@gmail.com">mccafr@gmail.com</a> </h4>
 
-<p>Last update: April 22, 2020. 
+<p>Last manual update: July 24, 2023. 
 <p><b>Warning:</b> This version is still in progress, not everything works as described in the manual. Do NOT redistribute the program.
 <p><h2><b>CONTENTS</h2></b>
 <ol>
@@ -86,7 +86,7 @@ and there are many new ones. It is advised to browse the commands to see the cha
 
 <p><b>INSTALLATION:</b> Before compiling, do the following:
 
-<p> See <a href = ../README> README</a>
+<p> See <a href = ../README.txt> README</a>
 
 
 <p><b>ABBREVIATIONS used:</b>
@@ -672,12 +672,12 @@ DSx: Name  filename  N  F Smin Smax NU  T1  T2  E N U
 <p>where:
 <br>Lon = longitude
 <br>Lat = latitude
-<br>De  = East displacement
-<br>Dn  = North displacement
-<br>Dz  = Vertical displacement
-<br>Se  = East sigma
-<br>Sn  = North sigma
-<br>Sz  = Vertical sigma
+<br>De  = East displacement, mm
+<br>Dn  = North displacement, mm
+<br>Dz  = Vertical displacement, mm
+<br>Se  = East sigma, mm
+<br>Sn  = North sigma, mm
+<br>Sz  = Vertical sigma, mm
 <br>rho  = EN correlation
 <br>T1 = start of time over which displacement is measured (overrides DS: entry)
 <br>T2 = end of time over which displacement is measured (overrides DS: entry)
@@ -1235,25 +1235,27 @@ fc: 5 7 14 12
 
 <p>
 List the faults that should be locked by number; negative to remove fault locking, positive to lock fault. 
-Default is all faults locked.
 
 <p>FB: controls faults used in building the blocks, FF: controls how it is treated in the model (locked or free-slipping). If FB: turns off a fault FF: cannot turn it on.
 <pre>
-ff: -5 +7
+ff: -5 +7  turn OFF fault 5 and 7 ON
 
 ff: 999 - turns all faults ON
+ff: -999 - turns all faults OFF
+
 </pre>
 <h6><a href= #menu >Back to Commands</a></h6>
 <a name = FI></a>
 <hr><b>FI - adjust locking on listed faults </b>
 <p>
 List the faults by number; negative to not adjust fault locking in inversion, positive to adjust fault locking in inversion. 
-Default is all fault locking adjusted in inversion.
+
 <p> see also FB: and  FF:  
 <pre>
 fi: 5 7
 
-fi: 999 - turns all fault locking ON
+fi: 999 - allows all fault locking to be adjusted  
+fi: -999 - fixes all fault locking 
 </pre>
 <h6><a href= #menu >Back to Commands</a></h6>
 <a name = FL></a>
@@ -1289,7 +1291,7 @@ phf = set phi for all faults to current value and don't adjust them (NO)
 pio = write time-tagged Parameter-Input-Output (pio) files for each run 
 pos = make all longitudes positive, 0 to 360 degrees (YES)
 prm = use PREM rigidities for calculating moments (NO)
-rnd = add random noise to predicted data (MMMM_rand.vec, MMMM_rand.svs, MMMM_rand.srs) (NO)
+rnd = add random noise to predicted data (output files with _rand in name) (NO)
 sim = write simplex in MODL_sa.out file (NO)
 sra = use azimuths instead of scalar rates in calculating slip rates (YES)
 syn = write synthetic time series to files (YES)
@@ -1513,7 +1515,7 @@ will place GFs in directory 'gf1'. Step size for GF integration is 2 km along st
 <p>Before generating a new GF, the program checks whether or not the current GF is up to date by looking at the node position, surrounding node positions, the interpolation distances (if the new ones are greater than or equal to the stored ones, new GF is not generated). If the stored GF does not match, a new one is generated. Sometimes, this checking can fail, for example if you add new data. To override the checking and regenerate all GFs, set Flag = 1 (or manually delete all the GF files).
 
 <pre>
-gd: ggg 5 2 1
+gd: ggg 5 2 1 0.1 1000.
 </pre>
 
 will force generation of all new GFs. 
@@ -1680,7 +1682,7 @@ in: 5 5 0.01 0.01
 <hr><b>IS[1234] - InSAR data file</b>
 <p>Read an InSAR file of line-of-sight (LOS) changes. Changes are in mm and positive if point on ground moved away from satellite.
 <pre>
-IS: Name filename  N  F  T1  T2  Heading  Inc_angle  Flos NU NU  Ndec Smax
+IS: Name filename  N  F  T1  T2  Heading  Inc_angle  Flos NU NU  Ndec Smax Smin
 </pre>
 <ul>
 <li>Name = 4-char code name for this InSAR file
@@ -1700,10 +1702,10 @@ IS: Name filename  N  F  T1  T2  Heading  Inc_angle  Flos NU NU  Ndec Smax
 </pre>
 <br>x and y are offset in degrees from center of interferogram, h is point elevation in km.
 These flags are over-ridden by global flags: iof, isl and itr (see FL:) 
-
-<li>NU Not used
+<li>NU - not used
 <li>Ndec = decimation factor (0 keeps all data, 1 skips every other one, etc.)
-<li>Smax - maximum sigma
+<li>Smax - maximum sigma (if sigma > Smax, datum is ignored)
+<li>Smin - minimum sigma (if sigma < Smin, sigma is set to Smin)
 </ul>
 
 <p> - If Heading = 0, unit vector is read in from file for each point
@@ -2088,8 +2090,10 @@ named MODL_pio.YYYYMMDD.RRRR (YYYY=year, MM=month, DD=day of run, RRRR=random ru
 
 <h6><a href= #menu >Back to Commands</a></h6>
 <a name = PG></a>
-<hr><b>PG[c] - pole for GPS file</b>
+<hr><b>PG[cg] - rotation pole for GPS velocities file</b>
 <pre>PG: NAME Latitude Longitude Omega</pre>
+or
+<pre>PGg: NAME Lon Lat Omega</pre>
 or
 <pre>PGc: NAME Wx Wy Wz</pre>
 
@@ -2101,7 +2105,7 @@ Pole of rotation for GPS file to put it in reference frame
 pg: INDO -12.0 123.0 0.2
 pgc: PNW1  .1 -.3 .8
 </pre>
-<p>The 'c' indicates pole is in Cartesian coordinates.
+<p>The 'c' indicates pole is in Cartesian coordinates, 'g' to input in  lon lat omega order.
 
 
 
@@ -2217,8 +2221,10 @@ PVt: could be used to specify initial values of ga, gm and gs.
 
 <h6><a href= #menu >Back to Commands</a></h6>
 <a name = PO></a>
-<hr><b>PO[cf] - angular velocities (poles) for blocks</b>
+<hr><b>PO[cfg] - angular velocities (poles) for blocks</b>
 <pre>po: N Lat Lon Omega </pre>
+or
+<pre>pog: N Lon Lat Omega </pre>
 or
 <pre>poc: N Wx Wy Wz {covariance ellipse} </pre>
 or
@@ -2237,6 +2243,7 @@ po: 3  45 245  1.3
 <pre>
 3rd char = c for Cartesian pole specification
          = f to overwrite parameter file value (Cartesian only)
+         = g to input in Lon Lat Omega order
 
 Cartesian: enter Wx, Wy, Wz in degrees/Ma
            then Sx, Sy, Sz standard errors in deg/Ma
