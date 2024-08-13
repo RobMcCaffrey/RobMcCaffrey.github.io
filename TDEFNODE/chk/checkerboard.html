@@ -3,12 +3,21 @@
 <title>CHECKERBOARD</title>
 </head>
 
-<body background="../bak.jpg" link="#ff0000" text="#000000" vlink="#0000ff"> 
+<body background="../../bak.jpg" link="#ff0000" text="#000000" vlink="#0000ff"> 
 
-<h3>
+<h3></b>
 Checkerboard test
+<p><h4>A checkerboard test is a way to examine the ability of your data to resolve locking on a fault.
+The method is to generate a known locking pattern, calculate expected values at observation points, 
+add random noise to the observations using standard deviations taken from the true data, then invert 
+the data to try to recover the known locking pattern. The generation of the known locking model 
+data should include other parameters of the model near their best value (for example, poles should
+be approximately correct). You can also use this approach to estimate the resolution of any 
+other parameter. 
 
 <pre>
+
+Steps
 
 Set up your faults (FA:), blocks (BL:), poles (PO:), etc. as usual.
 Add data using GP: or IS:
@@ -58,7 +67,7 @@ fl: +rnd
 nv: 9 0.0 1.0
 </pre>
 
-<p><img src=chk1.jpg width = 500 ><br>Locking pattern for forward model chk1
+<p><img src=chk1.jpg width = 500 ><br>CHK1: Locking pattern for forward model
 
 <pre>
 
@@ -116,10 +125,10 @@ em:
 </pre>
 <hl>
 <br>
-You then run model chk1 to generate randomized data. 
+Run model chk1 to generate randomized data. 
 Then run chk2 to estimate the locking of model chk1.
 
-<p><img src=chk2.jpg width = 500 ><br>chk2: Recovered Locking pattern for model chk1
+<p><img src=chk2.jpg width = 500 ><br>CHK2: Recovered Locking pattern for model chk1
 
 
 </body></html>
