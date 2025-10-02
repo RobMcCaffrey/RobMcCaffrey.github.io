@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>TDEFNODE compilation </title>
+</head>
+<body background="../../bak.jpg">
+
+<b><h2>TDEFNODE Compilation notes:</h2></b>
+<hr>
+
+
+
+<pre>
+
+..... the compile the latest version of tdefnode with the compilers below but it did not work.  It give relocation errors and later solve2 error.
+
+GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04)
+
+Thus, I used the previous version but that did not recognize InSAR data.
+
+So I have tried again to compile it.  Thanks to chatGPT, it works with the minor changes in Makefile below:
+
+#FFLAGS=  -w
+FFLAGS=  -w -mcmodel=large
+
+#OBJS = tdefnode.o tdefavail.o solve1.o writegps.o rwparms.o
+
+OBJS = tdefnode.o solve1.o tdefavail.o writegps.o rwparms.o
+
+
+I thought this may help other users who may have the same problem.
+
+Ziya Cakir
+
+</pre>
+<hr>
+</body>
+</html>
+
