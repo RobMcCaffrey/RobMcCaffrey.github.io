@@ -1,0 +1,6 @@
+% git add . -  update all files
+
+% git commit -m "note to self"
+
+% git push - uploads new files to repository
+
